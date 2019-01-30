@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterData : MonoBehaviour
 {
@@ -13,6 +11,7 @@ public class CharacterData : MonoBehaviour
     public int shotGunDmg;
     public int sniperDmg;
     public int smgDmg;
+    public CharacterType type;
     //Other types: lmg (golyoszoro), 
 
     public StatBarValues[] GetStats()
