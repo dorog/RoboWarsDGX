@@ -16,30 +16,5 @@ public class Register : MonoBehaviour
     [SerializeField]
     private InputField email;
 
-    public void CreateAccount()
-    {
-        if(password.text == confirmPassword.text)
-        {
-            RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
-            request.Username = userName.text;
-            request.Password = confirmPassword.text;
-            request.Email = email.text;
-            request.DisplayName = userName.text;
-
-            PlayFabClientAPI.RegisterPlayFabUser(request, result =>
-            {
-                Alerts a = new Alerts();
-                StartCoroutine(a.CreateNewAlert(result.Username + " Has been created!"));
-            }, error =>
-            {
-                Alerts a = new Alerts();
-                StartCoroutine(a.CreateNewAlert(error.ErrorMessage));
-            });
-        }
-        else
-        {
-            Alerts a = new Alerts();
-            StartCoroutine(a.CreateNewAlert("Confirm password and password are not the same!"));
-        }
-    }
+    
 }

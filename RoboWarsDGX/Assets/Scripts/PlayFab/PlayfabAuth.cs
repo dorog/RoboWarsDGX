@@ -1,33 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using PlayFab;
-using PlayFab.ClientModels;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayfabAuth : MonoBehaviour
 {
+    [Header("Log In Settings")]
     [SerializeField]
-    private InputField Username;
+    private InputField LoginUsername;
     [SerializeField]
-    private InputField Password;
+    private InputField LoginPassword;
+    [Header("Sign Up Settings")]
     [SerializeField]
-    private string LevelToLoad;
+    private InputField SignUpUsername;
+    [SerializeField]
+    private InputField SignUpPassword;
+    [SerializeField]
+    private InputField SignUpConfirmPassword;
+    [SerializeField]
+    private InputField SignUpEmail;
 
     public void Login()
     {
-        LoginWithPlayFabRequest request = new LoginWithPlayFabRequest();
-        request.Username = Username.text;
-        request.Password = Password.text;
+        AccountInfo.Login(LoginUsername.text, LoginPassword.text);
+    }
 
-        PlayFabClientAPI.LoginWithPlayFab(request, result =>
+    public void SignUp()
+    {
+        if(SignUpConfirmPassword.text == SignUpPassword.text)
         {
-            SceneManager.LoadScene(LevelToLoad);
-        }, error =>
+            AccountInfo.SignUp(SignUpUsername.text, SignUpPassword.text, SignUpEmail.text);
+        }
+        else
         {
-            Alerts a = new Alerts();
-            StartCoroutine(a.CreateNewAlert(error.ErrorMessage));
-        });
+            Debug.Log("Not the same pw!");
+        }
     }
 }
