@@ -17,12 +17,12 @@ public class CharacterSlot : MonoBehaviour
     {
         this.id = id;
 
-        ProfileCharacterData result = null;
+        //ProfileCharacterData result = null;
         if(StaticProfile.profileCharacterData == null)
         {
             return;
         }
-        for(int i=0; i<StaticProfile.profileCharacterData.Length; i++)
+        /*for(int i=0; i<StaticProfile.profileCharacterData.Length; i++)
         {
             if (StaticProfile.profileCharacterData[i].SlotNumber==id)
             {
@@ -35,22 +35,22 @@ public class CharacterSlot : MonoBehaviour
         {
             CharacterProfileStats = result.characterProfileStat;
             InstantiateCharacter(result.type);
-        }
+        }*/
     }
 
     public void InstantiateCharacter(CharacterType type)
     {
         switch (type)
         {
-            case CharacterType.cube:
+            case CharacterType.Rusher:
                 Instantiate(cube, transform);
                 break;
-            case CharacterType.cylinder:
+            case CharacterType.Booster:
                 Instantiate(cylinder, transform);
                 break;
-            case CharacterType.sphere:
+            /*case CharacterType.sphere:
                 Instantiate(sphere, transform);
-                break;
+                break;*/
             default:
                 break;
         }

@@ -6,24 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/Login.unity
     guid: c95c84440cc19254cb0173c65633421c
   - enabled: 1
-    path: Assets/Scenes/Lobby.unity
+    path: Assets/Scenes/Menu.unity
     guid: 1840ae29c3c2112408ff5f87c7bc49df
-  - enabled: 1
-    path: Assets/Scenes/Alert.unity
-    guid: 24d12043e44c042439a54a68171ade36
-  - enabled: 1
-    path: Assets/Scenes/Register.unity
-    guid: 0819a9d8760ebff41885e961da7746d2
-  - enabled: 1
-    path: Assets/Scenes/Login.unity
-    guid: 7b066ea00f7978e449486ee42368973b
-  - enabled: 1
-    path: Assets/Scenes/Photon.unity
-    guid: 3dc6c5aaceae82b43b930d05be0faf66
-  - enabled: 1
-    path: Assets/Scenes/GameModes/DeathMatch.unity
-    guid: f2c1da947a1e5584e977f5c503eecb91
   m_configObjects: {}

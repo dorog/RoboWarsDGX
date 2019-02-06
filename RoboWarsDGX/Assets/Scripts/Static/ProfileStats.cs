@@ -9,6 +9,10 @@ public class ProfileStats
     // dmg dealt
     // time in game
 
+    public static readonly string killsName = "Kills";
+    public static readonly string headShotsName = "HeadShots";
+    public static readonly string deathsName = "Deaths";
+
     public ProfileStats()
     {
         Kills = 0;

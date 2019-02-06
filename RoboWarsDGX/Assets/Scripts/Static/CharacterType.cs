@@ -1,5 +1,5 @@
 ﻿
 public enum CharacterType
 {
-    cube, sphere, cylinder, Null
+    Rusher, Booster, Null
 }

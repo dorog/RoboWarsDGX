@@ -53,7 +53,7 @@ public class Stats : MonoBehaviour
 
     public void CreateCharacter()
     {
-        ProfileCharacterData profileCharacterData = new ProfileCharacterData();
+        /*ProfileCharacterData profileCharacterData = new ProfileCharacterData();
         profileCharacterData.SlotNumber = StaticProfile.choosedCharacterSlot;
         profileCharacterData.type = choosedType;
         profileCharacterData.characterProfileStat = new ProfileStats();
@@ -62,6 +62,6 @@ public class Stats : MonoBehaviour
 
         characterSelector.CreateCharacter(choosedType);
 
-        selectCamera.GoSelectMenu();
+        selectCamera.GoSelectMenu();*/
     }
 }
