@@ -11,6 +11,8 @@ public class ProfileMenu : MonoBehaviour
     private Text deaths;
     [SerializeField]
     private Text coins;
+    [SerializeField]
+    private Text xp;
 
     public void OnEnable()
     {
@@ -18,5 +20,6 @@ public class ProfileMenu : MonoBehaviour
         headShots.text = "" + PlayerProfile.profileStats.HeadShots;
         deaths.text = "" + PlayerProfile.profileStats.Deaths;
         coins.text = "" + PlayerProfile.coins;
+        xp.text = "" + PlayerProfile.experience;
     }
 }

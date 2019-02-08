@@ -1,19 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using PlayFab.ClientModels;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Rune
 {
+    public string id;
+    public int price;
     public Sprite icon;
-    public int health;                  //Health: +50  6
-    public int armor;                   //Armor: +20   5
-    public int jumpPower;             //Jump: +5%    4
-    public uint hpReg;                   //Hp regeneration: 5%
-    public int movemenetSpeed;          //Movement speed: +100%
-    public int shotGunDmg;              //Shotgun dmg: +50
-    public int sniperDmg;               //Sniper dmg: +50
-    public int smgDmg;                  //Smg dmg: +10
-    public int specialAbilityReduceTime;//Special ability time: -10%
+    public int health;
+    public int armor;
+    public int jumpPower;
+    public uint hpReg;
+    public int movemenetSpeed;
+    public int shotGunDmg;
+    public int sniperDmg;
+    public int smgDmg;
+    public int specialAbilityReduceTime;
 
     public List<RunStoreDescription> GetData()
     {
@@ -68,5 +70,35 @@ public class Rune
     {
         string s = amount > 0 ? "+" : "";
         return s + amount + "%";
+    }
+
+    public static Rune CatalogItemToRune(CatalogItem item)
+    {
+        Rune newRune = new Rune();
+
+        string[] splited = SharedData.ParseJson(item.CustomData.ToString());
+
+        uint amount = 0;
+        item.VirtualCurrencyPrices.TryGetValue(SharedData.runeVirtualCurrency, out amount);
+
+        newRune.id = item.ItemId;
+
+        InitRune(newRune, splited);
+
+        return newRune;
+    }
+
+    private static void InitRune(Rune newRune, string[] splited)
+    {
+        newRune.icon = Resources.Load<Sprite>("RuneIcons/" + splited[1]);
+        newRune.health = int.Parse(splited[3]);
+        newRune.armor = int.Parse(splited[5]);
+        newRune.jumpPower = int.Parse(splited[7]);
+        newRune.hpReg = uint.Parse(splited[9]);
+        newRune.movemenetSpeed = int.Parse(splited[11]);
+        newRune.shotGunDmg = int.Parse(splited[13]);
+        newRune.sniperDmg = int.Parse(splited[15]);
+        newRune.smgDmg = int.Parse(splited[17]);
+        newRune.specialAbilityReduceTime = int.Parse(splited[19]);
     }
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ProfileRuneData
 {
-    public RuneType type;
+    public string type;
 }

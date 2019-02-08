@@ -12,7 +12,6 @@ public class CharacterData : MonoBehaviour
     public int sniperDmg;
     public int smgDmg;
     public CharacterType type;
-    //Other types: lmg (golyoszoro), 
 
     public StatBarValues[] GetStats()
     {

@@ -5,8 +5,6 @@ public class PlayerRunes
 {
     private static readonly string runeClass = "Rune";
 
-    private List<ProfileRuneData> profileRunData = new List<ProfileRuneData>();
-
     private List<ItemInstance> runes = new List<ItemInstance>();
 
     public void InitRunes(GetPlayerCombinedInfoResultPayload info)
@@ -15,35 +13,31 @@ public class PlayerRunes
         {
             if (info.UserInventory != null)
             {
-                runes = info.UserInventory;
-                for (int i = 0; i < runes.Count; i++)
+                for(int i=0; i< info.UserInventory.Count; i++)
                 {
-                    if (runes[i].ItemClass == runeClass)
+                    if(info.UserInventory[i].ItemClass == runeClass)
                     {
-                        profileRunData.Add(CreateProfileRuneData(runes[i]));
+                        runes.Add(info.UserInventory[i]);
                     }
                 }
             }
         }
     }
 
-    private ProfileRuneData CreateProfileRuneData(ItemInstance item)
+    public bool IsOwned(string id)
     {
-        ProfileRuneData runeData = new ProfileRuneData();
-        runeData.type = SharedData.RuneStringToEnum(item.ItemId);
-
-        return runeData;
-    }
-
-    public bool IsOwned(RuneType type)
-    {
-        for(int i=0; i< profileRunData.Count; i++)
+        for(int i=0; i< runes.Count; i++)
         {
-            if(profileRunData[i].type == type)
+            if(runes[i].ItemId == id)
             {
                 return true;
             }
         }
         return false;
+    }
+
+    public void AddRune(ItemInstance item)
+    {
+        runes.Add(item);
     }
 }

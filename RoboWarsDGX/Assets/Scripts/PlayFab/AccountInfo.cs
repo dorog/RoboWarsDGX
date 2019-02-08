@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class AccountInfo : MonoBehaviour
 {
+    private int notReadyStores = 1;
+    private GameObject runeForDelete = null;
+
     [SerializeField]
     private static AccountInfo instance;
 
@@ -24,9 +27,14 @@ public class AccountInfo : MonoBehaviour
         set { info = value; }
     }
 
+    public List<Rune> ownRunes = new List<Rune>();
+
+    private List<Character> ownCharacters = new List<Character>();
+
     private PlayerProfile playerProfile = new PlayerProfile();
-    private PlayerCharacters playerCharacters = new PlayerCharacters();
-    private PlayerRunes playerRunes = new PlayerRunes();
+
+    private Catalog catalog = new Catalog();
+    private Store store = new Store();
 
     private void Awake()
     {
@@ -54,13 +62,13 @@ public class AccountInfo : MonoBehaviour
     }
     private static void OnLogInSuccess(LoginResult result)
     {
+        //Loading screen, like loading
         GetAccountInfo(result.PlayFabId);
-        SceneManager.LoadScene(SharedData.menuScene);
     }
 
     private static void OnLogInError(PlayFabError error)
     {
-        //TODO: Impl it
+        //TODO: Impl it: bad username/password etc
         Debug.Log("Error during log in: " + error);
     }
 
@@ -92,16 +100,38 @@ public class AccountInfo : MonoBehaviour
     {
         Instance.info = result.InfoResultPayload;
 
+        Instance.catalog.CatalogInitReadyEvent += Instance.CatalogInitReady;
+        Instance.catalog.CatalogInit();
+
         Instance.playerProfile.InitProfile(Instance.info);
-
-        Instance.playerCharacters.InitCharacters(Instance.info);
-
-        Instance.playerRunes.InitRunes(Instance.info);
     }
 
     private static void GetAccountInfoFail(PlayFabError error)
     {
         Debug.Log("AccountInfor error: " + error);
+    }
+
+    private void CatalogInitReady()
+    {
+        InitOwnLists();
+        Instance.store.InitReadyEvent += Instance.CreateStoreLists;
+        Instance.store.ListsReadyEvent += Instance.StoreReady;
+        Instance.store.InitStore();
+    }
+
+    private void CreateStoreLists()
+    {
+        Instance.store.CreateLists(Instance.catalog.notOwnedRunes, Instance.catalog.notOwnedCharacters, Instance.catalog.notOwnedWeapons);
+    }
+
+    private void StoreReady()
+    {
+        notReadyStores--;
+        if(notReadyStores == 0)
+        {
+            //Make it async honey :D
+            SceneManager.LoadScene(SharedData.menuScene);
+        }
     }
     #endregion
 
@@ -162,13 +192,80 @@ public class AccountInfo : MonoBehaviour
 
     #endregion
 
-    public bool IsOwnedCharacter(CharacterType type)
+    private static void InitOwnLists()
     {
-        return playerCharacters.IsOwned(type);
+        if(Instance.info.UserInventory == null)
+        {
+            Debug.Log("UserInventory is null!");
+            return;
+        }
+        for(int i = 0; i < Instance.info.UserInventory.Count; i++)
+        {
+            if(Instance.info.UserInventory[i].ItemClass == SharedData.runeClass)
+            {
+                Rune rune = Instance.catalog.GetRuneById(Instance.info.UserInventory[i].ItemId);
+                Instance.ownRunes.Add(rune);
+                Instance.catalog.RegistRuneForOwn(rune.id);
+            }
+            else if (Instance.info.UserInventory[i].ItemClass == SharedData.characterClass)
+            {
+                Instance.ownCharacters.Add(Instance.catalog.GetCharacterById(Instance.info.UserInventory[i].ItemId));
+                Instance.catalog.RegistCharacterForOwn(Instance.info.UserInventory[i].ItemId);
+            }
+            else if (Instance.info.UserInventory[i].ItemClass == SharedData.weaponClass)
+            {
+                Debug.Log("Not implemented!");
+            }
+        }
+
+        Debug.Log(Instance.catalog.notOwnedRunes.Count);
     }
 
-    public bool IsOwnedRune(RuneType type)
+    public List<Rune> GetStoreRunes()
     {
-        return playerRunes.IsOwned(type);
+        return Instance.store.runes;
+     }
+
+    public void BuyRune(string id, int price, GameObject rune)
+    {
+        runeForDelete = rune;
+
+        //u can buy the same item more times...
+        PurchaseItemRequest request = new PurchaseItemRequest()
+        {
+            ItemId = id,
+            VirtualCurrency = SharedData.runeVirtualCurrency,
+            Price = price,
+            StoreId = SharedData.runeStoreName
+        };
+        PlayFabClientAPI.PurchaseItem(request, BuyRuneSuccess, BuyRuneFail);
+    }
+
+    private void BuyRuneSuccess(PurchaseItemResult result)
+    {
+        for (int i = 0; i < result.Items.Count; i++)
+        {
+            ReplaceRune(result.Items[i].ItemId);
+        }
+        Destroy(runeForDelete);
+    }
+
+    private void ReplaceRune(string id)
+    {
+        ownRunes.Add(Instance.catalog.GetRuneById(id));
+        Instance.store.RemoveRune(id);
+    }
+
+    private void BuyRuneFail(PlayFabError error)
+    {
+        Debug.Log(error);
+        switch (error.Error)
+        {
+            case PlayFabErrorCode.InsufficientFunds:
+                Debug.Log("Cheater! :D");
+                break;
+            default:
+                break;
+        }
     }
 }

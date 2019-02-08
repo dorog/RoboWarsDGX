@@ -517,6 +517,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Login
       objectReference: {fileID: 0}
+    - target: {fileID: 8760373433109179077, guid: 1db208f491246c140a0f0be459e27395,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8760373432885591759, guid: 1db208f491246c140a0f0be459e27395,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -667,6 +672,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Login
       objectReference: {fileID: 0}
+    - target: {fileID: 8760373433950355903, guid: 1db208f491246c140a0f0be459e27395,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8760373433950355903, guid: 1db208f491246c140a0f0be459e27395,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 723127937}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1db208f491246c140a0f0be459e27395, type: 3}
 --- !u!224 &877353950 stripped

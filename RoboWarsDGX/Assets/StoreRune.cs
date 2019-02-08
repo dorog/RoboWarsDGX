@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class StoreRune : MonoBehaviour
 {
-    private int maxAbility = 5;
+    public bool inStore = true;
 
     [SerializeField]
     private Transform abilityParent;
@@ -17,6 +17,9 @@ public class StoreRune : MonoBehaviour
 
     [SerializeField]
     private RuneStoreAbility badAbility;
+
+    [SerializeField]
+    private RunePricePart pricePart;
 
     public Rune Rune { get; set; } = null;
 
@@ -37,6 +40,13 @@ public class StoreRune : MonoBehaviour
                 {
                     AddAbility(badAbility, descriptions[i].displayName, descriptions[i].displayAmount);
                 }
+            }
+
+            if (inStore)
+            {
+                GameObject pricePartGO = Instantiate(pricePart.gameObject, abilityParent);
+                RunePricePart runePricePart = pricePartGO.GetComponent<RunePricePart>();
+                runePricePart.Init(Rune.price, Rune.id, gameObject);
             }
         }
     }

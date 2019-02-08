@@ -159,7 +159,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 253402515605510194}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -227,4 +227,6 @@ MonoBehaviour:
   goodAbility: {fileID: 8935903896711907695, guid: 646f8c85d08ead54a83442d3f176840a,
     type: 3}
   badAbility: {fileID: 2184188131548657747, guid: 8ff9d91ac44258241b40412ff81a2eb0,
+    type: 3}
+  pricePart: {fileID: 936949910814155257, guid: bf45eefdc394fe24abd8d467050fb79c,
     type: 3}

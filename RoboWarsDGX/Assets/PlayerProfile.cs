@@ -9,9 +9,6 @@ public class PlayerProfile
     public static ProfileStats profileStats;
     //
 
-    public static readonly string goldCode = "GD";
-    public static readonly string experienceCode = "XP";
-
     public void InitProfile(GetPlayerCombinedInfoResultPayload info)
     {
         if (info != null)
@@ -19,11 +16,11 @@ public class PlayerProfile
             int amount = 0;
             if(info.UserVirtualCurrency != null)
             {
-                if (info.UserVirtualCurrency.TryGetValue(goldCode, out amount))
+                if (info.UserVirtualCurrency.TryGetValue(SharedData.characterVirtualCurrency, out amount))
                 {
                     coins = amount;
                 }
-                if (info.UserVirtualCurrency.TryGetValue(experienceCode, out amount))
+                if (info.UserVirtualCurrency.TryGetValue(SharedData.runeVirtualCurrency, out amount))
                 {
                     experience = amount;
                 }

@@ -7,8 +7,8 @@ public class CharacterMovement : MonoBehaviour
     private float speed = 10f;
     [SerializeField]
     private float sideSpeed = 10f;
-    [SerializeField]
-    private float rotationSpeed = 10;
+    /*[SerializeField]
+    private float rotationSpeed = 10;*/
 
     private Rigidbody characterRigidBody;
 
