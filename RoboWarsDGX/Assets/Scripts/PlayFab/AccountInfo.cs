@@ -6,8 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class AccountInfo : MonoBehaviour
 {
+    public delegate void SuccessRuneBuying(string id);
+    public event SuccessRuneBuying SuccessRuneBuyingEvent;
+
+    public delegate void SuccessCharacterBuying(string id);
+    public event SuccessCharacterBuying SuccessCharacterBuyingEvent;
+
     private int notReadyStores = 1;
-    private GameObject runeForDelete = null;
+    private int cost = 0;
 
     [SerializeField]
     private static AccountInfo instance;
@@ -29,7 +35,7 @@ public class AccountInfo : MonoBehaviour
 
     public List<Rune> ownRunes = new List<Rune>();
 
-    private List<Character> ownCharacters = new List<Character>();
+    public List<Character> ownCharacters = new List<Character>();
 
     private PlayerProfile playerProfile = new PlayerProfile();
 
@@ -218,7 +224,6 @@ public class AccountInfo : MonoBehaviour
             }
         }
 
-        Debug.Log(Instance.catalog.notOwnedRunes.Count);
     }
 
     public List<Rune> GetStoreRunes()
@@ -226,9 +231,16 @@ public class AccountInfo : MonoBehaviour
         return Instance.store.runes;
      }
 
-    public void BuyRune(string id, int price, GameObject rune)
+    public List<Character> GetStoreCharacters()
     {
-        runeForDelete = rune;
+        return Instance.store.characters;
+    }
+
+    #region Buy items
+
+    public void BuyRune(string id, int price)
+    {
+        cost = price;
 
         //u can buy the same item more times...
         PurchaseItemRequest request = new PurchaseItemRequest()
@@ -243,11 +255,12 @@ public class AccountInfo : MonoBehaviour
 
     private void BuyRuneSuccess(PurchaseItemResult result)
     {
+        PlayerProfile.experience -= cost;
         for (int i = 0; i < result.Items.Count; i++)
         {
             ReplaceRune(result.Items[i].ItemId);
+            SuccessRuneBuyingEvent(result.Items[i].ItemId);
         }
-        Destroy(runeForDelete);
     }
 
     private void ReplaceRune(string id)
@@ -268,4 +281,49 @@ public class AccountInfo : MonoBehaviour
                 break;
         }
     }
+
+    public void BuyCharacter(string id, int price)
+    {
+        cost = price;
+
+        //u can buy the same item more times...
+        PurchaseItemRequest request = new PurchaseItemRequest()
+        {
+            ItemId = id,
+            VirtualCurrency = SharedData.characterVirtualCurrency,
+            Price = price,
+            StoreId = SharedData.characterStoreName
+        };
+        PlayFabClientAPI.PurchaseItem(request, BuyCharacterSuccess, BuyCharacterFail);
+    }
+
+    private void BuyCharacterSuccess(PurchaseItemResult result)
+    {
+        PlayerProfile.gold -= cost;
+        for (int i = 0; i < result.Items.Count; i++)
+        {
+            ReplaceCharacter(result.Items[i].ItemId);
+            SuccessCharacterBuyingEvent(result.Items[i].ItemId);
+        }
+    }
+
+    private void ReplaceCharacter(string id)
+    {
+        ownCharacters.Add(Instance.catalog.GetCharacterById(id));
+        Instance.store.RemoveCharacter(id);
+    }
+
+    private void BuyCharacterFail(PlayFabError error)
+    {
+        Debug.Log(error);
+        switch (error.Error)
+        {
+            case PlayFabErrorCode.InsufficientFunds:
+                Debug.Log("Cheater! :D");
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
 }

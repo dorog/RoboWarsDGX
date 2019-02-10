@@ -19,7 +19,7 @@ public class ProfileMenu : MonoBehaviour
         kills.text = "" + PlayerProfile.profileStats.Kills;
         headShots.text = "" + PlayerProfile.profileStats.HeadShots;
         deaths.text = "" + PlayerProfile.profileStats.Deaths;
-        coins.text = "" + PlayerProfile.coins;
+        coins.text = "" + PlayerProfile.gold;
         xp.text = "" + PlayerProfile.experience;
     }
 }

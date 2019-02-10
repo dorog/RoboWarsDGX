@@ -15,25 +15,32 @@ public class ItemStore : MonoBehaviour
     [SerializeField]
     private StoreRune storeRune;
 
-    /*[Header("Character data:")]
+    [Header("Character data:")]
     [SerializeField]
-    private StoreCharacter storeCharacter;*/
+    private StoreCharacter storeCharacter;
+
+    private List<StoreRune> storeRunes = new List<StoreRune>();
+
+    private List<StoreCharacter> storeCharacters = new List<StoreCharacter>();
 
     void Start()
     {
+        switch (type)
+        {
+            case StoreType.RuneStore:
+                AccountInfo.Instance.SuccessRuneBuyingEvent += RuneStoreRefresh;
+                break;
+            case StoreType.CharacterStore:
+                AccountInfo.Instance.SuccessCharacterBuyingEvent += CharacterStoreRefresh;
+                break;
+            default:
+                break;
+        }
         Init();
     }
 
     public void Init()
     {
-        /*if (parent.childCount != 0)
-        {
-            for (int i = parent.childCount - 1; i >= 0; i--)
-            {
-                Destroy(parent.GetChild(i).gameObject);
-            }
-        }*/
-
         switch (type)
         {
             case StoreType.RuneStore:
@@ -63,6 +70,7 @@ public class ItemStore : MonoBehaviour
         {
             GameObject storeRuneGO = Instantiate(storeRune.gameObject, parent);
             StoreRune newStoreRune = storeRuneGO.GetComponent<StoreRune>();
+            storeRunes.Add(newStoreRune);
             newStoreRune.Rune = runes[i];
             newStoreRune.InitRune();
         }
@@ -70,18 +78,40 @@ public class ItemStore : MonoBehaviour
 
     private void CharacterStoreInit()
     {
-        /*if (Database.Instance.NotOwnedCharacterStoreItems.Count == 0)
+        List<Character> characters = AccountInfo.Instance.GetStoreCharacters();
+        if (characters.Count == 0)
         {
             noItemText.SetActive(true);
             return;
         }
-        for (int i = 0; i < Database.Instance.NotOwnedCharacterStoreItems.Count; i++)
+        else
         {
-            /*Rune newRune = SharedData.CreateRuneFromStoreItem(Database.Instance.NotOwnedRuneStoreItems[i]);
-            GameObject storeRuneGO = Instantiate(storeRune.gameObject, parent);
-            StoreRune newStoreRune = storeRuneGO.GetComponent<StoreRune>();
-            newStoreRune.Rune = newRune;
-            newStoreRune.InitRune();
-        }*/
+            noItemText.SetActive(false);
+        }
+        
+        for (int i = 0; i < characters.Count; i++)
+        {
+            GameObject storeCharacterGO = Instantiate(storeCharacter.gameObject, parent);
+            StoreCharacter newStoreCharacter = storeCharacterGO.GetComponent<StoreCharacter>();
+            storeCharacters.Add(newStoreCharacter);
+            newStoreCharacter.Character = characters[i];
+            newStoreCharacter.InitCharacter();
+        }
+    }
+
+    private void RuneStoreRefresh(string id)
+    {
+        for(int i=0; i<storeRunes.Count; i++)
+        {
+            storeRunes[i].Refresh(id);
+        }
+    }
+
+    private void CharacterStoreRefresh(string id)
+    {
+        for (int i = 0; i < storeCharacters.Count; i++)
+        {
+            storeCharacters[i].Refresh(id);
+        }
     }
 }

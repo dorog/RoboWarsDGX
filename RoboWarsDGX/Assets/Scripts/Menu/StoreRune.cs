@@ -19,7 +19,13 @@ public class StoreRune : MonoBehaviour
     private RuneStoreAbility badAbility;
 
     [SerializeField]
-    private RunePricePart pricePart;
+    private GameObject buyPart;
+
+    [SerializeField]
+    private Button buyButton;
+
+    [SerializeField]
+    private Text price;
 
     public Rune Rune { get; set; } = null;
 
@@ -44,9 +50,16 @@ public class StoreRune : MonoBehaviour
 
             if (inStore)
             {
-                GameObject pricePartGO = Instantiate(pricePart.gameObject, abilityParent);
-                RunePricePart runePricePart = pricePartGO.GetComponent<RunePricePart>();
-                runePricePart.Init(Rune.price, Rune.id, gameObject);
+                price.text = "" + Rune.price + " XP";
+                if(PlayerProfile.experience < Rune.price)
+                {
+                    buyButton.interactable = false;
+                }
+                buyButton.onClick.AddListener(delegate { AccountInfo.Instance.BuyRune(Rune.id, Rune.price); });
+            }
+            else
+            {
+                buyPart.SetActive(false);
             }
         }
     }
@@ -56,5 +69,21 @@ public class StoreRune : MonoBehaviour
         GameObject runeStore = Instantiate(runeStoreAbility.gameObject, abilityParent);
         RuneStoreAbility runeStoreAbilityScript = runeStore.GetComponent<RuneStoreAbility>();
         runeStoreAbilityScript.Init(name, amount);
+    }
+
+    public void Refresh(string id)
+    {
+        if(id == Rune.id)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            if (PlayerProfile.experience < Rune.price)
+            {
+                buyButton.interactable = false;
+            }
+        }
     }
 }

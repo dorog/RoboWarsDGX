@@ -157,6 +157,18 @@ public class Store
         }
     }
 
+    public void RemoveCharacter(string id)
+    {
+        for (int i = 0; i < characters.Count; i++)
+        {
+            if (characters[i].id == id)
+            {
+                characters.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
     private class StoreData
     {
         public string id;

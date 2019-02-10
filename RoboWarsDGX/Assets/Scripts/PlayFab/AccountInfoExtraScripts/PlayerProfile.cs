@@ -4,7 +4,7 @@ public class PlayerProfile
 {
     //Profile data
     public static int choosedCharacterSlot = 0;
-    public static int coins = 0;
+    public static int gold = 0;
     public static int experience = 0;
     public static ProfileStats profileStats;
     //
@@ -18,7 +18,7 @@ public class PlayerProfile
             {
                 if (info.UserVirtualCurrency.TryGetValue(SharedData.characterVirtualCurrency, out amount))
                 {
-                    coins = amount;
+                    gold = amount;
                 }
                 if (info.UserVirtualCurrency.TryGetValue(SharedData.runeVirtualCurrency, out amount))
                 {

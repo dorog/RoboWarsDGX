@@ -10,7 +10,7 @@ public class Character
     public int armor;
     public float jumpPower;
     public int hpReg;
-    public int movemenetSpeed;
+    public int movementSpeed;
     public int shotGunDmg;
     public int sniperDmg;
     public int smgDmg;
@@ -39,7 +39,7 @@ public class Character
         character.armor = int.Parse(splited[5]);
         character.jumpPower = int.Parse(splited[7]);
         character.hpReg = int.Parse(splited[9]);
-        character.movemenetSpeed = int.Parse(splited[11]);
+        character.movementSpeed = int.Parse(splited[11]);
         character.shotGunDmg = int.Parse(splited[13]);
         character.sniperDmg = int.Parse(splited[15]);
         character.smgDmg = int.Parse(splited[17]);
