@@ -9,7 +9,7 @@ public class ItemStore : MonoBehaviour
     [SerializeField]
     private GameObject noItemText;
     [SerializeField]
-    private StoreType type;
+    private StoreType type = StoreType.RuneStore;
 
     [Header("Rune data:")]
     [SerializeField]
@@ -23,9 +23,15 @@ public class ItemStore : MonoBehaviour
 
     private List<StoreCharacter> storeCharacters = new List<StoreCharacter>();
 
+    public Transform Parent { get => parent; set => parent = value; }
+    public GameObject NoItemText { get => noItemText; set => noItemText = value; }
+    public StoreType Type { get => type; set => type = value; }
+    public StoreRune StoreRune { get => storeRune; set => storeRune = value; }
+    public StoreCharacter StoreCharacter { get => storeCharacter; set => storeCharacter = value; }
+
     void Start()
     {
-        switch (type)
+        switch (Type)
         {
             case StoreType.RuneStore:
                 AccountInfo.Instance.SuccessRuneBuyingEvent += RuneStoreRefresh;
@@ -41,7 +47,7 @@ public class ItemStore : MonoBehaviour
 
     public void Init()
     {
-        switch (type)
+        switch (Type)
         {
             case StoreType.RuneStore:
                 RuneStoreInit();
@@ -59,16 +65,16 @@ public class ItemStore : MonoBehaviour
         List<Rune> runes = AccountInfo.Instance.GetStoreRunes();
         if (runes.Count == 0)
         {
-            noItemText.SetActive(true);
+            NoItemText.SetActive(true);
             return;
         }
         else
         {
-            noItemText.SetActive(false);
+            NoItemText.SetActive(false);
         }
         for (int i = 0; i < runes.Count; i++)
         {
-            GameObject storeRuneGO = Instantiate(storeRune.gameObject, parent);
+            GameObject storeRuneGO = Instantiate(StoreRune.gameObject, Parent);
             StoreRune newStoreRune = storeRuneGO.GetComponent<StoreRune>();
             storeRunes.Add(newStoreRune);
             newStoreRune.Rune = runes[i];
@@ -81,17 +87,17 @@ public class ItemStore : MonoBehaviour
         List<Character> characters = AccountInfo.Instance.GetStoreCharacters();
         if (characters.Count == 0)
         {
-            noItemText.SetActive(true);
+            NoItemText.SetActive(true);
             return;
         }
         else
         {
-            noItemText.SetActive(false);
+            NoItemText.SetActive(false);
         }
         
         for (int i = 0; i < characters.Count; i++)
         {
-            GameObject storeCharacterGO = Instantiate(storeCharacter.gameObject, parent);
+            GameObject storeCharacterGO = Instantiate(StoreCharacter.gameObject, Parent);
             StoreCharacter newStoreCharacter = storeCharacterGO.GetComponent<StoreCharacter>();
             storeCharacters.Add(newStoreCharacter);
             newStoreCharacter.Character = characters[i];

@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class MPManager : MonoBehaviourPunCallbacks
 {
+    public GameObject[] EnableObjectsOnConnect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,10 @@ public class MPManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-
+        foreach(GameObject obj in EnableObjectsOnConnect)
+        {
+            obj.SetActive(true);
+        }
     }
 
     public void JoinDeathMatch()
@@ -27,7 +32,7 @@ public class MPManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        JoinDeathMatch();
+        CreateDeathMatch();
     }
 
     public void CreateDeathMatch()
@@ -35,8 +40,11 @@ public class MPManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
 
         RoomOptions ro = new RoomOptions { MaxPlayers = 8, IsOpen = true, IsVisible = true };
-        PhotonNetwork.CreateRoom("DeathMatch", ro, TypedLobby.Default);
+        PhotonNetwork.CreateRoom("Desert", ro, TypedLobby.Default);
+    }
 
-        SceneManager.LoadScene("DeathMatch");
+    public override void OnJoinedRoom()
+    {
+        SceneManager.LoadScene("Desert");
     }
 }

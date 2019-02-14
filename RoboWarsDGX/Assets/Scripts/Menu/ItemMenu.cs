@@ -17,17 +17,23 @@ public class ItemMenu : MonoBehaviour
     [SerializeField]
     private StoreCharacter storeCharacter;
 
+    public GameObject NoItemText { get => noItemText; set => noItemText = value; }
+    public Transform Parent { get => parent; set => parent = value; }
+    private MenuType MenuType1 { get => menuType; set => menuType = value; }
+    public StoreRune StoreRune { get => storeRune; set => storeRune = value; }
+    public StoreCharacter StoreCharacter { get => storeCharacter; set => storeCharacter = value; }
+
     public void Init()
     {
-        if (parent.childCount != 0)
+        if (Parent.childCount != 0)
         {
-            for (int i = parent.childCount - 1; i >= 0; i--)
+            for (int i = Parent.childCount - 1; i >= 0; i--)
             {
-                Destroy(parent.GetChild(i).gameObject);
+                Destroy(Parent.GetChild(i).gameObject);
             }
         }
 
-        switch (menuType)
+        switch (MenuType1)
         {
             case MenuType.Rune:
                 InitRuneMenu();
@@ -45,16 +51,16 @@ public class ItemMenu : MonoBehaviour
         List<Rune> runes = AccountInfo.Instance.ownRunes;
         if (runes.Count == 0)
         {
-            noItemText.SetActive(true);
+            NoItemText.SetActive(true);
             return;
         }
         else
         {
-            noItemText.SetActive(false);
+            NoItemText.SetActive(false);
         }
         for (int i = 0; i < runes.Count; i++)
         {
-            GameObject storeRuneGO = Instantiate(storeRune.gameObject, parent);
+            GameObject storeRuneGO = Instantiate(StoreRune.gameObject, Parent);
             StoreRune newStoreRune = storeRuneGO.GetComponent<StoreRune>();
             newStoreRune.Rune = runes[i];
             newStoreRune.inStore = false;
@@ -67,16 +73,16 @@ public class ItemMenu : MonoBehaviour
         List<Character> characters = AccountInfo.Instance.ownCharacters;
         if (characters.Count == 0)
         {
-            noItemText.SetActive(true);
+            NoItemText.SetActive(true);
             return;
         }
         else
         {
-            noItemText.SetActive(false);
+            NoItemText.SetActive(false);
         }
         for (int i = 0; i < characters.Count; i++)
         {
-            GameObject storeCharacterGO = Instantiate(storeCharacter.gameObject, parent);
+            GameObject storeCharacterGO = Instantiate(StoreCharacter.gameObject, Parent);
             StoreCharacter newStoreCharacter = storeCharacterGO.GetComponent<StoreCharacter>();
             newStoreCharacter.Character = characters[i];
             newStoreCharacter.storeCharacter = false;

@@ -28,45 +28,52 @@ public class StoreRune : MonoBehaviour
     private Text price;
 
     public Rune Rune { get; set; } = null;
+    public Transform AbilityParent { get => abilityParent; set => abilityParent = value; }
+    public Image Icon { get => icon; set => icon = value; }
+    public RuneStoreAbility GoodAbility { get => goodAbility; set => goodAbility = value; }
+    public RuneStoreAbility BadAbility { get => badAbility; set => badAbility = value; }
+    public GameObject BuyPart { get => buyPart; set => buyPart = value; }
+    public Button BuyButton { get => buyButton; set => buyButton = value; }
+    public Text Price { get => price; set => price = value; }
 
     public void InitRune()
     {
         if (Rune != null)
         {
-            icon.sprite = Rune.icon;
+            Icon.sprite = Rune.icon;
 
             List<RunStoreDescription> descriptions = Rune.GetData();
             for(int i=0; i< descriptions.Count; i++)
             {
                 if (descriptions[i].isGood)
                 {
-                    AddAbility(goodAbility, descriptions[i].displayName, descriptions[i].displayAmount);
+                    AddAbility(GoodAbility, descriptions[i].displayName, descriptions[i].displayAmount);
                 }
                 else
                 {
-                    AddAbility(badAbility, descriptions[i].displayName, descriptions[i].displayAmount);
+                    AddAbility(BadAbility, descriptions[i].displayName, descriptions[i].displayAmount);
                 }
             }
 
             if (inStore)
             {
-                price.text = "" + Rune.price + " XP";
+                Price.text = "" + Rune.price + " XP";
                 if(PlayerProfile.experience < Rune.price)
                 {
-                    buyButton.interactable = false;
+                    BuyButton.interactable = false;
                 }
-                buyButton.onClick.AddListener(delegate { AccountInfo.Instance.BuyRune(Rune.id, Rune.price); });
+                BuyButton.onClick.AddListener(delegate { AccountInfo.Instance.BuyRune(Rune.id, Rune.price); });
             }
             else
             {
-                buyPart.SetActive(false);
+                BuyPart.SetActive(false);
             }
         }
     }
 
     private void AddAbility(RuneStoreAbility runeStoreAbility, string name, string amount)
     {
-        GameObject runeStore = Instantiate(runeStoreAbility.gameObject, abilityParent);
+        GameObject runeStore = Instantiate(runeStoreAbility.gameObject, AbilityParent);
         RuneStoreAbility runeStoreAbilityScript = runeStore.GetComponent<RuneStoreAbility>();
         runeStoreAbilityScript.Init(name, amount);
     }
@@ -82,7 +89,7 @@ public class StoreRune : MonoBehaviour
         {
             if (PlayerProfile.experience < Rune.price)
             {
-                buyButton.interactable = false;
+                BuyButton.interactable = false;
             }
         }
     }

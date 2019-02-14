@@ -8,9 +8,12 @@ public class RuneStoreAbility : MonoBehaviour
     [SerializeField]
     private Text amountText;
 
+    public Text NameText { get => nameText; set => nameText = value; }
+    public Text AmountText { get => amountText; set => amountText = value; }
+
     public void Init(string name, string amount)
     {
-        nameText.text = name;
-        amountText.text = amount;
+        NameText.text = name;
+        AmountText.text = amount;
     }
 }

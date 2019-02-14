@@ -32,32 +32,44 @@ public class StoreCharacter : MonoBehaviour
     public bool storeCharacter = true;
 
     public Character Character { get; set; } = null;
+    public Image Icon { get => icon; set => icon = value; }
+    public Text Hp { get => hp; set => hp = value; }
+    public Text HpReg { get => hpReg; set => hpReg = value; }
+    public Text Armor { get => armor; set => armor = value; }
+    public Text SmgDmg { get => smgDmg; set => smgDmg = value; }
+    public Text ShotgunDmg { get => shotgunDmg; set => shotgunDmg = value; }
+    public Text SniperDmg { get => sniperDmg; set => sniperDmg = value; }
+    public Text MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
+    public Text JumpPower { get => jumpPower; set => jumpPower = value; }
+    public Text Price { get => price; set => price = value; }
+    public Button BuyButton { get => buyButton; set => buyButton = value; }
+    public GameObject BuyPart { get => buyPart; set => buyPart = value; }
 
     public void InitCharacter()
     {
         if(Character != null)
         {
-            icon.sprite = Character.icon;
-            hp.text = "" + Character.health;
-            hpReg.text = "" + Character.hpReg;
-            armor.text = "" + Character.armor;
-            smgDmg.text = "" + Character.smgDmg;
-            shotgunDmg.text = "" + Character.shotGunDmg;
-            sniperDmg.text = "" + Character.sniperDmg;
-            movementSpeed.text = "" + Character.movementSpeed;
-            jumpPower.text = "" + Character.jumpPower;
+            Icon.sprite = Character.icon;
+            Hp.text = "" + Character.health;
+            HpReg.text = "" + Character.hpReg;
+            Armor.text = "" + Character.armor;
+            SmgDmg.text = "" + Character.smgDmg;
+            ShotgunDmg.text = "" + Character.shotGunDmg;
+            SniperDmg.text = "" + Character.sniperDmg;
+            MovementSpeed.text = "" + Character.movementSpeed;
+            JumpPower.text = "" + Character.jumpPower;
             if (storeCharacter)
             {
-                price.text = "" + Character.price + " Gold";
+                Price.text = "" + Character.price + " Gold";
                 if (PlayerProfile.gold < Character.price)
                 {
-                    buyButton.interactable = false;
+                    BuyButton.interactable = false;
                 }
-                buyButton.onClick.AddListener(delegate { AccountInfo.Instance.BuyCharacter(Character.id, Character.price); });
+                BuyButton.onClick.AddListener(delegate { AccountInfo.Instance.BuyCharacter(Character.id, Character.price); });
             }
             else
             {
-                buyPart.SetActive(false);
+                BuyPart.SetActive(false);
             }
         }
     }
@@ -73,7 +85,7 @@ public class StoreCharacter : MonoBehaviour
         {
             if(PlayerProfile.gold < Character.price)
             {
-                buyButton.interactable = false;
+                BuyButton.interactable = false;
             }
         }
     }

@@ -14,12 +14,18 @@ public class ProfileMenu : MonoBehaviour
     [SerializeField]
     private Text xp;
 
+    public Text Kills { get => kills; set => kills = value; }
+    public Text HeadShots { get => headShots; set => headShots = value; }
+    public Text Deaths { get => deaths; set => deaths = value; }
+    public Text Coins { get => coins; set => coins = value; }
+    public Text Xp { get => xp; set => xp = value; }
+
     public void OnEnable()
     {
-        kills.text = "" + PlayerProfile.profileStats.Kills;
-        headShots.text = "" + PlayerProfile.profileStats.HeadShots;
-        deaths.text = "" + PlayerProfile.profileStats.Deaths;
-        coins.text = "" + PlayerProfile.gold;
-        xp.text = "" + PlayerProfile.experience;
+        Kills.text = "" + PlayerProfile.profileStats.Kills;
+        HeadShots.text = "" + PlayerProfile.profileStats.HeadShots;
+        Deaths.text = "" + PlayerProfile.profileStats.Deaths;
+        Coins.text = "" + PlayerProfile.gold;
+        Xp.text = "" + PlayerProfile.experience;
     }
 }

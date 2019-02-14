@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class AccountInfo : MonoBehaviour
 {
+    public SignUpUI signUpUI;
+
     public delegate void SuccessRuneBuying(string id);
     public event SuccessRuneBuying SuccessRuneBuyingEvent;
 
@@ -144,6 +146,9 @@ public class AccountInfo : MonoBehaviour
     #region Sign Up
     public static void SignUp(string username, string password, string email)
     {
+        Instance.signUpUI.gameObject.SetActive(true);
+        Instance.signUpUI.SignUpInProgress();
+
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest()
         {
             TitleId = PlayFabSettings.TitleId,
@@ -153,16 +158,18 @@ public class AccountInfo : MonoBehaviour
         };
 
         PlayFabClientAPI.RegisterPlayFabUser(request, SignUpSuccess, SignUpError);
+
     }
 
     private static void SignUpSuccess(RegisterPlayFabUserResult result)
     {
         Instance.SetUpAccount();
+        //TODO: write something like: set up account
     }
 
     private static void SignUpError(PlayFabError error)
     {
-        //TODO: Impl it
+        //TODO: Impl it + signupUI
         Debug.Log("Error (sign up):" + error);
     }
 
@@ -187,6 +194,8 @@ public class AccountInfo : MonoBehaviour
     private void SetUpAccountSuccess(UpdateUserDataResult result)
     {
         Debug.Log("UpdateDataSuccess");
+        Instance.signUpUI.SignUpSuccess();
+        //Show something in signupsuccess
     }
 
 

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using Photon;
+using Photon.Pun;
 
 [RequireComponent(typeof(Rigidbody))]
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviourPun
 {
     [SerializeField]
     private float speed = 10f;

@@ -14,26 +14,30 @@ public class StoreSubMenus : MonoBehaviour
 
     private GameObject activeStore = null;
 
+    public GameObject RuneStore { get => runeStore; set => runeStore = value; }
+    public GameObject CharacterStore { get => characterStore; set => characterStore = value; }
+    public GameObject ChestStore { get => chestStore; set => chestStore = value; }
+
     void Start()
     {
-        runeStore.SetActive(false);
-        characterStore.SetActive(false);
-        chestStore.SetActive(false);
+        RuneStore.SetActive(false);
+        CharacterStore.SetActive(false);
+        ChestStore.SetActive(false);
 
         if (defaultStore == StoreType.RuneStore)
         {
-            runeStore.SetActive(true);
-            activeStore = runeStore;
+            RuneStore.SetActive(true);
+            activeStore = RuneStore;
         }
         else if(defaultStore == StoreType.CharacterStore)
         {
-            characterStore.SetActive(true);
-            activeStore = characterStore;
+            CharacterStore.SetActive(true);
+            activeStore = CharacterStore;
         }
         else
         {
-            chestStore.SetActive(true);
-            activeStore = chestStore;
+            ChestStore.SetActive(true);
+            activeStore = ChestStore;
         }
     }
 
