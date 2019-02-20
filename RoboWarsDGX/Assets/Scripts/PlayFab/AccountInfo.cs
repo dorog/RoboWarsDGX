@@ -146,7 +146,6 @@ public class AccountInfo : MonoBehaviour
     #region Sign Up
     public static void SignUp(string username, string password, string email)
     {
-        Instance.signUpUI.gameObject.SetActive(true);
         Instance.signUpUI.SignUpInProgress();
 
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest()
@@ -163,14 +162,16 @@ public class AccountInfo : MonoBehaviour
 
     private static void SignUpSuccess(RegisterPlayFabUserResult result)
     {
+        Instance.signUpUI.AccountSetUp();
         Instance.SetUpAccount();
-        //TODO: write something like: set up account
     }
 
     private static void SignUpError(PlayFabError error)
     {
         //TODO: Impl it + signupUI
         Debug.Log("Error (sign up):" + error);
+
+        Instance.signUpUI.SignUpFail(error.ErrorMessage);
     }
 
     #region Account set up
@@ -193,9 +194,7 @@ public class AccountInfo : MonoBehaviour
 
     private void SetUpAccountSuccess(UpdateUserDataResult result)
     {
-        Debug.Log("UpdateDataSuccess");
         Instance.signUpUI.SignUpSuccess();
-        //Show something in signupsuccess
     }
 
 
