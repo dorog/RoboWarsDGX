@@ -4,14 +4,15 @@ public class GroundChecker : MonoBehaviour
 {
 
     [SerializeField]
-    private TestMovement movement;
+    private CharacterMovement movement;
 
-    private int count = 0;
+    public int count = 0;
 
-    public TestMovement Movement { get => movement; set => movement = value; }
+    public CharacterMovement Movement { get => movement; set => movement = value; }
 
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log(other.name);
         count++;
         if (count == 1)
         {
@@ -21,6 +22,7 @@ public class GroundChecker : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        //Debug.Log(other.name);
         count--;
         if (count == 0)
         {
