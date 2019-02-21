@@ -12,10 +12,8 @@ public class SignUpUI : MonoBehaviour
     [SerializeField]
     private Button loginMenuButton;
     [SerializeField]
-    private Button signupMenuButton;
-    [SerializeField]
     private Button signUpButton;
-    [Header ("Sub UIs")]
+    [Header ("UIs")]
     [SerializeField]
     private GameObject signUpInProgressUI;
     [SerializeField]
@@ -28,17 +26,18 @@ public class SignUpUI : MonoBehaviour
     private GameObject failUI;
     [SerializeField]
     private Text failErrorText;
-
     [SerializeField]
-    private GameObject background;
+    private Button failButton;
 
     public Button LoginMenuButton { get => loginMenuButton; set => loginMenuButton = value; }
-    public Button SignupMenuButton { get => signupMenuButton; set => signupMenuButton = value; }
     public Button SignUpButton { get => signUpButton; set => signUpButton = value; }
     public GameObject SignUpInProgressUI { get => signUpInProgressUI; set => signUpInProgressUI = value; }
     public GameObject SuccessUI { get => successUI; set => successUI = value; }
-    public GameObject Background { get => background; set => background = value; }
     public GameObject FailUI { get => failUI; set => failUI = value; }
+    public Text FailErrorText { get => failErrorText; set => failErrorText = value; }
+    public Text ProgressStateText { get => progressStateText; set => progressStateText = value; }
+    public PlayfabAuth Auth { get => auth; set => auth = value; }
+    public Button FailButton1 { get => failButton; set => failButton = value; }
 
     private void Start()
     {
@@ -47,28 +46,25 @@ public class SignUpUI : MonoBehaviour
 
     public void SignUpInProgress()
     {
-        progressStateText.text = signUpInProgress;
+        ProgressStateText.text = signUpInProgress;
         LoginMenuButton.interactable = false;
         SignUpButton.interactable = false;
-        SignupMenuButton.interactable = false;
-        SignUpInProgressUI.SetActive(true);
-        Background.SetActive(true);
+        SignUpInProgressUI.SetActive(true); 
     }
 
     public void AccountSetUp()
     {
-        progressStateText.text = accountSetUp;
+        ProgressStateText.text = accountSetUp;
     }
 
     public void SignUpSuccess()
     {
         LoginMenuButton.interactable = true;
         SignUpButton.interactable = true;
-        SignupMenuButton.interactable = true;
         SignUpInProgressUI.SetActive(false);
         SuccessUI.SetActive(true);
 
-        auth.ResetSignUpFields();
+        Auth.ResetSignUpFields();
     }
 
     public void SignUpViewReset()
@@ -76,26 +72,25 @@ public class SignUpUI : MonoBehaviour
         signUpInProgressUI.SetActive(false);
         successUI.SetActive(false);
         FailUI.SetActive(false);
-        background.SetActive(false);
 
         signUpButton.interactable = false;
 
-        auth.ResetSignUpFields();
+        Auth.ResetSignUpFields();
     }
 
     public void SignUpFail(string error)
     {
         signUpInProgressUI.SetActive(false);
         FailUI.SetActive(true);
-        failErrorText.text = error + "!";
+        FailErrorText.text = error + "!";
+
+        FailButton1.Select();
     }
 
     public void FailButton()
     {
         LoginMenuButton.interactable = true;
-        SignUpButton.interactable = true;
-        SignupMenuButton.interactable = true;
-        background.SetActive(false);
+        signUpButton.interactable = true;
         FailUI.SetActive(false);
     }
 }

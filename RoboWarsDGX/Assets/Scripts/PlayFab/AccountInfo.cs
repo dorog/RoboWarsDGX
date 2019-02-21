@@ -7,6 +7,16 @@ using UnityEngine.SceneManagement;
 public class AccountInfo : MonoBehaviour
 {
     public SignUpUI signUpUI;
+    public LoginUI loginUI;
+
+    private static readonly string loginGettingData = "Getting account's data...";
+    private static readonly string loginGettingDataStart = "Getting Database's data (";
+    private static readonly string loginGettingDataEnd = ")...";
+
+    private static string GettingDataState { get => (loginGettingDataStart + loginGettingDataStateNumber + "/" + loginGettingDataMaxState + loginGettingDataEnd); }
+
+    private static int loginGettingDataStateNumber = 1;
+    private static readonly int loginGettingDataMaxState = 3;
 
     public delegate void SuccessRuneBuying(string id);
     public event SuccessRuneBuying SuccessRuneBuyingEvent;
@@ -60,6 +70,8 @@ public class AccountInfo : MonoBehaviour
     #region Log in
     public static void Login(string username, string password)
     {
+        Instance.loginUI.LogInInProgress();
+
         LoginWithPlayFabRequest request = new LoginWithPlayFabRequest()
         {
             Username = username,
@@ -70,14 +82,13 @@ public class AccountInfo : MonoBehaviour
     }
     private static void OnLogInSuccess(LoginResult result)
     {
-        //Loading screen, like loading
+        Instance.loginUI.LogInGettingData(loginGettingData);
         GetAccountInfo(result.PlayFabId);
     }
 
     private static void OnLogInError(PlayFabError error)
     {
-        //TODO: Impl it: bad username/password etc
-        Debug.Log("Error during log in: " + error);
+        Instance.loginUI.LoginFail(error.ErrorMessage);
     }
 
     public static void GetAccountInfo(string playfabId)
@@ -106,6 +117,9 @@ public class AccountInfo : MonoBehaviour
 
     private static void GetAccountInfoSuccess(GetPlayerCombinedInfoResult result)
     {
+        Instance.loginUI.LogInGettingData(GettingDataState);
+        loginGettingDataStateNumber++;
+
         Instance.info = result.InfoResultPayload;
 
         Instance.catalog.CatalogInitReadyEvent += Instance.CatalogInitReady;
@@ -121,6 +135,9 @@ public class AccountInfo : MonoBehaviour
 
     private void CatalogInitReady()
     {
+        Instance.loginUI.LogInGettingData(GettingDataState);
+        loginGettingDataStateNumber++;
+
         InitOwnLists();
         Instance.store.InitReadyEvent += Instance.CreateStoreLists;
         Instance.store.ListsReadyEvent += Instance.StoreReady;
@@ -129,6 +146,8 @@ public class AccountInfo : MonoBehaviour
 
     private void CreateStoreLists()
     {
+        Instance.loginUI.LogInGettingData(GettingDataState);
+
         Instance.store.CreateLists(Instance.catalog.notOwnedRunes, Instance.catalog.notOwnedCharacters, Instance.catalog.notOwnedWeapons);
     }
 
@@ -137,8 +156,7 @@ public class AccountInfo : MonoBehaviour
         notReadyStores--;
         if(notReadyStores == 0)
         {
-            //Make it async honey :D
-            SceneManager.LoadScene(SharedData.menuScene);
+            SceneManager.LoadSceneAsync(SharedData.menuScene);
         }
     }
     #endregion
@@ -168,9 +186,6 @@ public class AccountInfo : MonoBehaviour
 
     private static void SignUpError(PlayFabError error)
     {
-        //TODO: Impl it + signupUI
-        Debug.Log("Error (sign up):" + error);
-
         Instance.signUpUI.SignUpFail(error.ErrorMessage);
     }
 

@@ -16,13 +16,17 @@ public class LoginMenuUI : MonoBehaviour
     [SerializeField]
     private GameObject loginMenu;
     [SerializeField]
-    private Image loginButton;
+    private Image loginButtonImage;
+    [SerializeField]
+    private Button loginButton;
 
     [Header("Sign up menu")]
     [SerializeField]
     private GameObject signUpMenu;
     [SerializeField]
-    private Image signUpButton;
+    private Image signUpButtonImage;
+    [SerializeField]
+    private Button signUpButton;
 
     private MenuType selectedMenu;
 
@@ -30,9 +34,11 @@ public class LoginMenuUI : MonoBehaviour
     public Color InActiveButtonColor { get => inActiveButtonColor; set => inActiveButtonColor = value; }
     public Color ActiveButtonColor { get => activeButtonColor; set => activeButtonColor = value; }
     public GameObject LoginMenu { get => loginMenu; set => loginMenu = value; }
-    public Image LoginButton { get => loginButton; set => loginButton = value; }
+    public Image LoginButtonImage { get => loginButtonImage; set => loginButtonImage = value; }
     public GameObject SignUpMenu { get => signUpMenu; set => signUpMenu = value; }
-    public Image SignUpButton { get => signUpButton; set => signUpButton = value; }
+    public Image SignUpButtonImage { get => signUpButtonImage; set => signUpButtonImage = value; }
+    public Button LoginButton { get => loginButton; set => loginButton = value; }
+    public Button SignUpButton { get => signUpButton; set => signUpButton = value; }
 
     void Start()
     {
@@ -49,12 +55,15 @@ public class LoginMenuUI : MonoBehaviour
     public void ShowLogIn()
     {
         selectedMenu = MenuType.Login;
-
+       
         LoginMenu.SetActive(true);
-        LoginButton.color = ActiveButtonColor;
+        loginButton.interactable = false;
+        signUpButton.interactable = true;
+        LoginButtonImage.color = ActiveButtonColor;
         SignUpMenu.SetActive(false);
-        SignUpButton.color = InActiveButtonColor;
-        auth.NextLoginField();
+        SignUpButtonImage.color = InActiveButtonColor;
+
+        auth.FirstLoginField();
     }
 
     public void ShowSignUp()
@@ -62,10 +71,13 @@ public class LoginMenuUI : MonoBehaviour
         selectedMenu = MenuType.SignUp;
 
         SignUpMenu.SetActive(true);
-        SignUpButton.color = ActiveButtonColor;
+        loginButton.interactable = true;
+        signUpButton.interactable = false;
+        SignUpButtonImage.color = ActiveButtonColor;
         LoginMenu.SetActive(false);
-        LoginButton.color = InActiveButtonColor;
-        auth.NextSignUpField();
+        LoginButtonImage.color = InActiveButtonColor;
+
+        auth.FirstSignUpField();
     }
 
     private enum MenuType

@@ -26,6 +26,10 @@ public class PlayfabAuth : MonoBehaviour
     [SerializeField]
     private Button signUpButton;
 
+    private int logInFieldCount = 2;
+    private bool correctLoginUserName = false;
+    private bool correctLoginPassword = false;
+
     [Header("Sign up Error texts")]
     [SerializeField]
     private Text SignUpUsernameErrorText;
@@ -36,7 +40,7 @@ public class PlayfabAuth : MonoBehaviour
     [SerializeField]
     private Text SignUpEmailErrorText;
 
-    private int fieldCount = 4;
+    private int signUpFieldCount = 4;
     private bool correctSignUpUserName = false;
     private bool correctSignUpPassword = false;
     private bool correctSignUpConfirmPassword = false;
@@ -52,6 +56,8 @@ public class PlayfabAuth : MonoBehaviour
     public Text SignUpPasswordErrorText1 { get => SignUpPasswordErrorText; set => SignUpPasswordErrorText = value; }
     public Text SignUpConfirmPasswordErrorText1 { get => SignUpConfirmPasswordErrorText; set => SignUpConfirmPasswordErrorText = value; }
     public Text SignUpEmailErrorText1 { get => SignUpEmailErrorText; set => SignUpEmailErrorText = value; }
+    public Button SignUpButton { get => signUpButton; set => signUpButton = value; }
+    public Button LoginButton { get => loginButton; set => loginButton = value; }
 
     public void Login()
     {
@@ -60,14 +66,8 @@ public class PlayfabAuth : MonoBehaviour
 
     public void SignUp()
     {
-        if (SignUpConfirmPassword1.text == SignUpPassword1.text)
-        {
-            AccountInfo.SignUp(SignUpUsername1.text, SignUpPassword1.text, SignUpEmail1.text);
-        }
-        else
-        {
-            Debug.Log("Not the same pw!");
-        }
+
+        AccountInfo.SignUp(SignUpUsername1.text, SignUpPassword1.text, SignUpEmail1.text);
     }
 
     public void ResetSignUpFields()
@@ -82,60 +82,61 @@ public class PlayfabAuth : MonoBehaviour
         SignUpConfirmPasswordErrorText.text = "";
         SignUpEmailErrorText.text = "";
     }
+    #region SignUp check
 
-    #region Username check
+    #region SignUp Username check
 
-    public void UserNameValueEdit()
+    public void SignUpUserNameValueEdit()
     {
         if (SignUpUsername.text.Length == 0)
         {
             SignUpUsernameErrorText.text = "Required!";
-            UsernameError();
+            SignUpUsernameError();
         }
         else if (SignUpUsername.text.Length < 3)
         {
             SignUpUsernameErrorText.text = "Username must be at least 3 characters long!";
-            UsernameError();
+            SignUpUsernameError();
         }
         else
         {
             SignUpUsernameErrorText.text = "";
-            UsernameCorrect();
+            SignUpUsernameCorrect();
         }
     }
 
-    private void UsernameError()
+    private void SignUpUsernameError()
     {
         if (correctSignUpUserName)
         {
-            FieldError();
+            SignUpFieldError();
             correctSignUpUserName = false;
         }
     }
 
-    private void UsernameCorrect()
+    private void SignUpUsernameCorrect()
     {
         if (!correctSignUpUserName)
         {
-            FieldCorrect();
+            SignUpFieldCorrect();
             correctSignUpUserName = true;
         }
     }
     #endregion
 
-    #region Password check
+    #region SignUp Password check
 
-    public void PasswordValueEdit()
+    public void SignUpPasswordValueEdit()
     {
         if (SignUpPassword.text.Length == 0)
         {
             SignUpPasswordErrorText.text = "Required!";
-            PasswordError();
+            SignUpPasswordError();
         }
         else if (SignUpPassword.text.Length < 6)
         {
-            SignUpPasswordErrorText.text = "Password must be at least 6 characters long!";
-            PasswordError();
+            SignUpPasswordErrorText.text = "PW must be at least 6 characters!";
+            SignUpPasswordError();
         }
         else
         {
@@ -143,38 +144,40 @@ public class PlayfabAuth : MonoBehaviour
             {
                 if (SignUpConfirmPassword1.text != SignUpPassword1.text)
                 {
-                    SignUpPasswordErrorText.text = "Password and Confirm password must be the same!";
-                    PasswordError();
+                    SignUpPasswordErrorText.text = "PW and CPW must be the same!";
+                    SignUpPasswordError();
                 }
                 else
                 {
                     SignUpPasswordErrorText.text = "";
-                    PasswordCorrect();
+                    SignUpConfirmPasswordErrorText.text = "";
+                    SignUpPasswordCorrect();
+                    ConfirmPasswordCorrect();
                 }
             }
             else
             {
                 SignUpPasswordErrorText.text = "";
-                PasswordCorrect();
+                SignUpPasswordCorrect();
             }
         }
     }
 
-    private void PasswordError()
+    private void SignUpPasswordError()
     {
         if (correctSignUpPassword)
         {
             correctSignUpPassword = false;
-            FieldError();
+            SignUpFieldError();
         }
     }
 
-    private void PasswordCorrect()
+    private void SignUpPasswordCorrect()
     {
         if (!correctSignUpPassword)
         {
             correctSignUpPassword = true;
-            FieldCorrect();
+            SignUpFieldCorrect();
         }
     }
     #endregion
@@ -190,7 +193,7 @@ public class PlayfabAuth : MonoBehaviour
         }
         else if (SignUpConfirmPassword.text.Length < 6)
         {
-            SignUpConfirmPasswordErrorText.text = "Confirm password must be at least 6 characters long!";
+            SignUpConfirmPasswordErrorText.text = "CPW must be at least 6 characters!";
             ConfirmPasswordError();
         }
         else
@@ -199,12 +202,14 @@ public class PlayfabAuth : MonoBehaviour
             {
                 if (SignUpConfirmPassword1.text != SignUpPassword1.text)
                 {
-                    SignUpConfirmPasswordErrorText.text = "Password and Confirm password must be the same!";
+                    SignUpConfirmPasswordErrorText.text = "PW and CPW must be the same!";
                     ConfirmPasswordError();
                 }
                 else
                 {
+                    SignUpPasswordErrorText.text = "";
                     SignUpConfirmPasswordErrorText.text = "";
+                    SignUpPasswordCorrect();
                     ConfirmPasswordCorrect();
                 }
             }
@@ -221,7 +226,7 @@ public class PlayfabAuth : MonoBehaviour
         if (correctSignUpConfirmPassword)
         {
             correctSignUpConfirmPassword = false;
-            FieldError();
+            SignUpFieldError();
         }
     }
 
@@ -230,7 +235,7 @@ public class PlayfabAuth : MonoBehaviour
         if (!correctSignUpConfirmPassword)
         {
             correctSignUpConfirmPassword = true;
-            FieldCorrect();
+            SignUpFieldCorrect();
         }
     }
     #endregion
@@ -239,8 +244,8 @@ public class PlayfabAuth : MonoBehaviour
 
     public void EmailValueEdit()
     {
-        string [] parts = SignUpEmail1.text.Split('@');
-        if(parts.Length == 2)
+        string[] parts = SignUpEmail1.text.Split('@');
+        if (parts.Length == 2)
         {
             string[] endparts = parts[1].Split('.');
             if (endparts.Length == 2)
@@ -266,7 +271,7 @@ public class PlayfabAuth : MonoBehaviour
         if (correctSignUpEmail)
         {
             correctSignUpEmail = false;
-            FieldError();
+            SignUpFieldError();
         }
     }
 
@@ -275,39 +280,124 @@ public class PlayfabAuth : MonoBehaviour
         if (!correctSignUpEmail)
         {
             correctSignUpEmail = true;
-            FieldCorrect();
+            SignUpFieldCorrect();
         }
     }
     #endregion
 
-    private void FieldError()
+    private void SignUpFieldError()
     {
-        fieldCount++;
-        if (fieldCount == 1)
+        signUpFieldCount++;
+        if (signUpFieldCount == 1)
         {
-            signUpButton.interactable = false;
+            SignUpButton.interactable = false;
         }
     }
 
-    private void FieldCorrect()
+    private void SignUpFieldCorrect()
     {
-        fieldCount--;
-        if (fieldCount == 0)
+        signUpFieldCount--;
+        if (signUpFieldCount == 0)
         {
-            signUpButton.interactable = true;
+            SignUpButton.interactable = true;
         }
     }
+
+    #endregion
+
+    #region Login check
+
+    #region Login Username check
+
+    public void LoginUserNameValueEdit()
+    {
+        if (LoginUsername.text.Length < 3)
+        {
+            LoginUsernameError();
+        }
+        else
+        {
+            LoginUsernameCorrect();
+        }
+    }
+
+    private void LoginUsernameError()
+    {
+        if (correctLoginUserName)
+        {
+            LoginFieldError();
+            correctLoginUserName = false;
+        }
+    }
+
+    private void LoginUsernameCorrect()
+    {
+        if (!correctLoginUserName)
+        {
+            LoginFieldCorrect();
+            correctLoginUserName = true;
+        }
+    }
+    #endregion
+
+    #region Login Password check
+
+    public void LoginPasswordValueEdit()
+    {
+        if (LoginPassword.text.Length < 6)
+        {
+            LoginPasswordError();
+        }
+        else
+        {
+            LoginPasswordCorrect();
+        }
+    }
+
+    private void LoginPasswordError()
+    {
+        if (correctLoginPassword)
+        {
+            correctLoginPassword = false;
+            LoginFieldError();
+        }
+    }
+
+    private void LoginPasswordCorrect()
+    {
+        if (!correctLoginPassword)
+        {
+            correctLoginPassword = true;
+            LoginFieldCorrect();
+        }
+    }
+    #endregion
+
+    private void LoginFieldError()
+    {
+        logInFieldCount++;
+        if (logInFieldCount == 1)
+        {
+            LoginButton.interactable = false;
+        }
+    }
+
+    private void LoginFieldCorrect()
+    {
+        logInFieldCount--;
+        if (logInFieldCount == 0)
+        {
+            LoginButton.interactable = true;
+        }
+    }
+
+    #endregion
 
     #region Navigation
 
     public void NextLoginField()
     {
-        if(selectedLoginInputField == null)
-        {
-            selectedLoginInputField = LoginUsername;
-            LoginUsername.Select();
-        }
-        else
+        if (selectedLoginInputField != null)
         {
             Selectable next = selectedLoginInputField.FindSelectableOnDown();
             next.Select();
@@ -317,17 +407,46 @@ public class PlayfabAuth : MonoBehaviour
 
     public void NextSignUpField()
     {
-        if(selectedSignUpInputField == null)
-        {
-            selectedSignUpInputField = SignUpUsername;
-            SignUpUsername.Select();
-        }
-        else
+        if (selectedSignUpInputField != null)
         {
             Selectable next = selectedSignUpInputField.FindSelectableOnDown();
             next.Select();
             selectedSignUpInputField = next;
         }
+    }
+
+    public void FirstLoginField()
+    {
+        if (selectedLoginInputField == null)
+        {
+            selectedLoginInputField = LoginUsername;
+            LoginUsername.Select();
+        }
+    }
+
+    public void FirstSignUpField()
+    {
+        if (selectedSignUpInputField == null)
+        {
+            selectedSignUpInputField = SignUpUsername;
+            SignUpUsername.Select();
+        }
+    }
+
+    public void SelectLoginSelected()
+    {
+        selectedLoginInputField.Select();
+    }
+
+    public void SelectSignUpSelected()
+    {
+        selectedSignUpInputField.Select();
+    }
+
+    public void SelectSignUpFirst()
+    {
+        selectedSignUpInputField = SignUpUsername;
+        SignUpUsername.Select();
     }
 
     #endregion
