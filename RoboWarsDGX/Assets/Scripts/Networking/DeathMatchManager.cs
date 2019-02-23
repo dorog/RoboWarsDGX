@@ -12,6 +12,8 @@ public class DeathMatchManager : MonoBehaviourPun, IPunObservable
 
     public GameObject[] spawnPoints;
 
+    private int spawnCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +29,8 @@ public class DeathMatchManager : MonoBehaviourPun, IPunObservable
             timer = 0;
             if (!HasPlayerSpawned)
             {
-                PhotonNetwork.Instantiate("Amy", spawnPoints[0].transform.position, Quaternion.identity, 0);
+                PhotonNetwork.Instantiate("Amy", spawnPoints[spawnCount].transform.position, Quaternion.identity, 0);
+                spawnCount++;
                 HasPlayerSpawned = true;
             }
         }

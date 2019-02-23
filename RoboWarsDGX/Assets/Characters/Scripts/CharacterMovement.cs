@@ -8,31 +8,12 @@ public class CharacterMovement : MonoBehaviourPun
     public float speed = 10.0f;
     public float jumpPower = 8.0f;
     public float gravity = 20.0f;
-    public Camera cam;
-    public GameObject spine;
 
-    private Animator animator;
+    public Animator firstPersonAnimator;
+    public Animator thirdPersonAnimator;
 
-    private Rigidbody body;
+    public Rigidbody body;
     private bool grounded = false;
-
-    void Start()
-    {
-        if (!photonView.IsMine)
-        {
-            cam.gameObject.SetActive(false);
-        }
-        animator = GetComponent<Animator>();
-        body = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        if (photonView.IsMine)
-        {
-            CharacterRotation();
-        }
-    }
 
     private void FixedUpdate()
     {
@@ -51,49 +32,28 @@ public class CharacterMovement : MonoBehaviourPun
                 velocityChange.y = 0;
                 body.AddForce(velocityChange, ForceMode.VelocityChange);
 
-                animator.SetFloat("Vertical", forwardMovement);
-                animator.SetFloat("Horizontal", sideMovement);
+                /*firstPersonAnimator.SetFloat("Vertical", forwardMovement);
+                firstPersonAnimator.SetFloat("Horizontal", sideMovement);*/
+
+                thirdPersonAnimator.SetFloat("Vertical", forwardMovement);
+                thirdPersonAnimator.SetFloat("Horizontal", sideMovement);
 
                 if (grounded && Input.GetButton("Jump"))
                 {
                     body.velocity = new Vector3(velocity.x, jumpPower, velocity.z);
-                    animator.SetBool("jump", true);
+                    //firstPersonAnimator.SetBool("jump", true);
+                    thirdPersonAnimator.SetBool("jump", true);
                 }
             }
         }
 
     }
 
-    private void CharacterRotation()
-    {
-        float rotationX = Input.GetAxis("Mouse X");
-
-        gameObject.transform.Rotate(new Vector3(0, rotationX, 0));
-        //cam.transform.Rotate(new Vector3(-rotationY, 0, 0));
-        //animator.SetBoneLocalRotation()
-    }
-
-    private void LateUpdate()
-    {
-        /*float rotationY = Input.GetAxis("Mouse Y");
-        spine.transform.Rotate(new Vector3(-rotationY, 0, 0));
-        Debug.Log(new Vector3(-rotationY, 0, 0));
-        animator.SetBoneLocalRotation(HumanBodyBones.Spine, Quaternion.Euler(-rotationY, 0, 0));*/
-    }
-
-    /*private void OnAnimatorIK(int layerIndex)
-    {
-        Debug.Log("Called");
-        float rotationY = Input.GetAxis("Mouse Y");
-        /*spine.transform.Rotate(new Vector3(-rotationY, 0, 0));
-        Debug.Log(new Vector3(-rotationY, 0, 0));
-        animator.SetBoneLocalRotation(HumanBodyBones.Spine, Quaternion.Euler(-rotationY, 0, 0));
-    }*/
-
     public void OnGround()
     {
         grounded = true;
-        animator.SetBool("jump", false);
+        //firstPersonAnimator.SetBool("jump", false);
+        thirdPersonAnimator.SetBool("jump", false);
     }
 
     public void InAir()
