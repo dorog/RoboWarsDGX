@@ -31,10 +31,6 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     void Start()
     {
 
-        /*firstPersonSpine = firstPerson.GetBoneTransform(HumanBodyBones.Spine);
-        firstPersonSpine1 = firstPerson.GetBoneTransform(HumanBodyBones.Chest);
-        firstPersonSpine2 = firstPerson.GetBoneTransform(HumanBodyBones.UpperChest);*/
-
         thirdPersonSpine = thirdPerson.GetBoneTransform(HumanBodyBones.Spine);
         thirdPersonSpine1 = thirdPerson.GetBoneTransform(HumanBodyBones.Chest);
         thirdPersonSpine2 = thirdPerson.GetBoneTransform(HumanBodyBones.UpperChest);

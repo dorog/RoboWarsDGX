@@ -11,10 +11,10 @@ public class CharacterInit : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            foreach (GameObject bodyPart in fullBody)
+            /*foreach (GameObject bodyPart in fullBody)
             {
                 bodyPart.SetActive(false);
-            }
+            }*/
             foreach (GameObject bodyPart in firsPerson)
             {
                 bodyPart.SetActive(true);
