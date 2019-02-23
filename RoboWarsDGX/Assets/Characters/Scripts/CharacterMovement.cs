@@ -9,6 +9,7 @@ public class CharacterMovement : MonoBehaviourPun
     public float jumpPower = 8.0f;
     public float gravity = 20.0f;
     public Camera cam;
+    public GameObject spine;
 
     private Animator animator;
 
@@ -66,11 +67,28 @@ public class CharacterMovement : MonoBehaviourPun
     private void CharacterRotation()
     {
         float rotationX = Input.GetAxis("Mouse X");
-        float rotationY = Input.GetAxis("Mouse Y");
 
         gameObject.transform.Rotate(new Vector3(0, rotationX, 0));
-        cam.transform.Rotate(new Vector3(-rotationY, 0, 0));
+        //cam.transform.Rotate(new Vector3(-rotationY, 0, 0));
+        //animator.SetBoneLocalRotation()
     }
+
+    private void LateUpdate()
+    {
+        /*float rotationY = Input.GetAxis("Mouse Y");
+        spine.transform.Rotate(new Vector3(-rotationY, 0, 0));
+        Debug.Log(new Vector3(-rotationY, 0, 0));
+        animator.SetBoneLocalRotation(HumanBodyBones.Spine, Quaternion.Euler(-rotationY, 0, 0));*/
+    }
+
+    /*private void OnAnimatorIK(int layerIndex)
+    {
+        Debug.Log("Called");
+        float rotationY = Input.GetAxis("Mouse Y");
+        /*spine.transform.Rotate(new Vector3(-rotationY, 0, 0));
+        Debug.Log(new Vector3(-rotationY, 0, 0));
+        animator.SetBoneLocalRotation(HumanBodyBones.Spine, Quaternion.Euler(-rotationY, 0, 0));
+    }*/
 
     public void OnGround()
     {
