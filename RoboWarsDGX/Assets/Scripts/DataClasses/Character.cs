@@ -15,15 +15,14 @@ public class Character
     public int sniperDmg;
     public int smgDmg;
     public string type;
+    public GameObject prefab;
+    public GameObject previewPrefab;
 
     public static Character CatalogItemToCharacter(CatalogItem item)
     {
         Character newCharacter = new Character();
 
         string[] splited = SharedData.ParseJson(item.CustomData.ToString());
-
-        uint amount = 0;
-        item.VirtualCurrencyPrices.TryGetValue(SharedData.characterVirtualCurrency, out amount);
 
         newCharacter.id = item.ItemId;
 
@@ -44,6 +43,8 @@ public class Character
         character.sniperDmg = int.Parse(splited[15]);
         character.smgDmg = int.Parse(splited[17]);
         character.type = splited[19];
+        character.prefab = Resources.Load<GameObject>("Characters/" + splited[21]);
+        character.previewPrefab = Resources.Load<GameObject>("CharactersPreview/" + splited[21]);
     }
 }
 

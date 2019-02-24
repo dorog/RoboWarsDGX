@@ -1,5 +1,5 @@
 ﻿
 public enum StoreType
 {
-    RuneStore, CharacterStore, ChestStore
+    RuneStore, CharacterStore, WeaponStore
 }

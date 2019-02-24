@@ -24,6 +24,9 @@ public class AccountInfo : MonoBehaviour
     public delegate void SuccessCharacterBuying(string id);
     public event SuccessCharacterBuying SuccessCharacterBuyingEvent;
 
+    public delegate void SuccessWeaponBuying(string id);
+    public event SuccessWeaponBuying SuccessWeaponBuyingEvent;
+
     private int notReadyStores = 1;
     private int cost = 0;
 
@@ -46,8 +49,8 @@ public class AccountInfo : MonoBehaviour
     }
 
     public List<Rune> ownRunes = new List<Rune>();
-
     public List<Character> ownCharacters = new List<Character>();
+    public List<Weapon> ownWeapons = new List<Weapon>();
 
     private PlayerProfile playerProfile = new PlayerProfile();
 
@@ -243,7 +246,8 @@ public class AccountInfo : MonoBehaviour
             }
             else if (Instance.info.UserInventory[i].ItemClass == SharedData.weaponClass)
             {
-                Debug.Log("Not implemented!");
+                Instance.ownWeapons.Add(Instance.catalog.GetWeaponById(Instance.info.UserInventory[i].ItemId));
+                Instance.catalog.RegistWeaponForOwn(Instance.info.UserInventory[i].ItemId);
             }
         }
 
@@ -257,6 +261,11 @@ public class AccountInfo : MonoBehaviour
     public List<Character> GetStoreCharacters()
     {
         return Instance.store.characters;
+    }
+
+    public List<Weapon> GetStoreWeapons()
+    {
+        return Instance.store.weapons;
     }
 
     #region Buy items
@@ -348,5 +357,42 @@ public class AccountInfo : MonoBehaviour
                 break;
         }
     }
+
+    public void BuyWeapon(string id, int price)
+    {
+        cost = price;
+
+        //u can buy the same item more times...
+        PurchaseItemRequest request = new PurchaseItemRequest()
+        {
+            ItemId = id,
+            VirtualCurrency = SharedData.weaponVirtualCurrency,
+            Price = price,
+            StoreId = SharedData.weaponStoreName
+        };
+        PlayFabClientAPI.PurchaseItem(request, BuyWeaponSuccess, BuyWeaponFail);
+    }
+
+    private void BuyWeaponSuccess(PurchaseItemResult result)
+    {
+        PlayerProfile.iron -= cost;
+        for (int i = 0; i < result.Items.Count; i++)
+        {
+            ReplaceWeapon(result.Items[i].ItemId);
+            SuccessWeaponBuyingEvent(result.Items[i].ItemId);
+        }
+    }
+
+    private void ReplaceWeapon(string id)
+    {
+        ownWeapons.Add(Instance.catalog.GetWeaponById(id));
+        Instance.store.RemoveWeapon(id);
+    }
+
+    private void BuyWeaponFail(PlayFabError error)
+    {
+        Debug.Log(error);
+    }
+
     #endregion
 }

@@ -1,39 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Photon;
+﻿using UnityEngine;
 using Photon.Pun;
 
 public class DeathMatchManager : MonoBehaviourPun, IPunObservable
 {
-    public float SpawnTime;
-    private float timer = 0;
-    private bool HasPlayerSpawned = false;
 
     public GameObject[] spawnPoints;
 
-    private int spawnCount = 0;
-
-    // Start is called before the first frame update
-    void Start()
+    public void SpawnPlayer()
     {
-        
+        PhotonNetwork.Instantiate("Characters/" + SelectData.selectedCharacter.id, spawnPoints[GetSpawnPoint()].transform.position, Quaternion.identity, 0);
     }
 
-    // Update is called once per frame
-    void Update()
+    private int GetSpawnPoint()
     {
-        timer += Time.deltaTime;
-        if(timer >= SpawnTime)
-        {
-            timer = 0;
-            if (!HasPlayerSpawned)
-            {
-                PhotonNetwork.Instantiate("Amy", spawnPoints[spawnCount].transform.position, Quaternion.identity, 0);
-                spawnCount++;
-                HasPlayerSpawned = true;
-            }
-        }
+        return 0;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

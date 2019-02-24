@@ -82,6 +82,7 @@ public class Store
                 weaponsStoreData.Add(storeData);
             }
         }
+
         db--;
         if (db == 0)
         {
@@ -116,7 +117,15 @@ public class Store
             }
         }
 
-        Debug.Log("Weapon list init is missing!");
+        for (int i = 0; i < notOwnedWeapons.Count; i++)
+        {
+            StoreData storeData = WeaponInStore(notOwnedWeapons[i].id);
+            if (storeData != null)
+            {
+                notOwnedWeapons[i].price = storeData.price;
+                weapons.Add(notOwnedWeapons[i]);
+            }
+        }
 
         ListsReadyEvent();
     }
@@ -145,6 +154,18 @@ public class Store
         return null;
     }
 
+    private StoreData WeaponInStore(string id)
+    {
+        for (int i = 0; i < weaponsStoreData.Count; i++)
+        {
+            if (id == weaponsStoreData[i].id)
+            {
+                return weaponsStoreData[i];
+            }
+        }
+        return null;
+    }
+
     public void RemoveRune(string id)
     {
         for(int i=0; i<runes.Count; i++)
@@ -164,6 +185,18 @@ public class Store
             if (characters[i].id == id)
             {
                 characters.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
+    public void RemoveWeapon(string id)
+    {
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            if (weapons[i].id == id)
+            {
+                weapons.RemoveAt(i);
                 return;
             }
         }

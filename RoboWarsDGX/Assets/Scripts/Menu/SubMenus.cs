@@ -9,6 +9,7 @@ public class SubMenus : MonoBehaviour
         if(choosedMenu == subMenu)
         {
             choosedMenu.SetActive(false);
+            choosedMenu = null;
             return;
         }
         else if(choosedMenu != null)

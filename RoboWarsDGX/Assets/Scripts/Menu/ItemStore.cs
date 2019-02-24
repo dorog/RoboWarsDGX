@@ -19,15 +19,21 @@ public class ItemStore : MonoBehaviour
     [SerializeField]
     private StoreCharacter storeCharacter;
 
-    private List<StoreRune> storeRunes = new List<StoreRune>();
+    [Header("Weapon data:")]
+    [SerializeField]
+    private StoreWeapon storeWeapon;
 
+    private List<StoreRune> storeRunes = new List<StoreRune>();
     private List<StoreCharacter> storeCharacters = new List<StoreCharacter>();
+    private List<StoreWeapon> storeWeapons = new List<StoreWeapon>();
 
     public Transform Parent { get => parent; set => parent = value; }
     public GameObject NoItemText { get => noItemText; set => noItemText = value; }
     public StoreType Type { get => type; set => type = value; }
+
     public StoreRune StoreRune { get => storeRune; set => storeRune = value; }
     public StoreCharacter StoreCharacter { get => storeCharacter; set => storeCharacter = value; }
+    public StoreWeapon StoreWeapon { get => storeWeapon; set => storeWeapon = value; }
 
     void Start()
     {
@@ -38,6 +44,9 @@ public class ItemStore : MonoBehaviour
                 break;
             case StoreType.CharacterStore:
                 AccountInfo.Instance.SuccessCharacterBuyingEvent += CharacterStoreRefresh;
+                break;
+            case StoreType.WeaponStore:
+                AccountInfo.Instance.SuccessWeaponBuyingEvent += WeaponStoreRefresh;
                 break;
             default:
                 break;
@@ -54,6 +63,9 @@ public class ItemStore : MonoBehaviour
                 break;
             case StoreType.CharacterStore:
                 CharacterStoreInit();
+                break;
+            case StoreType.WeaponStore:
+                WeaponStoreInit();
                 break;
             default:
                 break;
@@ -105,6 +117,28 @@ public class ItemStore : MonoBehaviour
         }
     }
 
+    private void WeaponStoreInit()
+    {
+        List<Weapon> weapons = AccountInfo.Instance.GetStoreWeapons();
+        if (weapons.Count == 0)
+        {
+            NoItemText.SetActive(true);
+            return;
+        }
+        else
+        {
+            NoItemText.SetActive(false);
+        }
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            GameObject storeWeaponGO = Instantiate(StoreWeapon.gameObject, Parent);
+            StoreWeapon newStoreWeapon = storeWeaponGO.GetComponent<StoreWeapon>();
+            storeWeapons.Add(newStoreWeapon);
+            newStoreWeapon.Weapon = weapons[i];
+            newStoreWeapon.InitWeapon();
+        }
+    }
+
     private void RuneStoreRefresh(string id)
     {
         for(int i=0; i<storeRunes.Count; i++)
@@ -118,6 +152,15 @@ public class ItemStore : MonoBehaviour
         for (int i = 0; i < storeCharacters.Count; i++)
         {
             storeCharacters[i].Refresh(id);
+        }
+    }
+
+
+    private void WeaponStoreRefresh(string id)
+    {
+        for (int i = 0; i < storeWeapons.Count; i++)
+        {
+            storeWeapons[i].Refresh(id);
         }
     }
 }

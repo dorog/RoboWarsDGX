@@ -3,7 +3,7 @@ public class SharedData
 {
     public static readonly string runeVirtualCurrency = "XP";
     public static readonly string characterVirtualCurrency = "GD";
-    public static readonly string weaponVirtualCurrency = "IR";
+    public static readonly string weaponVirtualCurrency = "FE";
 
     public static readonly string loginScene = "Login";
     public static readonly string menuScene = "Menu";

@@ -48,7 +48,9 @@ public class Catalog
             }
             else if (result.Catalog[i].ItemClass == SharedData.weaponClass)
             {
-                Debug.Log("Dont implemented!");
+                Weapon weapon = Weapon.CatalogItemToWeapon(result.Catalog[i]);
+                weapons.Add(weapon);
+                notOwnedWeapons.Add(weapon);
             }
         }
 
@@ -103,6 +105,31 @@ public class Catalog
             if (notOwnedCharacters[i].id == id)
             {
                 notOwnedCharacters.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
+
+    public Weapon GetWeaponById(string id)
+    {
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            if (weapons[i].id == id)
+            {
+                return weapons[i];
+            }
+        }
+        return null;
+    }
+
+    public void RegistWeaponForOwn(string id)
+    {
+        for (int i = 0; i < notOwnedWeapons.Count; i++)
+        {
+            if (notOwnedWeapons[i].id == id)
+            {
+                notOwnedWeapons.RemoveAt(i);
                 return;
             }
         }

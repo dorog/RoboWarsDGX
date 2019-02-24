@@ -9,19 +9,23 @@ public class ItemMenu : MonoBehaviour
     [SerializeField]
     private Transform parent;
     [SerializeField]
-    private MenuType menuType = MenuType.Rune;
+    private ItemType menuType = ItemType.Rune;
     [Header("Store data")]
     [SerializeField]
     private StoreRune storeRune;
     [Header("Character data")]
     [SerializeField]
     private StoreCharacter storeCharacter;
+    [Header("Weapon data")]
+    [SerializeField]
+    private StoreWeapon storeWeapon;
 
     public GameObject NoItemText { get => noItemText; set => noItemText = value; }
     public Transform Parent { get => parent; set => parent = value; }
-    private MenuType MenuType1 { get => menuType; set => menuType = value; }
+    private ItemType MenuType1 { get => menuType; set => menuType = value; }
     public StoreRune StoreRune { get => storeRune; set => storeRune = value; }
     public StoreCharacter StoreCharacter { get => storeCharacter; set => storeCharacter = value; }
+    public StoreWeapon StoreWeapon { get => storeWeapon; set => storeWeapon = value; }
 
     public void Init()
     {
@@ -35,11 +39,14 @@ public class ItemMenu : MonoBehaviour
 
         switch (MenuType1)
         {
-            case MenuType.Rune:
+            case ItemType.Rune:
                 InitRuneMenu();
                 break;
-            case MenuType.Character:
+            case ItemType.Character:
                 InitCharacterMenu();
+                break;
+            case ItemType.Weapon:
+                InitWeaponMenu();
                 break;
             default:
                 break;
@@ -90,13 +97,30 @@ public class ItemMenu : MonoBehaviour
         }
     }
 
+    private void InitWeaponMenu()
+    {
+        List<Weapon> weapons = AccountInfo.Instance.ownWeapons;
+        if (weapons.Count == 0)
+        {
+            NoItemText.SetActive(true);
+            return;
+        }
+        else
+        {
+            NoItemText.SetActive(false);
+        }
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            GameObject storeWeaponGO = Instantiate(StoreWeapon.gameObject, Parent);
+            StoreWeapon newStoreWeapon = storeWeaponGO.GetComponent<StoreWeapon>();
+            newStoreWeapon.Weapon = weapons[i];
+            newStoreWeapon.storeWeapon = false;
+            newStoreWeapon.InitWeapon();
+        }
+    }
+
     private void OnEnable()
     {
         Init();
-    }
-
-    private enum MenuType
-    {
-        Rune, Character, Weapon
     }
 }

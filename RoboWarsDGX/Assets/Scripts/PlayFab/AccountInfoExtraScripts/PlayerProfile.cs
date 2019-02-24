@@ -6,6 +6,8 @@ public class PlayerProfile
     public static int choosedCharacterSlot = 0;
     public static int gold = 0;
     public static int experience = 0;
+    public static int iron = 0;
+
     public static ProfileStats profileStats;
     //
 
@@ -16,13 +18,20 @@ public class PlayerProfile
             int amount = 0;
             if(info.UserVirtualCurrency != null)
             {
+                amount = 0;
                 if (info.UserVirtualCurrency.TryGetValue(SharedData.characterVirtualCurrency, out amount))
                 {
                     gold = amount;
                 }
+                amount = 0;
                 if (info.UserVirtualCurrency.TryGetValue(SharedData.runeVirtualCurrency, out amount))
                 {
                     experience = amount;
+                }
+                amount = 0;
+                if (info.UserVirtualCurrency.TryGetValue(SharedData.weaponVirtualCurrency, out amount))
+                {
+                    iron = amount;
                 }
             }
 
