@@ -43889,6 +43889,8 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 818769842}
   - {fileID: 920247958}
+  alex: {fileID: 11400000, guid: 276a0ce9d431e32439d363d4a3b33d5e, type: 2}
+  amy: {fileID: 11400000, guid: 27cc616eab0a5c247b202e73bf4537fe, type: 2}
 --- !u!4 &1176208070
 Transform:
   m_ObjectHideFlags: 0

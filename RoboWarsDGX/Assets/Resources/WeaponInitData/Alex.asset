@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e5e554ca3d1174c8761cd7058affe9, type: 3}
+  m_Name: Alex
+  m_EditorClassIdentifier: 
+  ak47_position: {x: -0.053, y: 0.184, z: 0.02}
+  ak47_rotation: {x: 168.935, y: 5.160995, z: 97.63499}
+  ak47_gunhold_position: {x: -0.1594, y: -0.054, z: -0.0593}
+  Shotgun_870_position: {x: -0.0447, y: 0.1834, z: 0.0274}
+  Shotgun_870_rotation: {x: 12.962, y: 187.883, z: -83.366}
+  Shotgun_870_gunhold_position: {x: -0.2634, y: -0.0335, z: -0.0397}
+  L96_Sniper_Rifle_position: {x: -0.047, y: 0.17, z: 0.011}
+  L96_Sniper_Rifle_rotation: {x: 167.779, y: -12.83499, z: 102.864}
+  L96_Sniper_Rifle_gunhold_position: {x: -0.238, y: -0.057, z: -0.028}
