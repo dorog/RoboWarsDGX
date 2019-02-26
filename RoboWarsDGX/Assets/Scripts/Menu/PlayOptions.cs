@@ -11,12 +11,10 @@ public class PlayOptions : MonoBehaviour
     [Header ("Join menu")]
     public GameObject joinMenu;
     public Button joinButton;
-    public Image joinButtonImage;
 
     [Header("Join menu")]
     public GameObject createMenu;
     public Button createButton;
-    public Image createButtonImage;
 
     void Start()
     {

@@ -32,4 +32,43 @@ public class SharedData
         }
         return splited;
     }
+
+    public static string desertMap = "Desert";
+
+    public const string deathMatch = "Death Match";
+    public const string teamDeathMatch = "Team Death Match";
+    public const string battleRoyal = "Battle Royal";
+
+    public static GameMode GetGameMode(string gameMode)
+    {
+        switch (gameMode)
+        {
+            case deathMatch:
+                return GameMode.DeathMatch;
+            case teamDeathMatch:
+                return GameMode.TeamDeathMatch;
+            case battleRoyal:
+                return GameMode.BattleRoyal;
+            default:
+                return GameMode.DeathMatch;
+        }
+    }
+
+    public static string GetGameModeString(GameMode gameMode)
+    {
+        switch (gameMode)
+        {
+            case GameMode.DeathMatch:
+                return deathMatch;
+            case GameMode.TeamDeathMatch:
+                return teamDeathMatch;
+            case GameMode.BattleRoyal:
+                return battleRoyal;
+            default:
+                return deathMatch;
+        }
+    }
+
+    public static string GameModeKey = "GameMode";
+    public static string MapKey = "Map";
 }

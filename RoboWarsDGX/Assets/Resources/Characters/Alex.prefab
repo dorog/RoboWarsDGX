@@ -4870,7 +4870,6 @@ MonoBehaviour:
   - {fileID: 880}
   - {fileID: 881}
   - {fileID: 949}
-  weaponsData: {fileID: 0}
 --- !u!136 &4145
 CapsuleCollider:
   m_ObjectHideFlags: 0
