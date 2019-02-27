@@ -38,6 +38,7 @@ public class SharedData
     public const string deathMatch = "Death Match";
     public const string teamDeathMatch = "Team Death Match";
     public const string battleRoyal = "Battle Royal";
+    public const string searchAndDestroy = "Search and Destroy";
 
     public static GameMode GetGameMode(string gameMode)
     {
@@ -49,6 +50,8 @@ public class SharedData
                 return GameMode.TeamDeathMatch;
             case battleRoyal:
                 return GameMode.BattleRoyal;
+            case searchAndDestroy:
+                return GameMode.SearchAndDestroy;
             default:
                 return GameMode.DeathMatch;
         }

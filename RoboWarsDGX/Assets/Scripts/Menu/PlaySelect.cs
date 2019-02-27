@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class PlaySelect : MonoBehaviour
 {
@@ -6,12 +8,35 @@ public class PlaySelect : MonoBehaviour
     public GameObject weapons;
     public GameObject runes;
 
-    public DeathMatchManager manager;
+    public GameModeManager manager;
 
     private void Start()
     {
+        Room currentRoom = PhotonNetwork.CurrentRoom;
+        GameMode gameMode = SharedData.GetGameMode((string)currentRoom.CustomProperties[SharedData.GameModeKey]); //Refactor?
+
         ResetSelecData();
-        ShowFirstScenario();
+        StartSelection(gameMode);
+
+        ShowCharacterSelect();
+    }
+
+    private void StartSelection(GameMode gameMode)
+    {
+        if(gameMode == GameMode.DeathMatch || gameMode == GameMode.BattleRoyal)
+        {
+            ShowCharacterSelect();
+        }
+        else
+        {
+            ShowTeamSelect();
+        }
+    }
+
+    private void ShowTeamSelect()
+    {
+        Debug.Log("TeamSelect call");
+        //TODO: team select, show character select with skinned character or character select then team select and i dont have to show with skin? doesnt matter i have to spawn with color anyway
     }
 
     private void ResetSelecData()
@@ -22,7 +47,7 @@ public class PlaySelect : MonoBehaviour
         SelectData.selectedItemWeapon = null;
     }
 
-    private void ShowFirstScenario()
+    private void ShowCharacterSelect()
     {
         characters.SetActive(true);
         weapons.SetActive(false);

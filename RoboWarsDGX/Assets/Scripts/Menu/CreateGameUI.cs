@@ -14,7 +14,7 @@ public class CreateGameUI : MonoBehaviour
     public Dropdown mapDP;
     public Button createButton;
 
-    private string[] gameModes = { SharedData.deathMatch, SharedData.teamDeathMatch, SharedData.battleRoyal };
+    private string[] gameModes = { SharedData.deathMatch, SharedData.teamDeathMatch, SharedData.battleRoyal, SharedData.searchAndDestroy };
 
     private void Start()
     {
