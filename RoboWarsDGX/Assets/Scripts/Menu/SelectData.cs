@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections;
+
 public class SelectData
 {
     public static Character selectedCharacter = null;
@@ -6,4 +7,6 @@ public class SelectData
 
     public static Weapon selectedWeapon = null;
     public static SelectItemWeapon selectedItemWeapon = null;
+
+    public static Hashtable deathHistory;
 }

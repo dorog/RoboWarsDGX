@@ -1,6 +1,8 @@
 ﻿using PlayFab.ClientModels;
 using UnityEngine;
+using System;
 
+[Serializable]
 public class Character
 {
     public string id;

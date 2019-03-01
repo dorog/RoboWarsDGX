@@ -8,8 +8,6 @@ public class PlaySelect : MonoBehaviour
     public GameObject weapons;
     public GameObject runes;
 
-    public GameModeManager manager;
-
     private void Start()
     {
         Room currentRoom = PhotonNetwork.CurrentRoom;
@@ -62,7 +60,7 @@ public class PlaySelect : MonoBehaviour
 
     public void StartGame()
     {
-        manager.SpawnPlayer();
+        GameModeManager.Instance.SpawnPlayer();
         gameObject.SetActive(false);
     }
 }

@@ -9,9 +9,10 @@ public class Weapon
     public Sprite icon;
     public float dmg;
     public float firingRate;
+    public float distance;
     public float ammo;
     public float ammoFull;
-    public string type;
+    public WeaponType type;
     public GameObject prefab;
     public GameObject previewPrefab;
 
@@ -33,10 +34,24 @@ public class Weapon
         weapon.icon = Resources.Load<Sprite>("WeaponIcons/" + splited[1]);
         weapon.dmg = float.Parse(splited[3]);
         weapon.firingRate = float.Parse(splited[5]);
-        weapon.ammo = float.Parse(splited[7]);
-        weapon.ammoFull = float.Parse(splited[9]);
-        weapon.prefab = Resources.Load<GameObject>("Weapons/" + splited[11]);
-        weapon.previewPrefab = Resources.Load<GameObject>("WeaponsPreview/" + splited[11]);
-        weapon.type = splited[13];
+        weapon.distance = float.Parse(splited[7]);
+        weapon.ammo = float.Parse(splited[9]);
+        weapon.ammoFull = float.Parse(splited[11]);
+        weapon.prefab = Resources.Load<GameObject>("Weapons/" + splited[13]);
+        weapon.previewPrefab = Resources.Load<GameObject>("WeaponsPreview/" + splited[13]);
+        weapon.type = StringToWeaponType(splited[15]);
+    }
+
+    private static WeaponType StringToWeaponType(string weaponType)
+    {
+        switch (weaponType)
+        {
+            case "Sniper":
+                return WeaponType.Sniper;
+            case "SMG":
+                return WeaponType.SMG;
+            default:
+                return WeaponType.Shotgun;
+        }
     }
 }

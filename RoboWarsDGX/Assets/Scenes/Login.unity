@@ -3029,6 +3029,7 @@ MonoBehaviour:
     UserDataVersion: 0
     UserInventory: []
     UserReadOnlyDataVersion: 0
+  ownCharacters: []
 --- !u!1 &1731597650
 GameObject:
   m_ObjectHideFlags: 0

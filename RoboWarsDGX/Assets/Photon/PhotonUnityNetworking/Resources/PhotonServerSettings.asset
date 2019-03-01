@@ -35,5 +35,13 @@ MonoBehaviour:
   - SetWeapon
   - dsfa
   - AddWeapon
+  - Shot
+  - SpawnBullet
+  - SpawnBulletRPC
+  - SpawnInstantBulletRPC
+  - DestroyPlayer
+  - NewPlayer
+  - Killed
+  - KilledRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1

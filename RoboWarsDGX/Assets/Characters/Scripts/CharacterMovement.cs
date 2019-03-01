@@ -1,19 +1,27 @@
 ﻿using UnityEngine;
-using Photon;
 using Photon.Pun;
 
 public class CharacterMovement : MonoBehaviourPun
 {
-
-    public float speed = 10.0f;
-    public float jumpPower = 8.0f;
-    public float gravity = 20.0f;
+    public  CharacterStats characterStat;
 
     public Animator firstPersonAnimator;
     public Animator thirdPersonAnimator;
 
     public Rigidbody body;
+
+    private float speed = 10.0f;
+    private float jumpPower = 8.0f;
     private bool grounded = false;
+
+    private void Start()
+    {
+        if (photonView.IsMine)
+        {
+            speed = characterStat.GetMovementSpeed();
+            jumpPower = characterStat.GetJumpPower();
+        }
+    }
 
     private void FixedUpdate()
     {

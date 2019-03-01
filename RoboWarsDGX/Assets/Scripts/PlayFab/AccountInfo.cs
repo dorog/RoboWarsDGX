@@ -174,7 +174,8 @@ public class AccountInfo : MonoBehaviour
             TitleId = PlayFabSettings.TitleId,
             Email = email,
             Username = username,
-            Password = password
+            Password = password,
+            DisplayName = username
         };
 
         PlayFabClientAPI.RegisterPlayFabUser(request, SignUpSuccess, SignUpError);

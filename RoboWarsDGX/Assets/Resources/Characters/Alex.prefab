@@ -646,7 +646,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 150
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -4726,11 +4726,13 @@ GameObject:
   - component: {fileID: 4446}
   - component: {fileID: 4456}
   - component: {fileID: 4080}
+  - component: {fileID: 4558791663097617159}
   - component: {fileID: 4450}
   - component: {fileID: 4145}
   - component: {fileID: 4454}
   - component: {fileID: 4448}
-  m_Layer: 0
+  - component: {fileID: 8963005959106975645}
+  m_Layer: 12
   m_Name: Alex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4844,6 +4846,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &4558791663097617159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13cb05ae21a95f6458cb8858c34e38ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4896,9 +4910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e161c625881fbb4abeef68ddfed9628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpPower: 8
-  gravity: 20
+  characterStat: {fileID: 4558791663097617159}
   firstPersonAnimator: {fileID: 4121}
   thirdPersonAnimator: {fileID: 4125}
   body: {fileID: 4080}
@@ -4916,6 +4928,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstPerson: {fileID: 4121}
   thirdPerson: {fileID: 4125}
+  firePosition: {fileID: 0}
+  shotGunFire: ShotgunFire
+  smgGunFire: SmgFire
+  sniperGunFire: SniperFire
   firstPersonSpine: {fileID: 2802}
   firstPersonSpine1: {fileID: 2803}
   firstPersonSpine2: {fileID: 2800}
@@ -4923,6 +4939,19 @@ MonoBehaviour:
   maxRotation: 15
   minRotation: -20
   firstPersonLookMultiply: 3
+--- !u!114 &8963005959106975645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25bfe9051e339147b23a738545a6fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterStat: {fileID: 4558791663097617159}
 --- !u!1 &1291
 GameObject:
   m_ObjectHideFlags: 0
@@ -5354,21 +5383,27 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: jump
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Vertical
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Horizontal
   - Type: 4
-    SynchronizeType: 0
-    Name: Firing
+    SynchronizeType: 1
+    Name: SniperFire
+  - Type: 4
+    SynchronizeType: 1
+    Name: SmgFire
+  - Type: 4
+    SynchronizeType: 1
+    Name: ShotgunFire
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 1
 --- !u!114 &4346
 MonoBehaviour:

@@ -5,6 +5,20 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 {
     public Animator firstPerson;
     public Animator thirdPerson;
+    public Transform firePosition;
+    private WeaponType weaponType;
+
+    public CharacterStats characterStat;
+    private float dmg = 0;
+    private float distance = 0;
+
+    private delegate void Fire();
+    private event Fire FireEvent;
+
+    [Header("Firing Animation Setting")]
+    public string shotGunFire = "ShotgunFire";
+    public string smgGunFire = "SmgFire";
+    public string sniperGunFire = "SniperFire";
 
     [Header("First person spines")]
     public Transform firstPersonSpine;
@@ -27,6 +41,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public float firstPersonLookMultiply = 3f;
 
     private float cloneX = 0f;
+    private string displayName;
 
     void Start()
     {
@@ -34,24 +49,17 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         thirdPersonSpine = thirdPerson.GetBoneTransform(HumanBodyBones.Spine);
         thirdPersonSpine1 = thirdPerson.GetBoneTransform(HumanBodyBones.Chest);
         thirdPersonSpine2 = thirdPerson.GetBoneTransform(HumanBodyBones.UpperChest);
-
-        //Cursor.lockState = CursorLockMode.Locked;
+        if (photonView.IsMine)
+        {
+            displayName = AccountInfo.Instance.Info.PlayerProfile.DisplayName;
+        }
     }
 
     void Update()
     {
         if (photonView.IsMine)
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                //firstPerson.SetBool("Firing", true);
-                thirdPerson.SetBool("Firing", true);
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                //firstPerson.SetBool("Firing", false);
-                thirdPerson.SetBool("Firing", false);
-            }
+            FireEvent();
         }
     }
 
@@ -107,5 +115,65 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         {
             cloneX = (float)stream.ReceiveNext();
         }
+    }
+
+    public void SetWeaponType(WeaponType type)
+    {
+        weaponType = type;
+        switch (type)
+        {
+            case WeaponType.Shotgun:
+                FireEvent += ShotgunFire;
+                break;
+            case WeaponType.SMG:
+                FireEvent += SmgFire;
+                break;
+            case WeaponType.Sniper:
+                FireEvent += SniperFire;
+                break;
+        }
+
+        if (photonView.IsMine)
+        {
+            dmg = characterStat.GetDmg(type);
+            distance = characterStat.GetWeaponDistance();
+        }
+    }
+
+    private void ShotgunFire()
+    {
+        Debug.Log("ShotgunFire");
+    }
+
+    private void SmgFire()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            //firstPerson.SetBool("Firing", true);
+            thirdPerson.SetBool(smgGunFire, true);
+            GameModeManager.Instance.SpawnInstantBulletRayCast(firePosition.position, firePosition.forward, dmg, distance, displayName);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            //firstPerson.SetBool("Firing", false);
+            thirdPerson.SetBool(smgGunFire, false);
+        }
+    }
+
+    private void SniperFire()
+    {
+        Debug.Log("SniperFire");
+        /*
+        if (Input.GetMouseButtonDown(0))
+        {
+            //firstPerson.SetBool("Firing", true);
+            thirdPerson.SetBool(smgGunFire, true);
+            GameModeManager.Instance.SpawnBullet(firePosition.position, firePosition.forward);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            //firstPerson.SetBool("Firing", false);
+            thirdPerson.SetBool(smgGunFire, false);
+        }*/
     }
 }
