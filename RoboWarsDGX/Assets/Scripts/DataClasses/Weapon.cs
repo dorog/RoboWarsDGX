@@ -10,8 +10,8 @@ public class Weapon
     public float dmg;
     public float firingRate;
     public float distance;
-    public float ammo;
-    public float ammoFull;
+    public int ammo;
+    public int extraAmmo;
     public WeaponType type;
     public GameObject prefab;
     public GameObject previewPrefab;
@@ -35,8 +35,8 @@ public class Weapon
         weapon.dmg = float.Parse(splited[3]);
         weapon.firingRate = float.Parse(splited[5]);
         weapon.distance = float.Parse(splited[7]);
-        weapon.ammo = float.Parse(splited[9]);
-        weapon.ammoFull = float.Parse(splited[11]);
+        weapon.ammo = int.Parse(splited[9]);
+        weapon.extraAmmo = int.Parse(splited[11]);
         weapon.prefab = Resources.Load<GameObject>("Weapons/" + splited[13]);
         weapon.previewPrefab = Resources.Load<GameObject>("WeaponsPreview/" + splited[13]);
         weapon.type = StringToWeaponType(splited[15]);

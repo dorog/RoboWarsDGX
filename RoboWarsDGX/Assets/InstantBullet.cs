@@ -12,14 +12,16 @@ public class InstantBullet : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, maxDistance, layerMask))
         {
-            CharacterStates characterStates = hit.collider.gameObject.GetComponent<CharacterStates>();
+            BoneColliderHit boneColliderHit = hit.collider.gameObject.GetComponent<BoneColliderHit>();
+            Debug.Log(hit.collider.gameObject.name);
             // hit.point: Spawn blood
-            if(characterStates == null)
+            if(boneColliderHit == null)
             {
+                Debug.Log("Null");
                 return;
             }
 
-            characterStates.GotShot(dmg, playerId);
+            boneColliderHit.GotShot(dmg, playerId);
         }
 
         Destroy(gameObject);

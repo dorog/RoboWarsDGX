@@ -1,10 +1,12 @@
 ﻿using Photon.Pun;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterStates : MonoBehaviourPun
 {
     public CharacterStats characterStat;
+    public Text hpText;
 
     private float health;
     private float armor;
@@ -17,18 +19,7 @@ public class CharacterStates : MonoBehaviourPun
         {
             health = characterStat.GetHP();
             armor = characterStat.GetArmor();
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            dmgHistory.Clear();
-
-            float dmg = 60f;
-            dmgHistory.Add("test1", dmg);
-            Die("test1");
+            hpText.text = "" + health;
         }
     }
 
@@ -36,20 +27,42 @@ public class CharacterStates : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            health -= dmg;
-            if (health <= 0)
+            Debug.Log("Got dmg: " + health + " " +dmg + " " + (health-dmg));
+            if (health-dmg <= 0)
             {
+                AddDmg(health, playerid);
                 Die(playerid);
-            }
-
-            if (dmgHistory.Contains(playerid))
-            {
-                dmgHistory[playerid] = (float)dmgHistory[playerid] + dmg;
             }
             else
             {
-                dmgHistory.Add(playerid, dmg);
+                health -= dmg;
+                AddDmg(dmg, playerid);
+
+                hpText.text = "" + health;
             }
+        }
+    }
+
+    public void HeadShot(string playerid)
+    {
+        if (photonView.IsMine)
+        {
+            Debug.Log("Headshot");
+            AddDmg(health, playerid);
+            Die(playerid);
+        }
+    }
+
+    private void AddDmg(float dmg, string playerid)
+    {
+
+        if (dmgHistory.Contains(playerid))
+        {
+            dmgHistory[playerid] = (float)dmgHistory[playerid] + dmg;
+        }
+        else
+        {
+            dmgHistory.Add(playerid, dmg);
         }
     }
 

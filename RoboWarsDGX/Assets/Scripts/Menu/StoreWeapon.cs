@@ -60,7 +60,7 @@ public class StoreWeapon : MonoBehaviour
             Dmg.text = "" + Weapon.dmg;
             FiringRate.text = "" + Weapon.firingRate + " shot/s";
             Ammo.text = "" + Weapon.ammo;
-            AmmoFull.text = "" + Weapon.ammoFull;
+            AmmoFull.text = "" + Weapon.extraAmmo;
             Type.text = "" + Weapon.type;
 
             if (storeWeapon)

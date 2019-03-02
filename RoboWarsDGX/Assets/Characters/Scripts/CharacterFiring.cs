@@ -11,6 +11,11 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public CharacterStats characterStat;
     private float dmg = 0;
     private float distance = 0;
+    private float rapidFireTime;
+    private float rapidTime;
+    private bool inFire = false;
+    private int ammo;
+    private int extraAmmo;
 
     private delegate void Fire();
     private event Fire FireEvent;
@@ -93,6 +98,14 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             firstPersonSpine1.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
             firstPersonSpine2.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
 
+            /*thirdPersonSpine.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
+            thirdPersonSpine1.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
+            thirdPersonSpine2.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);*/
+
+            thirdPersonSpine.Rotate(new Vector3(thirdPersonAimX, 0, 0));
+            thirdPersonSpine1.Rotate(new Vector3(thirdPersonAimX, 0, 0));
+            thirdPersonSpine2.Rotate(new Vector3(thirdPersonAimX, 0, 0));
+
             transform.rotation = Quaternion.Euler(0, aimY, 0);
 
         }
@@ -137,6 +150,9 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         {
             dmg = characterStat.GetDmg(type);
             distance = characterStat.GetWeaponDistance();
+            rapidFireTime = characterStat.GetRapidTime();
+            ammo = characterStat.GetAmmo();
+            extraAmmo = characterStat.GetExtraAmmo();
         }
     }
 
@@ -147,16 +163,43 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
     private void SmgFire()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
-            //firstPerson.SetBool("Firing", true);
-            thirdPerson.SetBool(smgGunFire, true);
-            GameModeManager.Instance.SpawnInstantBulletRayCast(firePosition.position, firePosition.forward, dmg, distance, displayName);
+            if(ammo == 0)
+            {
+                return;
+            }
+            if (!inFire)
+            {
+                rapidTime = rapidFireTime;
+                //firstPerson.SetBool("Firing", true);
+                thirdPerson.SetBool(smgGunFire, true);
+                inFire = true;
+
+                GameModeManager.Instance.SpawnInstantBulletRayCast(firePosition.position, firePosition.forward, dmg, distance, displayName);
+                ammo--;
+            }
+            else
+            {
+                float time = rapidTime - Time.deltaTime;
+                if (time <= 0)
+                {
+                    rapidTime = rapidFireTime;
+                    GameModeManager.Instance.SpawnInstantBulletRayCast(firePosition.position, firePosition.forward, dmg, distance, displayName);
+                    ammo--;
+                }
+                else
+                {
+                    rapidTime = time;
+                }
+            }
+
         }
         else if (Input.GetMouseButtonUp(0))
         {
             //firstPerson.SetBool("Firing", false);
             thirdPerson.SetBool(smgGunFire, false);
+            inFire = false;
         }
     }
 

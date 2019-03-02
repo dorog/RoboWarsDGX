@@ -18,12 +18,12 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - FullBody
+  - 
   - Player
   - Terrain
   - PlayerRoot
-  - 
-  - 
+  - BoneCollider
+  - NotRenderInIsMine
   - 
   - 
   - 

@@ -13,7 +13,7 @@ public class CharacterInit : MonoBehaviourPun
         {
             foreach (GameObject bodyPart in fullBody)
             {
-                bodyPart.SetActive(false);
+                bodyPart.layer = LayerMask.NameToLayer(SharedData.NotRenderInIsMine);
             }
             foreach (GameObject bodyPart in firsPerson)
             {

@@ -48,4 +48,4 @@ MonoBehaviour:
   playerId: Default Amcsy
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 11571

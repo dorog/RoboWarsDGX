@@ -26,7 +26,7 @@ public class SelectableWeapon : MonoBehaviour
         dmg.text = "" + SelectData.selectedWeapon.dmg;
         firingRate.text = "" + SelectData.selectedWeapon.firingRate;
         ammo.text = "" + SelectData.selectedWeapon.ammo;
-        ammoFull.text = "" + SelectData.selectedWeapon.ammoFull;
+        ammoFull.text = "" + SelectData.selectedWeapon.extraAmmo;
         type.text = "" + SelectData.selectedWeapon.type;
     }
 }

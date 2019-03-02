@@ -55,16 +55,23 @@ public class CharacterStats : MonoBehaviourPun
 
     public float GetDmg(WeaponType weaponType)
     {
-        switch (weaponType)
+        if (photonView.IsMine)
         {
-            case WeaponType.Shotgun:
-                return characterStat.shotGunDmg + weaponStat.dmg;
-            case WeaponType.SMG:
-                return characterStat.smgDmg + weaponStat.dmg;
-            case WeaponType.Sniper:
-                return characterStat.sniperDmg + weaponStat.dmg;
-            default:
-                return 0;
+            switch (weaponType)
+            {
+                case WeaponType.Shotgun:
+                    return characterStat.shotGunDmg + weaponStat.dmg;
+                case WeaponType.SMG:
+                    return characterStat.smgDmg + weaponStat.dmg;
+                case WeaponType.Sniper:
+                    return characterStat.sniperDmg + weaponStat.dmg;
+                default:
+                    return 0;
+            }
+        }
+        else
+        {
+            return 1;
         }
     }
 
@@ -72,5 +79,48 @@ public class CharacterStats : MonoBehaviourPun
     public float GetWeaponDistance()
     {
         return weaponStat.distance;
+    }
+
+    public float GetRapidTime()
+    {
+        return 1 / weaponStat.firingRate;
+    }
+
+    public int GetAmmo()
+    {
+        return weaponStat.ammo;
+    }
+
+    public int GetExtraAmmo()
+    {
+        return weaponStat.extraAmmo;
+    }
+
+    public float GetBoneIntensity(Bones bone)
+    {
+        if (photonView.IsMine)
+        {
+            switch (bone)
+            {
+                case Bones.Chest:
+                    return characterStat.chestIntensity;
+                case Bones.DownArm:
+                    return characterStat.downArmIntensity;
+                case Bones.DownLeg:
+                    return characterStat.downLegIntensity;
+                case Bones.Foot:
+                    return characterStat.footIntensity;
+                case Bones.Spine:
+                    return characterStat.spineIntensity;
+                case Bones.UpArm:
+                    return characterStat.upArmIntensity;
+                default:
+                    return characterStat.upLegIntensity;
+            }
+        }
+        else
+        {
+            return 1;
+        }
     }
 }
