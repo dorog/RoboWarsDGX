@@ -43,5 +43,8 @@ MonoBehaviour:
   - NewPlayer
   - Killed
   - KilledRPC
+  - GotShotRPC
+  - HeadShotRPC
+  - SimpleShotRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1

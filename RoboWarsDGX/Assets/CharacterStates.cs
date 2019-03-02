@@ -23,31 +23,43 @@ public class CharacterStates : MonoBehaviourPun
         }
     }
 
-    public void GotShot(float dmg, string playerid)
+    public void GotShot(float dmg, string playerid, Bones bone)
+    {
+        if(bone == Bones.Head)
+        {
+            photonView.RPC("HeadShotRPC", RpcTarget.All, playerid);
+        }
+        else
+        {
+            photonView.RPC("SimpleShotRPC", RpcTarget.All, dmg, playerid, (int)bone);
+        }
+    }
+
+    [PunRPC]
+    private void SimpleShotRPC(float dmg, string playerid, int bone)
     {
         if (photonView.IsMine)
         {
-            Debug.Log("Got dmg: " + health + " " +dmg + " " + (health-dmg));
-            if (health-dmg <= 0)
+            float realDmg = characterStat.GetBoneIntensity((Bones)bone) * dmg;
+            if (health - realDmg <= 0)
             {
                 AddDmg(health, playerid);
                 Die(playerid);
             }
             else
             {
-                health -= dmg;
-                AddDmg(dmg, playerid);
-
+                health -= realDmg;
+                AddDmg(realDmg, playerid);
                 hpText.text = "" + health;
             }
         }
     }
 
-    public void HeadShot(string playerid)
+    [PunRPC]
+    private void HeadShotRPC(string playerid)
     {
         if (photonView.IsMine)
         {
-            Debug.Log("Headshot");
             AddDmg(health, playerid);
             Die(playerid);
         }

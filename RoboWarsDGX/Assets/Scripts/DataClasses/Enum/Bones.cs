@@ -1,5 +1,5 @@
 ﻿
 public enum Bones
 {
-    Foot, DownLeg, UpLeg, Spine, Chest, UpArm, DownArm
+    Foot, DownLeg, UpLeg, Spine, Chest, UpArm, DownArm, Head
 }

@@ -8,7 +8,7 @@ public class WeaponBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == target)
+        /*if(other.gameObject.tag == target)
         {
             CharacterStates state = other.gameObject.GetComponent<CharacterStates>();
 
@@ -18,6 +18,6 @@ public class WeaponBullet : MonoBehaviour
             }
             state.GotShot(dmg, playerId);
         }
-        Destroy(gameObject);
+        Destroy(gameObject);*/
     }
 }

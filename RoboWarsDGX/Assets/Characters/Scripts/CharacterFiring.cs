@@ -7,6 +7,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public Animator thirdPerson;
     public Transform firePosition;
     private WeaponType weaponType;
+    public LayerMask layerMask;
 
     public CharacterStats characterStat;
     private float dmg = 0;
@@ -176,7 +177,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
                 thirdPerson.SetBool(smgGunFire, true);
                 inFire = true;
 
-                GameModeManager.Instance.SpawnInstantBulletRayCast(firePosition.position, firePosition.forward, dmg, distance, displayName);
+                InstantFire(firePosition.position, firePosition.forward, dmg, distance, displayName);
                 ammo--;
             }
             else
@@ -185,7 +186,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
                 if (time <= 0)
                 {
                     rapidTime = rapidFireTime;
-                    GameModeManager.Instance.SpawnInstantBulletRayCast(firePosition.position, firePosition.forward, dmg, distance, displayName);
+
+                    InstantFire(firePosition.position, firePosition.forward, dmg, distance, displayName);
                     ammo--;
                 }
                 else
@@ -218,5 +220,22 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             //firstPerson.SetBool("Firing", false);
             thirdPerson.SetBool(smgGunFire, false);
         }*/
+    }
+
+    private void InstantFire(Vector3 position, Vector3 forward, float dmg, float distance, string playerid)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(position, forward, out hit, distance, layerMask))
+        {
+            BoneColliderHit boneColliderHit = hit.collider.gameObject.GetComponent<BoneColliderHit>();
+            // hit.point: Spawn blood
+            if (boneColliderHit == null)
+            {
+                Debug.Log("Null");
+                return;
+            }
+
+            boneColliderHit.GotShot(dmg, playerid);
+        }
     }
 }

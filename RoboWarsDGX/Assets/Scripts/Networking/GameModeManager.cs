@@ -5,9 +5,6 @@ using UnityEngine;
 public class GameModeManager: MonoBehaviourPun
 {
     public static GameModeManager Instance = null;
-    public WeaponBullet bullet;
-    public InstantBullet instantBullet;
-    public Transform bulletParent;
 
     public GameObject[] spawnPoints;
     public WeaponInitData alex;
@@ -101,41 +98,6 @@ public class GameModeManager: MonoBehaviourPun
         weaponPrefab.GunHoldTransform.localPosition = weaponInitData.GetGunHoldPosition(weaponName);
 
         ikWeapon.GunHold = weapon.transform.GetChild(0);
-    }
-
-    public void SpawnBullet(Vector3 position, Vector3 forward)
-    {
-        photonView.RPC("SpawnBulletRPC", RpcTarget.All, position, forward);
-    }
-
-    [PunRPC]
-    private void SpawnBulletRPC(Vector3 position, Vector3 forward, int viewId)
-    {
-        GameObject bulletGO = Instantiate(bullet.gameObject, position, Quaternion.identity, bulletParent);
-        Rigidbody bulletRigidbody = bulletGO.GetComponent<Rigidbody>();
-        bulletRigidbody.AddRelativeForce(forward * 715, ForceMode.Impulse);
-    }
-
-    public void SpawnInstantBulletRayCast(Vector3 position, Vector3 forward, float dmg, float distance, string id)
-    {
-        photonView.RPC("SpawnInstantBulletRPC", RpcTarget.All, position, forward, dmg, distance, id);
-    }
-
-    [PunRPC]
-    private void SpawnInstantBulletRPC(Vector3 position, Vector3 forward, float dmg, float distance, string id)
-    {
-        GameObject instantBulletGO = Instantiate(instantBullet.gameObject, position, Quaternion.identity, bulletParent);
-        instantBulletGO.transform.forward = forward;
-        InstantBullet instantBulletScript = instantBulletGO.GetComponent<InstantBullet>();
-        instantBulletScript.dmg = dmg;
-        instantBulletScript.maxDistance = distance;
-        instantBulletScript.playerId = id;
-        instantBulletScript.Fire();
-    }
-
-    public void SpawnInstantBulletCapsuleCast()
-    {
-        //TODO: Shotgun
     }
 
     public void ShowLobby()

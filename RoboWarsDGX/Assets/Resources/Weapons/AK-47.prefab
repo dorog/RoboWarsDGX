@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1189}
-  - component: {fileID: 2049}
-  - component: {fileID: 1987}
-  - component: {fileID: 2282}
-  - component: {fileID: 2281}
+  - component: {fileID: 2047}
+  - component: {fileID: 1985}
+  - component: {fileID: 2280}
+  - component: {fileID: 2279}
   m_Layer: 0
   m_Name: AK-47
   m_TagString: Untagged
@@ -31,12 +31,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1359}
   - {fileID: 1358}
+  - {fileID: 1357}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2049
+--- !u!33 &2047
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,7 +44,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 394}
   m_Mesh: {fileID: 4300000, guid: c6e1019af958aa84b936491026e15356, type: 3}
---- !u!23 &1987
+--- !u!23 &1985
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2282
+--- !u!114 &2280
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2281
+--- !u!114 &2279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,8 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a779fdea52dac3f4b90c8e8d7fba4170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GunHoldTransform: {fileID: 1359}
-  GunShotTransform: {fileID: 1358}
+  GunHoldTransform: {fileID: 1358}
+  GunShotTransform: {fileID: 1357}
 --- !u!1 &474
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1358}
+  - component: {fileID: 1357}
   m_Layer: 0
   m_Name: ShotPosition
   m_TagString: Untagged
@@ -133,7 +133,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1358
+--- !u!4 &1357
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1359}
+  - component: {fileID: 1358}
   m_Layer: 0
   m_Name: GunHold
   m_TagString: Untagged
@@ -163,7 +163,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1359
+--- !u!4 &1358
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
