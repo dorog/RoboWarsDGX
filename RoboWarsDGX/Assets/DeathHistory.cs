@@ -19,6 +19,14 @@ public class DeathHistory : MonoBehaviour
 
     private List<DmgRow> rows = new List<DmgRow>();
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GameModeManager.Instance.SpawnPlayer();
+        }
+    }
+
     private void OnEnable()
     {
         rows.Clear();

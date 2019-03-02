@@ -82,11 +82,6 @@ public class GameModeManager: MonoBehaviourPun
         GameObject character = characterView.gameObject;
         GameObject weapon = weaponView.gameObject;
 
-        if (characterView.IsMine && weaponView.IsMine)
-        {
-            weapon.layer = LayerMask.NameToLayer(SharedData.NotRenderInIsMine);
-        }
-
         WeaponInitData weaponInitData = GetWeaponInitData(characterName);
 
         IKWeapon ikWeapon = character.GetComponentInChildren<IKWeapon>();

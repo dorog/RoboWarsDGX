@@ -1,8 +1,14 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class CharacterFiring : MonoBehaviourPun, IPunObservable
 {
+    [Header ("UI")]
+    public Text ammoText;
+    public Text extraAmmoText;
+
+    [Header ("Refactor under this")]
     public Animator firstPerson;
     public Animator thirdPerson;
     public Transform firePosition;
@@ -58,6 +64,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         if (photonView.IsMine)
         {
             displayName = AccountInfo.Instance.Info.PlayerProfile.DisplayName;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -98,14 +105,6 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             firstPersonSpine.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
             firstPersonSpine1.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
             firstPersonSpine2.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
-
-            /*thirdPersonSpine.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
-            thirdPersonSpine1.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
-            thirdPersonSpine2.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);*/
-
-            thirdPersonSpine.Rotate(new Vector3(thirdPersonAimX, 0, 0));
-            thirdPersonSpine1.Rotate(new Vector3(thirdPersonAimX, 0, 0));
-            thirdPersonSpine2.Rotate(new Vector3(thirdPersonAimX, 0, 0));
 
             transform.rotation = Quaternion.Euler(0, aimY, 0);
 
@@ -154,6 +153,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             rapidFireTime = characterStat.GetRapidTime();
             ammo = characterStat.GetAmmo();
             extraAmmo = characterStat.GetExtraAmmo();
+            ammoText.text = "" + ammo;
+            extraAmmoText.text = "" + extraAmmo;
         }
     }
 
@@ -179,6 +180,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
                 InstantFire(firePosition.position, firePosition.forward, dmg, distance, displayName);
                 ammo--;
+                ammoText.text = "" + ammo;
             }
             else
             {
@@ -189,6 +191,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
                     InstantFire(firePosition.position, firePosition.forward, dmg, distance, displayName);
                     ammo--;
+                    ammoText.text = "" + ammo;
                 }
                 else
                 {
@@ -231,7 +234,6 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             // hit.point: Spawn blood
             if (boneColliderHit == null)
             {
-                Debug.Log("Null");
                 return;
             }
 
