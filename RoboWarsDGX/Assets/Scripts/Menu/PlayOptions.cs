@@ -16,9 +16,13 @@ public class PlayOptions : MonoBehaviour
     public GameObject createMenu;
     public Button createButton;
 
+    [Header("Playguard")]
+    public GameObject playGuard;
+    private bool playGuardOff = false;
+
     void Start()
     {
-        if(startOption == Options.Join)
+        if (startOption == Options.Join)
         {
             joinMenu.SetActive(true);
             createMenu.SetActive(false);
@@ -35,6 +39,23 @@ public class PlayOptions : MonoBehaviour
             createButton.interactable = false;
 
             actualMenu = Options.Create;
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (!playGuardOff)
+        {
+            PlayGuardCheck();
+        }
+    }
+
+    private void PlayGuardCheck()
+    {
+        if (AccountInfo.Instance.ownCharacters.Count > 0 && AccountInfo.Instance.ownWeapons.Count > 0)
+        {
+            playGuard.SetActive(false);
+            playGuardOff = true;
         }
     }
 
