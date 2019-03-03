@@ -1,9 +1,10 @@
 ﻿using Photon.Pun;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterStates : MonoBehaviourPun
+public class CharacterData : MonoBehaviourPun
 {
     public CharacterStats characterStat;
     public Text hpText;
@@ -32,6 +33,49 @@ public class CharacterStates : MonoBehaviourPun
         else
         {
             photonView.RPC("SimpleShotRPC", RpcTarget.All, dmg, playerid, (int)bone);
+        }
+    }
+
+    public void GotShotByMoreBones(float dmg, string playerid, List<Bones> bones)
+    {
+        int[] forRpc = new int[bones.Count];
+        for (int i=0; i<bones.Count; i++)
+        {
+            if(bones[i] == Bones.Head)
+            {
+                photonView.RPC("HeadShotRPC", RpcTarget.All, playerid);
+                return;
+            }
+            else
+            {
+                forRpc[i] = (int)bones[i];
+            }
+        }
+
+        photonView.RPC("ShotgunShotRPC", RpcTarget.All, dmg, playerid, forRpc);
+    }
+
+    [PunRPC]
+    private void ShotgunShotRPC(float dmg, string playerid, int[] bones)
+    {
+        if (photonView.IsMine)
+        {
+            float realDmg = 0;
+            for(int i=0; i< bones.Length; i++)
+            {
+                realDmg += characterStat.GetBoneIntensity((Bones)bones[i]) * dmg;
+            }
+            if (health - realDmg <= 0)
+            {
+                AddDmg(health, playerid);
+                Die(playerid);
+            }
+            else
+            {
+                health -= realDmg;
+                AddDmg(realDmg, playerid);
+                hpText.text = "" + health;
+            }
         }
     }
 

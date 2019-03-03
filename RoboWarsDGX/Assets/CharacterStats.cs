@@ -83,7 +83,7 @@ public class CharacterStats : MonoBehaviourPun
 
     public float GetRapidTime()
     {
-        return 1 / weaponStat.firingRate;
+        return 10 / weaponStat.firingRate;
     }
 
     public int GetAmmo()

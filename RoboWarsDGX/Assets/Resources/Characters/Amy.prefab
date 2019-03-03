@@ -223,6 +223,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 11571
   characterStat: {fileID: 2277}
+  shotGunRadius: 1
+  radiusDistance: 8
+  bulletPartCount: 7
+  bulletPart: {fileID: 679326341385468676, guid: 88dd3cd03f296464ea9e98b354bbd3fd,
+    type: 3}
   shotGunFire: ShotgunFire
   smgGunFire: SmgFire
   sniperGunFire: SniperFire
@@ -4304,7 +4309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 7
 --- !u!136 &2158
 CapsuleCollider:
@@ -4379,7 +4384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 2
 --- !u!1 &414
 GameObject:
@@ -4471,7 +4476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 5
 --- !u!1 &416
 GameObject:
@@ -4563,7 +4568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 2
 --- !u!1 &418
 GameObject:
@@ -4921,7 +4926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 0
 --- !u!1 &427
 GameObject:
@@ -5190,7 +5195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 3
 --- !u!1 &433
 GameObject:
@@ -5886,7 +5891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 0
 --- !u!1 &445
 GameObject:
@@ -6041,7 +6046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 4
 --- !u!1 &449
 GameObject:
@@ -6444,7 +6449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 6
 --- !u!1 &461
 GameObject:
@@ -6662,7 +6667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 5
 --- !u!1 &467
 GameObject:
@@ -6723,7 +6728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 1
 --- !u!1 &468
 GameObject:
@@ -6785,7 +6790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 6
 --- !u!1 &469
 GameObject:
@@ -6939,7 +6944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b971ac365b5b95d47b283e0c57723615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 2278}
+  characterData: {fileID: 2278}
   boneType: 1
 --- !u!1 &473
 GameObject:

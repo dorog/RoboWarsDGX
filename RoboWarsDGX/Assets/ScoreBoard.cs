@@ -36,7 +36,11 @@ public class ScoreBoard : MonoBehaviourPun
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ui.SetActive(!ui.activeSelf);
+            ui.SetActive(true);
+        }
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            ui.SetActive(false);
         }
     }
 

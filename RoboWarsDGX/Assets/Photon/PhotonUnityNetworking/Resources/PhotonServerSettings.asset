@@ -46,5 +46,6 @@ MonoBehaviour:
   - GotShotRPC
   - HeadShotRPC
   - SimpleShotRPC
+  - ShotgunShotRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1

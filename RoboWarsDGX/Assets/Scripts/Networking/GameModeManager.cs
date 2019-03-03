@@ -38,15 +38,6 @@ public class GameModeManager: MonoBehaviourPun
             default:
                 break;
         }
-
-        string displayName = AccountInfo.Instance.Info.PlayerProfile.DisplayName;
-        photonView.RPC("NewPlayer", RpcTarget.AllBuffered, displayName);
-    }
-
-    [PunRPC]
-    private void NewPlayer(string displayName)
-    {
-
     }
 
     public void SpawnPlayer() {

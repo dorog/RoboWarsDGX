@@ -2,11 +2,12 @@
 
 public class BoneColliderHit : MonoBehaviour
 {
-    public CharacterStates characterState;
+    public CharacterData characterData;
     public Bones boneType;
+
 
     public void GotShot(float dmg, string playerid)
     {
-        characterState.GotShot(dmg, playerid, boneType);
+        characterData.GotShot(dmg, playerid, boneType);
     }
 }
