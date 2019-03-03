@@ -223,6 +223,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 11571
   characterStat: {fileID: 2277}
+  scoopeFOV: 15
+  characterCamera: {fileID: 1980}
   shotGunRadius: 1
   radiusDistance: 8
   bulletPartCount: 7

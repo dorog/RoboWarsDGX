@@ -29,6 +29,14 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
     private delegate void Fire();
     private event Fire FireEvent;
+    private bool weaponCanFire = true;
+
+    [Header("Sniper settings")]
+    public float scoopeFOV = 15f;
+    private float originalF0V;
+    private float scopeMouseIntensity;
+    public Camera characterCamera;
+    private bool scoped = false;
 
     [Header("Shotgun settings")]
     public float shotGunRadius;
@@ -36,7 +44,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public int bulletPartCount;
     public GameObject bulletPart;
     private GameObject[] bulletparts;
-    private bool shotGunCanFire = true;
+
 
     [Header("Firing Animation Setting")]
     public string shotGunFire = "ShotgunFire";
@@ -76,6 +84,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         {
             displayName = AccountInfo.Instance.Info.PlayerProfile.DisplayName;
             Cursor.lockState = CursorLockMode.Locked;
+            originalF0V = characterCamera.fieldOfView;
+            scopeMouseIntensity = scoopeFOV / originalF0V;
         }
     }
 
@@ -114,6 +124,12 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         {
             float rotationY = Input.GetAxis("Mouse Y");
             float rotationX = Input.GetAxis("Mouse X");
+
+            if (scoped)
+            {
+                rotationY *= scopeMouseIntensity;
+                rotationX *= scopeMouseIntensity;
+            }
 
             if (thirdPersonAimX - rotationY * multiply > maxRotation)
             {
@@ -222,10 +238,10 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
     private void ShotgunFire()
     {
-        for (int i = 0; i < bulletparts.Length; i++)
+        /*for (int i = 0; i < bulletparts.Length; i++)
         {
             Debug.DrawLine(firePosition.position, bulletparts[i].transform.position, Color.red);
-        }
+        }*/
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -233,7 +249,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             {
                 return;
             }
-            if (shotGunCanFire)
+            if (weaponCanFire)
             {
                 List<ShotGunHit> shotGunHits = new List<ShotGunHit>();
                 for (int i = 0; i < bulletPartCount; i++)
@@ -268,8 +284,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
                 ammo--;
                 ammoText.text = "" + ammo;
-                shotGunCanFire = false;
-                Invoke("ShotGunCanFire", minTimeBetweenFire);
+                weaponCanFire = false;
+                Invoke("WeaponCanFire", minTimeBetweenFire);
             }
         }
 
@@ -279,9 +295,9 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void ShotGunCanFire()
+    private void WeaponCanFire()
     {
-        shotGunCanFire = true;
+        weaponCanFire = true;
     }
 
     private void SmgFire()
@@ -292,9 +308,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             {
                 return;
             }
-            if (!inFire)
+            if (!inFire && weaponCanFire)
             {
-                rapidTime = minTimeBetweenFire;
                 //firstPerson.SetBool("Firing", true);
                 thirdPerson.SetBool(smgGunFire, true);
                 inFire = true;
@@ -302,21 +317,18 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
                 InstantFire(firePosition.position, firePosition.forward, dmg, distance, displayName);
                 ammo--;
                 ammoText.text = "" + ammo;
+                Invoke("WeaponCanFire", minTimeBetweenFire);
+                weaponCanFire = false;
             }
             else
             {
-                float time = rapidTime - Time.deltaTime;
-                if (time <= 0)
+                if (weaponCanFire)
                 {
-                    rapidTime = minTimeBetweenFire;
-
                     InstantFire(firePosition.position, firePosition.forward, dmg, distance, displayName);
                     ammo--;
                     ammoText.text = "" + ammo;
-                }
-                else
-                {
-                    rapidTime = time;
+                    Invoke("WeaponCanFire", minTimeBetweenFire);
+                    weaponCanFire = false;
                 }
             }
 
@@ -330,20 +342,35 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     }
 
     private void SniperFire()
-    {
-        Debug.Log("SniperFire");
-        /*
+    {        
         if (Input.GetMouseButtonDown(0))
         {
-            //firstPerson.SetBool("Firing", true);
-            thirdPerson.SetBool(smgGunFire, true);
-            GameModeManager.Instance.SpawnBullet(firePosition.position, firePosition.forward);
+            if (ammo == 0)
+            {
+                return;
+            }
+            if (weaponCanFire)
+            {
+                InstantFire(firePosition.position, firePosition.forward, dmg, distance, displayName);
+                ammo--;
+                ammoText.text = "" + ammo;
+                Invoke("WeaponCanFire", minTimeBetweenFire);
+                weaponCanFire = false;
+            }
         }
-        else if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(1))
         {
-            //firstPerson.SetBool("Firing", false);
-            thirdPerson.SetBool(smgGunFire, false);
-        }*/
+            if (scoped)
+            {
+                characterCamera.fieldOfView = originalF0V;
+            }
+            else
+            {
+                characterCamera.fieldOfView = scoopeFOV;
+            }
+            scoped = !scoped;
+        }
+        //Zoom
     }
 
     private void InstantFire(Vector3 position, Vector3 forward, float dmg, float distance, string playerid)
