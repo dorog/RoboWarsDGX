@@ -51,10 +51,10 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public string smgGunFire = "SmgFire";
     public string sniperGunFire = "SniperFire";
 
-    [Header("First person spines")]
-    public Transform firstPersonSpine;
-    public Transform firstPersonSpine1;
-    public Transform firstPersonSpine2;
+    [Header("First person")]
+    public Transform firstPersonCam;
+    public Transform rightHand;
+    public WeaponInitData fpsWeaponInitData;
 
     private Transform thirdPersonSpine;
     private Transform thirdPersonSpine1;
@@ -150,9 +150,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             aimY += rotationX;
 
 
-            firstPersonSpine.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
-            firstPersonSpine1.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
-            firstPersonSpine2.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
+            firstPersonCam.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
 
             transform.rotation = Quaternion.Euler(0, aimY, 0);
 
@@ -178,7 +176,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         }
     }
 
-    public void SetWeaponType(WeaponType type)
+    public void SetWeaponType(WeaponType type, string weaponName)
     {
         weaponType = type;
         switch (type)
@@ -208,6 +206,10 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             {
                 PrepareShotgunFire();
             }
+            GameObject weaponPrefab = Resources.Load<GameObject>("Weapons/" + weaponName);
+            GameObject weapon = Instantiate(weaponPrefab, rightHand);
+            weapon.transform.localPosition = fpsWeaponInitData.GetWeaponPosition(weaponName);
+            weapon.transform.localRotation = Quaternion.Euler(fpsWeaponInitData.GetWeaponRotation(weaponName));
         }
     }
 
@@ -370,7 +372,6 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             }
             scoped = !scoped;
         }
-        //Zoom
     }
 
     private void InstantFire(Vector3 position, Vector3 forward, float dmg, float distance, string playerid)

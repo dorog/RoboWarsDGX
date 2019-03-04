@@ -11,7 +11,7 @@ public class DeathMatchMode: IGameMode
         GameObject weapon = PhotonNetwork.Instantiate("Weapons/" + SelectData.selectedWeapon.id, Vector3.zero, Quaternion.identity, 0);
         int weaponID = weapon.GetComponent<PhotonView>().ViewID;
 
-        character.GetComponent<CharacterFiring>().SetWeaponType(SelectData.selectedWeapon.type);
+        character.GetComponent<CharacterFiring>().SetWeaponType(SelectData.selectedWeapon.type, SelectData.selectedWeapon.id);
 
         Vector3 position = SelectData.selectedWeapon.prefab.transform.position;
         Quaternion rotation = SelectData.selectedWeapon.prefab.transform.rotation;

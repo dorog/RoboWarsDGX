@@ -118,10 +118,36 @@ namespace PlayFab.AdminModels
     }
 
     [Serializable]
+    public class AddLocalizedNewsRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Localized body text of the news.
+        /// </summary>
+        public string Body;
+        /// <summary>
+        /// Language of the news item.
+        /// </summary>
+        public string Language;
+        /// <summary>
+        /// Unique id of the updated news item.
+        /// </summary>
+        public string NewsId;
+        /// <summary>
+        /// Localized title (headline) of the news item.
+        /// </summary>
+        public string Title;
+    }
+
+    [Serializable]
+    public class AddLocalizedNewsResult : PlayFabResultCommon
+    {
+    }
+
+    [Serializable]
     public class AddNewsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Body text of the news
+        /// Default body text of the news.
         /// </summary>
         public string Body;
         /// <summary>
@@ -129,7 +155,7 @@ namespace PlayFab.AdminModels
         /// </summary>
         public DateTime? Timestamp;
         /// <summary>
-        /// Title (headline) of the news item
+        /// Default title (headline) of the news item.
         /// </summary>
         public string Title;
     }
@@ -1989,13 +2015,21 @@ namespace PlayFab.AdminModels
         PushNotificationTemplateInvalidSyntax,
         PushNotificationTemplateNoCustomPayloadForV1,
         NoLeaderboardForStatistic,
+        TitleNewsMissingDefaultLanguage,
+        TitleNewsNotFound,
+        TitleNewsDuplicateLanguage,
+        TitleNewsMissingTitleOrBody,
+        TitleNewsInvalidLanguage,
+        EmailRecipientBlacklisted,
+        InvalidGameCenterAuthRequest,
+        GameCenterAuthenticationFailed,
         MatchmakingEntityInvalid,
         MatchmakingPlayerAttributesInvalid,
-        MatchmakingCreateRequestMissing,
-        MatchmakingCreateRequestCreatorMissing,
-        MatchmakingCreateRequestCreatorIdMissing,
-        MatchmakingCreateRequestUserListMissing,
-        MatchmakingCreateRequestGiveUpAfterInvalid,
+        MatchmakingCreateTicketRequestMissing,
+        MatchmakingCreateTicketCreatorMissing,
+        MatchmakingCreateTicketCreatorIdMissing,
+        MatchmakingCreateTicketMemberListMissing,
+        MatchmakingCreateTicketGiveUpAfterInvalid,
         MatchmakingTicketIdMissing,
         MatchmakingMatchIdMissing,
         MatchmakingMatchIdIdMissing,
@@ -2003,30 +2037,72 @@ namespace PlayFab.AdminModels
         MatchmakingTitleIdMissing,
         MatchmakingTicketIdIdMissing,
         MatchmakingPlayerIdMissing,
-        MatchmakingJoinRequestUserMissing,
+        MatchmakingJoinTicketPlayerMissing,
         MatchmakingQueueConfigNotFound,
         MatchmakingMatchNotFound,
         MatchmakingTicketNotFound,
         MatchmakingCreateTicketServerIdentityInvalid,
         MatchmakingCreateTicketClientIdentityInvalid,
-        MatchmakingGetTicketUserMismatch,
+        MatchmakingGetTicketPlayerMismatch,
         MatchmakingJoinTicketServerIdentityInvalid,
-        MatchmakingJoinTicketUserIdentityMismatch,
+        MatchmakingJoinTicketPlayerIdentityMismatch,
         MatchmakingCancelTicketServerIdentityInvalid,
-        MatchmakingCancelTicketUserIdentityMismatch,
+        MatchmakingCancelTicketPlayerIdentityMismatch,
         MatchmakingGetMatchIdentityMismatch,
         MatchmakingPlayerIdentityMismatch,
         MatchmakingAlreadyJoinedTicket,
         MatchmakingTicketAlreadyCompleted,
-        MatchmakingQueueNameInvalid,
+        MatchmakingClientTimeout,
         MatchmakingQueueConfigInvalid,
         MatchmakingMemberProfileInvalid,
         WriteAttemptedDuringExport,
         NintendoSwitchDeviceIdNotLinked,
         MatchmakingNotEnabled,
         MatchmakingGetStatisticsIdentityInvalid,
-        MatchmakingStatisticsIdMissing,
-        CannotEnableMultiplayerServersForTitle
+        MatchmakingBucketOwnerNotFound,
+        CannotEnableMultiplayerServersForTitle,
+        MatchmakingCancelAllTicketsUnauthorized,
+        MatchmakingListTicketsUnauthorized,
+        MatchmakingPlayerAttributesTooLarge,
+        MatchmakingNumberOfPlayersInTicketTooLarge,
+        MatchmakingMatchTotalAttributeIsNegative,
+        MatchmakingAttributeTypeInvalid,
+        MatchmakingMatchTotalAttributeTooLarge,
+        MatchmakingMatchTotalAttributeSumTooLarge,
+        MatchmakingTicketUnmatchable,
+        MatchmakingCommonRegionMissing,
+        MatchmakingLatencyMeasurementMissing,
+        MatchmakingStatisticsNotFound,
+        MatchmakingPlayerHasNotJoinedTicket,
+        CannotEnablePartiesForTitle,
+        PartyError,
+        PartyRequests,
+        PartyNoContent,
+        PartyBadRequest,
+        PartyUnauthorized,
+        PartyForbidden,
+        PartyNotFound,
+        PartyConflict,
+        PartyInternalServerError,
+        PartyUnavailable,
+        PartyTooManyRequests,
+        TitleConfigNotFound,
+        TitleConfigUpdateConflict,
+        TitleConfigSerializationError,
+        CatalogEntityInvalid,
+        CatalogTitleIdMissing,
+        CatalogPlayerIdMissing,
+        CatalogClientIdentityInvalid,
+        CatalogOneOrMoreFilesInvalid,
+        CatalogItemMetadataInvalid,
+        CatalogItemIdInvalid,
+        CatalogSearchParameterInvalid,
+        CatalogFeatureDisabled,
+        CatalogConfigMissing,
+        CatalogConfigTooManyContentTypes,
+        CatalogConfigContentTypeTooLong,
+        CatalogConfigTooManyTags,
+        CatalogConfigTagTooLong
     }
 
     [Serializable]

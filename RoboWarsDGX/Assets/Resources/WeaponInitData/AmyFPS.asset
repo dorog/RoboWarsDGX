@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e5e554ca3d1174c8761cd7058affe9, type: 3}
+  m_Name: AmyFPS
+  m_EditorClassIdentifier: 
+  ak47_position: {x: -0.03, y: 0.042, z: 0.044}
+  ak47_rotation: {x: 8.616, y: 185.493, z: -76.579}
+  ak47_gunhold_position: {x: 0, y: 0, z: 0}
+  Shotgun_870_position: {x: 0, y: 0, z: 0}
+  Shotgun_870_rotation: {x: 0, y: 0, z: 0}
+  Shotgun_870_gunhold_position: {x: 0, y: 0, z: 0}
+  L96_Sniper_Rifle_position: {x: 0, y: 0, z: 0}
+  L96_Sniper_Rifle_rotation: {x: 0, y: 0, z: 0}
+  L96_Sniper_Rifle_gunhold_position: {x: 0, y: 0, z: 0}
