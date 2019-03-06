@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1991}
   - component: {fileID: 2283}
   - component: {fileID: 2281}
+  - component: {fileID: 4853056587744902386}
   m_Layer: 0
   m_Name: AK-47
   m_TagString: Untagged
@@ -117,6 +118,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunHoldTransform: {fileID: 1362}
   GunShotTransform: {fileID: 1360}
+--- !u!114 &4853056587744902386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e97cc71726dfeb0468c55bb7566b41c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorController: {fileID: 9100000, guid: 87fdd6a768fb89c428bcb37847ee1ceb, type: 2}
 --- !u!1 &475
 GameObject:
   m_ObjectHideFlags: 0
