@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e5e554ca3d1174c8761cd7058affe9, type: 3}
   m_Name: AmyFPS
   m_EditorClassIdentifier: 
-  ak47_position: {x: -0.03, y: 0.042, z: 0.044}
-  ak47_rotation: {x: 8.616, y: 185.493, z: -76.579}
+  ak47_position: {x: -3.97, y: 14.01, z: 2.82}
+  ak47_rotation: {x: 5.005, y: -163.008, z: -75.968}
   ak47_gunhold_position: {x: 0, y: 0, z: 0}
-  Shotgun_870_position: {x: 0, y: 0, z: 0}
-  Shotgun_870_rotation: {x: 0, y: 0, z: 0}
+  Shotgun_870_position: {x: -3.4, y: 4.2, z: 4.6}
+  Shotgun_870_rotation: {x: 8.099, y: 181.345, z: -80.54}
   Shotgun_870_gunhold_position: {x: 0, y: 0, z: 0}
-  L96_Sniper_Rifle_position: {x: 0, y: 0, z: 0}
-  L96_Sniper_Rifle_rotation: {x: 0, y: 0, z: 0}
+  L96_Sniper_Rifle_position: {x: -2.78, y: 13.49, z: 3.11}
+  L96_Sniper_Rifle_rotation: {x: 8.704, y: -172.735, z: 280.77}
   L96_Sniper_Rifle_gunhold_position: {x: 0, y: 0, z: 0}

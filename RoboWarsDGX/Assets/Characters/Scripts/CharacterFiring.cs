@@ -56,6 +56,10 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public Transform rightHand;
     public WeaponInitData fpsWeaponInitData;
 
+    public string L96_Idle = "L96_Sniper";
+    public string AK47_Idle = "AK-47";
+    public string Remington_870 = "Remington_870";
+
     private Transform thirdPersonSpine;
     private Transform thirdPersonSpine1;
     private Transform thirdPersonSpine2;
@@ -210,6 +214,22 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             GameObject weapon = Instantiate(weaponPrefab, rightHand);
             weapon.transform.localPosition = fpsWeaponInitData.GetWeaponPosition(weaponName);
             weapon.transform.localRotation = Quaternion.Euler(fpsWeaponInitData.GetWeaponRotation(weaponName));
+            weapon.transform.localScale = new Vector3(100, 100, 100);
+
+            firstPerson.SetBool(WeaponBool(weaponName), true);
+        }
+    }
+
+    private string WeaponBool(string type)
+    {
+        switch (type)
+        {
+            case "L96_Sniper_Rifle":
+                return L96_Idle;
+            case "AK-47":
+                return AK47_Idle;
+            default:
+                return Remington_870;
         }
     }
 
