@@ -126,12 +126,4 @@ public class ItemSelect : MonoBehaviour
 
         selectableWeapon.ShowWeapon();
     }
-
-    private void OnDisable()
-    {
-        if(selectedItemGO != null)
-        {
-            Destroy(selectedItemGO);
-        }
-    }
 }

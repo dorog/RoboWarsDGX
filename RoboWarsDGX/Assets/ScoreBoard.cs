@@ -47,6 +47,13 @@ public class ScoreBoard : MonoBehaviourPun
     [PunRPC]
     private void NewPlayer(string displayName)
     {
+        for(int i=0; i<scores.Count; i++)
+        {
+            if(scores[i].displayName == displayName)
+            {
+                return;
+            }
+        }
         scores.Add(new Score(displayName));
         Refresh();
     }

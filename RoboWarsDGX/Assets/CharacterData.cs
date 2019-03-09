@@ -139,7 +139,7 @@ public class CharacterData : MonoBehaviourPun
 
         ScoreBoard.Instance.Killed(AccountInfo.Instance.Info.PlayerProfile.DisplayName, killer, assists);
         SelectData.deathHistory = dmgHistory;
-        GameModeManager.Instance.ShowLobby();
+        GameModeManager.Instance.Died();
         PhotonNetwork.Destroy(view);
     }
 }

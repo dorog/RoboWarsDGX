@@ -19,6 +19,7 @@ public abstract class FiringWeapon : MonoBehaviour
     protected float distance;
     protected Transform firePosition;
     public RuntimeAnimatorController animatorController;
+    public GameObject aim;
 
     protected void WeaponCanFire()
     {
@@ -40,6 +41,7 @@ public abstract class FiringWeapon : MonoBehaviour
         firePosition = data.firePosition;
         teamGame = data.teamGame;
 
+        aim.SetActive(true);
         ammoText.text = "" + ammo;
         extraAmmoText.text = "" + extraAmmo;
     }

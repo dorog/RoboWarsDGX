@@ -7,6 +7,7 @@ public class Sniper : FiringWeapon
     private float scopeMouseIntensity;
     private Camera characterCamera;
     private bool scoped = false;
+    public GameObject zoomImage;
 
     public override void SetData(FiringWeaponData data)
     {
@@ -48,10 +49,14 @@ public class Sniper : FiringWeapon
         {
             if (scoped)
             {
+                aim.SetActive(true);
+                zoomImage.SetActive(false);
                 characterCamera.fieldOfView = originalF0V;
             }
             else
             {
+                aim.SetActive(false);
+                zoomImage.SetActive(true);
                 characterCamera.fieldOfView = scoopeFOV;
             }
             scoped = !scoped;

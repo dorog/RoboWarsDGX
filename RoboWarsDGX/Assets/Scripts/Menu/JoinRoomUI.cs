@@ -39,7 +39,7 @@ public class JoinRoomUI : MonoBehaviour
 
     private void RemoveRooms()
     {
-        for (int i = parent.childCount - 1; i >= 0; i++)
+        for (int i = parent.childCount - 1; i >= 0; i--)
         {
             Destroy(parent.GetChild(i).gameObject);
         }

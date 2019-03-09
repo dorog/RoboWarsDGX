@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class DeathHistory : MonoBehaviour
 {
+    public PlaySelect playSelect;
+
     [Header("First")]
     public Text firstDmgName;
     public Text firstDmg;
@@ -23,7 +25,7 @@ public class DeathHistory : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            GameModeManager.Instance.SpawnPlayer();
+            playSelect.Respawn();
         }
     }
 

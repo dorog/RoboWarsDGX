@@ -10,7 +10,7 @@ public class GameModeManager: MonoBehaviourPun
     public WeaponInitData alex;
     public WeaponInitData amy;
 
-    public GameObject lobbyForRespawn;
+    public PlaySelect lobby;
 
     private IGameMode gameModeSpawner;
     private SpawnPointSearcher spawPointChooser;
@@ -68,7 +68,6 @@ public class GameModeManager: MonoBehaviourPun
 
     public void SpawnPlayer() {
         SpawnedPlayerData spawnedPlayerData = gameModeSpawner.SpawnPlayer(spawPointChooser.DistanceBasedSpawnPoint());
-        lobbyForRespawn.SetActive(false);
         photonView.RPC("SetHierarchy", RpcTarget.AllBuffered, spawnedPlayerData.characterID, spawnedPlayerData.weaponID, spawnedPlayerData.characterName, spawnedPlayerData.weaponName);
     }
 
@@ -113,9 +112,9 @@ public class GameModeManager: MonoBehaviourPun
         ikWeapon.GunHold = weapon.transform.GetChild(0);
     }
 
-    public void ShowLobby()
+    public void Died()
     {
-        lobbyForRespawn.SetActive(true);
+        lobby.Died();
         /*photonView.RPC("DestroyPlayer", RpcTarget.All, characterID);*/
     }
 }
