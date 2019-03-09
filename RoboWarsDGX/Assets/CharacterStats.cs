@@ -5,7 +5,7 @@ public class CharacterStats : MonoBehaviourPun
 {
     private Character characterStat;
     private Weapon weaponStat;
-    private Rune[] runes;
+    private Rune runeStatSumm;
 
     void Awake()
     {
@@ -30,27 +30,40 @@ public class CharacterStats : MonoBehaviourPun
                     break;
                 }
             }
+
+            runeStatSumm = new Rune();
+            for(int i=0; i<SelectData.selectedRunes.Length; i++)
+            {
+                if(SelectData.selectedRunes[i] != null)
+                {
+                    runeStatSumm.AddStats(SelectData.selectedRunes[i]);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }
 
     public float GetHP()
     {
-        return characterStat.health;
+        return characterStat.health + runeStatSumm.health;
     }
 
     public float GetArmor()
     {
-        return characterStat.armor;
+        return characterStat.armor + runeStatSumm.armor;
     }
 
     public float GetMovementSpeed()
     {
-        return characterStat.movementSpeed;
+        return characterStat.movementSpeed + characterStat.movementSpeed * runeStatSumm.movemenetSpeed / 100;
     }
 
     public float GetJumpPower()
     {
-        return characterStat.jumpPower;
+        return characterStat.jumpPower + characterStat.jumpPower * runeStatSumm.jumpPower/100;
     }
 
     public float GetDmg(WeaponType weaponType)
@@ -60,11 +73,11 @@ public class CharacterStats : MonoBehaviourPun
             switch (weaponType)
             {
                 case WeaponType.Shotgun:
-                    return characterStat.shotGunDmg + weaponStat.dmg;
+                    return characterStat.shotGunDmg + weaponStat.dmg + runeStatSumm.shotGunDmg;
                 case WeaponType.SMG:
-                    return characterStat.smgDmg + weaponStat.dmg;
+                    return characterStat.smgDmg + weaponStat.dmg + runeStatSumm.smgDmg; 
                 case WeaponType.Sniper:
-                    return characterStat.sniperDmg + weaponStat.dmg;
+                    return characterStat.sniperDmg + weaponStat.dmg + runeStatSumm.sniperDmg;
                 default:
                     return 0;
             }

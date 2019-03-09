@@ -20,7 +20,14 @@ public class Smg : FiringWeapon
                 BoneColliderHit boneColliderHit = InstantFire(firePosition.position, firePosition.forward, distance);
                 if (boneColliderHit != null)
                 {
-                    boneColliderHit.GotShot(dmg, displayName);
+                    if (!teamGame)
+                    {
+                        boneColliderHit.GotShot(dmg, displayName);
+                    }
+                    else
+                    {
+                        boneColliderHit.GotShot(dmg, displayName, SelectData.teamColor);
+                    }
                 }
 
                 Fire();
@@ -34,7 +41,14 @@ public class Smg : FiringWeapon
                     BoneColliderHit boneColliderHit = InstantFire(firePosition.position, firePosition.forward, distance);
                     if (boneColliderHit != null)
                     {
-                        boneColliderHit.GotShot(dmg, displayName);
+                        if (!teamGame)
+                        {
+                            boneColliderHit.GotShot(dmg, displayName);
+                        }
+                        else
+                        {
+                            boneColliderHit.GotShot(dmg, displayName, SelectData.teamColor);
+                        }
                     }
                     Fire();
                     Invoke("WeaponCanFire", minTimeBetweenFire);

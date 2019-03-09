@@ -14,4 +14,5 @@ public class FiringWeaponData
     public float dmg;
     public float distance;
     public Transform firePosition;
+    public bool teamGame;
 }

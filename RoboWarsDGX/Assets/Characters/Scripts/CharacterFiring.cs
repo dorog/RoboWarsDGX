@@ -119,9 +119,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         }
     }
 
-    public void SetWeaponType(WeaponType type, string weaponName)
+    public void SetWeaponType(WeaponType type, string weaponName, bool tfGame = false)
     {
-
         if (photonView.IsMine)
         {
             FiringWeaponData data = new FiringWeaponData();
@@ -136,6 +135,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             data.firePosition = firePosition;
             data.layerMask = layerMask;
             data.displayName = AccountInfo.Instance.Info.PlayerProfile.DisplayName;
+            data.teamGame = tfGame;
 
             GameObject weaponPrefab = Resources.Load<GameObject>("Weapons/" + weaponName);
             GameObject weapon = Instantiate(weaponPrefab, rightHand);
@@ -149,5 +149,4 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             firstPerson.runtimeAnimatorController = ownWeapon.animatorController;
         }
     }
-
 }

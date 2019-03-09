@@ -5,6 +5,7 @@ public class CreateGameUI : MonoBehaviour
 {
     private byte maxPlayer = 8;
     private string gameMode = SharedData.deathMatch;
+    private SpawnMode spawnMode = SpawnMode.DistanceBased;
     private string map = SharedData.desertMap;
 
     [Header("Inputs")]
@@ -12,9 +13,11 @@ public class CreateGameUI : MonoBehaviour
     public Dropdown maxPlayerDP;
     public Dropdown gameModeDP;
     public Dropdown mapDP;
+    public Dropdown spawnModeDP;
     public Button createButton;
 
     private string[] gameModes = { SharedData.deathMatch, SharedData.teamDeathMatch, SharedData.battleRoyal, SharedData.searchAndDestroy };
+    private SpawnMode[] spawnModes = { SpawnMode.DistanceBased, SpawnMode.AreaBased, SpawnMode.Random };
 
     private void Start()
     {
@@ -24,7 +27,7 @@ public class CreateGameUI : MonoBehaviour
 
     public void CreateGame()
     {
-        PhotonLobby.Instance.CreateRoom(roomNameInput.text, maxPlayer, map, gameMode);
+        PhotonLobby.Instance.CreateRoom(roomNameInput.text, maxPlayer, map, gameMode, (int)spawnMode);
     }
 
     public void ChangedMaxPlayer()
@@ -35,6 +38,11 @@ public class CreateGameUI : MonoBehaviour
     public void ChangedGameMode()
     {
         gameMode = gameModes[gameModeDP.value];
+    }
+
+    public void ChangeSpawnMode()
+    {
+        spawnMode = spawnModes[spawnModeDP.value];
     }
 
     public void ChangedMap()

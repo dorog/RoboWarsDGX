@@ -9,4 +9,8 @@ public class SelectData
     public static SelectItemWeapon selectedItemWeapon = null;
 
     public static Hashtable deathHistory;
+
+    public static Rune[] selectedRunes = new Rune[3] { null, null, null};
+
+    public static TeamColor teamColor = TeamColor.Null;
 }

@@ -7,6 +7,7 @@ public class PlaySelect : MonoBehaviour
     public GameObject characters;
     public GameObject weapons;
     public GameObject runes;
+    public GameObject teams;
 
     private void Start()
     {
@@ -15,8 +16,6 @@ public class PlaySelect : MonoBehaviour
 
         ResetSelecData();
         StartSelection(gameMode);
-
-        ShowCharacterSelect();
     }
 
     private void StartSelection(GameMode gameMode)
@@ -24,6 +23,7 @@ public class PlaySelect : MonoBehaviour
         if(gameMode == GameMode.DeathMatch || gameMode == GameMode.BattleRoyal)
         {
             ShowCharacterSelect();
+            //ShowRuneSelect();
         }
         else
         {
@@ -33,8 +33,11 @@ public class PlaySelect : MonoBehaviour
 
     private void ShowTeamSelect()
     {
-        Debug.Log("TeamSelect call");
         //TODO: team select, show character select with skinned character or character select then team select and i dont have to show with skin? doesnt matter i have to spawn with color anyway
+        characters.SetActive(false);
+        weapons.SetActive(false);
+        runes.SetActive(false);
+        teams.SetActive(true);
     }
 
     private void ResetSelecData()
@@ -43,24 +46,48 @@ public class PlaySelect : MonoBehaviour
         SelectData.selectedItemCharacter = null;
         SelectData.selectedWeapon = null;
         SelectData.selectedItemWeapon = null;
+        SelectData.selectedRunes = new Rune[3] { null, null, null };
     }
 
     private void ShowCharacterSelect()
     {
         characters.SetActive(true);
         weapons.SetActive(false);
-        //runes.SetActive(false);
+        runes.SetActive(false);
+        teams.SetActive(false);
     }
 
     public void ShowWeaponSelect()
     {
         characters.SetActive(false);
         weapons.SetActive(true);
+        runes.SetActive(false);
+        teams.SetActive(false);
+    }
+
+    public void ShowRuneSelect()
+    {
+        characters.SetActive(false);
+        weapons.SetActive(false);
+        runes.SetActive(true);
+        teams.SetActive(false);
     }
 
     public void StartGame()
     {
         GameModeManager.Instance.SpawnPlayer();
         gameObject.SetActive(false);
+    }
+
+    public void SelectRedTeam()
+    {
+        SelectData.teamColor = TeamColor.Red;
+        ShowCharacterSelect();
+    }
+
+    public void SelectBlueTeam()
+    {
+        SelectData.teamColor = TeamColor.Blue;
+        ShowCharacterSelect();
     }
 }

@@ -60,6 +60,19 @@ public class Rune
         return runStoreDescriptions;
     }
 
+    public Rune()
+    {
+        health = 0;
+        armor = 0;
+        jumpPower = 0;
+        hpReg = 0;
+        movemenetSpeed = 0;
+        shotGunDmg = 0;
+        sniperDmg = 0;
+        smgDmg = 0;
+        specialAbilityReduceTime = 0;
+    }
+
     private string ToPresage(int amount)
     {
         string s = amount > 0 ? "+" : "";
@@ -100,5 +113,18 @@ public class Rune
         newRune.sniperDmg = int.Parse(splited[15]);
         newRune.smgDmg = int.Parse(splited[17]);
         newRune.specialAbilityReduceTime = int.Parse(splited[19]);
+    }
+
+    public void AddStats(Rune rune)
+    {
+        health += rune.health;
+        armor += rune.armor;
+        jumpPower += rune.jumpPower;
+        hpReg += rune.hpReg;
+        movemenetSpeed += rune.movemenetSpeed;
+        shotGunDmg += rune.shotGunDmg;
+        sniperDmg += rune.sniperDmg;
+        smgDmg += rune.smgDmg;
+        specialAbilityReduceTime += rune.specialAbilityReduceTime;
     }
 }

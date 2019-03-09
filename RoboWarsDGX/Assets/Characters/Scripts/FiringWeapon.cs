@@ -12,6 +12,7 @@ public abstract class FiringWeapon : MonoBehaviour
     private Text ammoText;
     private Text extraAmmoText;
 
+    protected bool teamGame;
     protected float minTimeBetweenFire;
     protected string displayName;
     protected float dmg;
@@ -37,6 +38,7 @@ public abstract class FiringWeapon : MonoBehaviour
         dmg = data.dmg;
         distance = data.distance;
         firePosition = data.firePosition;
+        teamGame = data.teamGame;
 
         ammoText.text = "" + ammo;
         extraAmmoText.text = "" + extraAmmo;

@@ -1,7 +1,6 @@
 ﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterData : MonoBehaviourPun
@@ -13,6 +12,7 @@ public class CharacterData : MonoBehaviourPun
     private float armor;
 
     Hashtable dmgHistory = new Hashtable();
+
 
     private void Start()
     {

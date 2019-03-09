@@ -13,7 +13,7 @@ public class ItemSelect : MonoBehaviour
     public SelectableCharacter selectableCharacter;
     private readonly List<SelectItemCharacter> selectableCharacters = new List<SelectItemCharacter>();
 
-    private GameObject characterGO = null;
+    private GameObject selectedItemGO = null;
 
     [Header("Select weapon settings")]
     public SelectItemWeapon weapon;
@@ -21,8 +21,6 @@ public class ItemSelect : MonoBehaviour
 
     public SelectableWeapon selectableWeapon;
     private readonly List<SelectItemWeapon> selectableWeapons = new List<SelectItemWeapon>();
-
-    private GameObject weaponGO = null;
 
     private void Start()
     {
@@ -90,11 +88,11 @@ public class ItemSelect : MonoBehaviour
         }
         SelectData.selectedCharacter = item.Character;
 
-        if(characterGO != null)
+        if(selectedItemGO != null)
         {
-            Destroy(characterGO);
+            Destroy(selectedItemGO);
         }
-        characterGO = Instantiate(item.Character.previewPrefab, characterParent);
+        selectedItemGO = Instantiate(item.Character.previewPrefab, characterParent);
 
         selectableCharacter.ShowCharacterData();
     }
@@ -119,21 +117,21 @@ public class ItemSelect : MonoBehaviour
         }
         SelectData.selectedWeapon = item.Weapon;
 
-        if (weaponGO != null)
+        if (selectedItemGO != null)
         {
-            Destroy(weaponGO);
+            Destroy(selectedItemGO);
         }
 
-        weaponGO = Instantiate(item.Weapon.previewPrefab, weaponParent);
+        selectedItemGO = Instantiate(item.Weapon.previewPrefab, weaponParent);
 
         selectableWeapon.ShowWeapon();
     }
 
     private void OnDisable()
     {
-        if(characterGO != null)
+        if(selectedItemGO != null)
         {
-            Destroy(characterGO);
+            Destroy(selectedItemGO);
         }
     }
 }

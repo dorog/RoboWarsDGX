@@ -29,9 +29,15 @@ public class Sniper : FiringWeapon
                 BoneColliderHit boneColliderHit = InstantFire(firePosition.position, firePosition.forward, distance);
                 if (boneColliderHit != null)
                 {
-                    Debug.Log(displayName);
-                    boneColliderHit.GotShot(dmg, displayName);
-                    Debug.Log("boneHitAfter");
+                    if (!teamGame)
+                    {
+                        boneColliderHit.GotShot(dmg, displayName);
+                    }
+                    else
+                    {
+                        Debug.Log(SelectData.teamColor);
+                        boneColliderHit.GotShot(dmg, displayName, SelectData.teamColor);
+                    }
                 }
                 Fire();
                 Invoke("WeaponCanFire", minTimeBetweenFire);

@@ -33,22 +33,25 @@ public class Shotgun : FiringWeapon
                     BoneColliderHit boneColliderHit = InstantFire(firePosition.position, forward, distance);
                     if (boneColliderHit != null)
                     {
-                        bool inTheList = false;
-                        for (int j = 0; j < shotGunHits.Count; j++)
+                        if (!teamGame || (boneColliderHit.teamColorSetter.TeamColor != SelectData.teamColor))
                         {
-                            if (boneColliderHit.characterData == shotGunHits[j].characterData)
+                            bool inTheList = false;
+                            for (int j = 0; j < shotGunHits.Count; j++)
                             {
-                                shotGunHits[j].bones.Add(boneColliderHit.boneType);
-                                inTheList = true;
-                                break;
+                                if (boneColliderHit.characterData == shotGunHits[j].characterData)
+                                {
+                                    shotGunHits[j].bones.Add(boneColliderHit.boneType);
+                                    inTheList = true;
+                                    break;
+                                }
                             }
-                        }
-                        if (!inTheList)
-                        {
-                            ShotGunHit newHit = new ShotGunHit();
-                            newHit.characterData = boneColliderHit.characterData;
-                            newHit.bones.Add(boneColliderHit.boneType);
-                            shotGunHits.Add(newHit);
+                            if (!inTheList)
+                            {
+                                ShotGunHit newHit = new ShotGunHit();
+                                newHit.characterData = boneColliderHit.characterData;
+                                newHit.bones.Add(boneColliderHit.boneType);
+                                shotGunHits.Add(newHit);
+                            }
                         }
                     }
                 }

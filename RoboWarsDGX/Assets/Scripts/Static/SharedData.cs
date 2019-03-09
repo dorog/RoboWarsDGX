@@ -74,4 +74,5 @@ public class SharedData
 
     public static string GameModeKey = "GameMode";
     public static string MapKey = "Map";
+    public static string SpawnModeKey = "SpawnMode";
 }

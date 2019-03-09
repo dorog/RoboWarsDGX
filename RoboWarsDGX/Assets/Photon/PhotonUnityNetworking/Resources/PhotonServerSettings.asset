@@ -47,5 +47,7 @@ MonoBehaviour:
   - HeadShotRPC
   - SimpleShotRPC
   - ShotgunShotRPC
+  - SetHierarchy
+  - ChangeClothesColor
   DisableAutoOpenWizard: 1
   ShowSettings: 1
