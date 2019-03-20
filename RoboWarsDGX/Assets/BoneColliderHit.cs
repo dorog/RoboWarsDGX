@@ -14,7 +14,6 @@ public class BoneColliderHit : MonoBehaviour
 
     public void GotShot(float dmg, string playerid, TeamColor color)
     {
-        Debug.Log("Hitted color: " + teamColorSetter.TeamColor);
         if (teamColorSetter.TeamColor != color)
         {
             characterData.GotShot(dmg, playerid, boneType);

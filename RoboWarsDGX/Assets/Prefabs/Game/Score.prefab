@@ -327,6 +327,12 @@ MonoBehaviour:
   killText: {fileID: 2677599306587824521}
   deathText: {fileID: 3926909701754189790}
   assistText: {fileID: 1320383445043127957}
+  color: {r: 1, g: 0.578577, b: 0, a: 1}
+  nameImage: {fileID: 6628068926095431150}
+  emptyImage: {fileID: 1410098354554861649}
+  killImage: {fileID: 8886665420588485149}
+  deathImage: {fileID: 5327839978325545099}
+  assistsImage: {fileID: 4926635944500813249}
 --- !u!1 &3041921186875522049
 GameObject:
   m_ObjectHideFlags: 0

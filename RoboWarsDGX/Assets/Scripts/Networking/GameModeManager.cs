@@ -115,6 +115,5 @@ public class GameModeManager: MonoBehaviourPun
     public void Died()
     {
         lobby.Died();
-        /*photonView.RPC("DestroyPlayer", RpcTarget.All, characterID);*/
     }
 }

@@ -36,7 +36,6 @@ public class Sniper : FiringWeapon
                     }
                     else
                     {
-                        Debug.Log(SelectData.teamColor);
                         boneColliderHit.GotShot(dmg, displayName, SelectData.teamColor);
                     }
                 }

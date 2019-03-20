@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class FiringWeapon : MonoBehaviour
+public abstract class FiringWeapon : MonoBehaviourPun
 {
     protected bool weaponCanFire = true;
     protected LayerMask layerMask;

@@ -18,6 +18,8 @@ public class PlaySelect : MonoBehaviour
 
     private GameObject selectedMenu = null;
 
+    public ScoreBoard scoreBoard;
+
     private void Start()
     {
         Room currentRoom = PhotonNetwork.CurrentRoom;
@@ -78,12 +80,19 @@ public class PlaySelect : MonoBehaviour
     public void SelectRedTeam()
     {
         SelectData.teamColor = TeamColor.Red;
+        if(SelectData.original == TeamColor.Null) {
+            SelectData.original = TeamColor.Red;
+        }
         Next();
     }
 
     public void SelectBlueTeam()
     {
         SelectData.teamColor = TeamColor.Blue;
+        if (SelectData.original == TeamColor.Null)
+        {
+            SelectData.original = TeamColor.Blue;
+        }
         Next();
     }
 
@@ -154,6 +163,11 @@ public class PlaySelect : MonoBehaviour
     {
         cam.SetActive(false);
         respawn.SetActive(false);
+        if(SelectData.original != SelectData.teamColor)
+        {
+            scoreBoard.ChangeTeam(AccountInfo.Instance.Info.PlayerProfile.DisplayName, SelectData.teamColor);
+            SelectData.original = SelectData.teamColor;
+        }
         GameModeManager.Instance.SpawnPlayer();
     }
 

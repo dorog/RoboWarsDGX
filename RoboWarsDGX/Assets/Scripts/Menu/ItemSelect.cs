@@ -4,11 +4,11 @@ using UnityEngine;
 public class ItemSelect : MonoBehaviour
 {
     public ItemType itemTpye = ItemType.Character;
-    public Transform parent;
+    public Transform parentPreview;
+    public Transform selectMenuParent;
 
     [Header ("Select character settings")]
     public SelectItemCharacter character;
-    public Transform characterParent;
 
     public SelectableCharacter selectableCharacter;
     private readonly List<SelectItemCharacter> selectableCharacters = new List<SelectItemCharacter>();
@@ -17,7 +17,6 @@ public class ItemSelect : MonoBehaviour
 
     [Header("Select weapon settings")]
     public SelectItemWeapon weapon;
-    public Transform weaponParent;
 
     public SelectableWeapon selectableWeapon;
     private readonly List<SelectItemWeapon> selectableWeapons = new List<SelectItemWeapon>();
@@ -40,12 +39,22 @@ public class ItemSelect : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        parentPreview.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        parentPreview.gameObject.SetActive(false);
+    }
+
     private void InitCharacters()
     {
         List<Character> characters = AccountInfo.Instance.ownCharacters;
         for (int i = 0; i < characters.Count; i++)
         {
-            GameObject selectItem = Instantiate(character.gameObject, parent);
+            GameObject selectItem = Instantiate(character.gameObject, selectMenuParent);
             SelectItemCharacter selectableCharacter = selectItem.GetComponent<SelectItemCharacter>();
             selectableCharacters.Add(selectableCharacter);
             selectableCharacter.Character = characters[i];
@@ -59,7 +68,7 @@ public class ItemSelect : MonoBehaviour
         List<Weapon> weapons = AccountInfo.Instance.ownWeapons;
         for (int i = 0; i < weapons.Count; i++)
         {
-            GameObject selectItem = Instantiate(weapon.gameObject, parent);
+            GameObject selectItem = Instantiate(weapon.gameObject, selectMenuParent);
             SelectItemWeapon selectableWeapon = selectItem.GetComponent<SelectItemWeapon>();
             selectableWeapons.Add(selectableWeapon);
             selectableWeapon.Weapon = weapons[i];
@@ -92,7 +101,7 @@ public class ItemSelect : MonoBehaviour
         {
             Destroy(selectedItemGO);
         }
-        selectedItemGO = Instantiate(item.Character.previewPrefab, characterParent);
+        selectedItemGO = Instantiate(item.Character.previewPrefab, parentPreview);
 
         selectableCharacter.ShowCharacterData();
     }
@@ -122,7 +131,7 @@ public class ItemSelect : MonoBehaviour
             Destroy(selectedItemGO);
         }
 
-        selectedItemGO = Instantiate(item.Weapon.previewPrefab, weaponParent);
+        selectedItemGO = Instantiate(item.Weapon.previewPrefab, parentPreview);
 
         selectableWeapon.ShowWeapon();
     }

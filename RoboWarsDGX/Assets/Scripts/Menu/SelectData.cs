@@ -13,4 +13,5 @@ public class SelectData
     public static Rune[] selectedRunes = new Rune[3] { null, null, null};
 
     public static TeamColor teamColor = TeamColor.Null;
+    public static TeamColor original = TeamColor.Null;
 }

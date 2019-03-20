@@ -8,6 +8,7 @@ TagManager:
   - AlertMsg
   - FullBody
   - PlayerRoot
+  - SBD
   layers:
   - Default
   - TransparentFX
