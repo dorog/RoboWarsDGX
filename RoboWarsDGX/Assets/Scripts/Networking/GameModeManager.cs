@@ -109,6 +109,9 @@ public class GameModeManager: MonoBehaviourPun
         WeaponPrefab weaponPrefab = weapon.GetComponent<WeaponPrefab>();
         weaponPrefab.GunHoldTransform.localPosition = weaponInitData.GetGunHoldPosition(weaponName);
 
+        CharacterFiring characterFiring = character.GetComponent<CharacterFiring>();
+        characterFiring.thirdPersonWeapon = weapon.GetComponent<FiringWeapon>();
+
         ikWeapon.GunHold = weapon.transform.GetChild(0);
     }
 

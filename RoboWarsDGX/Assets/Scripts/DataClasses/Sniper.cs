@@ -17,13 +17,13 @@ public class Sniper : FiringWeapon
         scopeMouseIntensity = scoopeFOV / originalF0V;
     }
 
-    public override void FireCheck()
+    public override bool FireCheck()
     {
         if (Input.GetMouseButtonDown(0))
         {
             if (!HasAmmo())
             {
-                return;
+                return false;
             }
             if (weaponCanFire)
             {
@@ -40,8 +40,10 @@ public class Sniper : FiringWeapon
                     }
                 }
                 Fire();
+                ShowEffect();
                 Invoke("WeaponCanFire", minTimeBetweenFire);
                 weaponCanFire = false;
+                return true;
             }
         }
         if (Input.GetMouseButtonDown(1))
@@ -60,5 +62,11 @@ public class Sniper : FiringWeapon
             }
             scoped = !scoped;
         }
+        return false;
+    }
+
+    public override void ShowEffect()
+    {
+        fireEffect.Play();
     }
 }

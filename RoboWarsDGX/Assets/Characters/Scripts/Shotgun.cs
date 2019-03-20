@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Photon.Pun;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Shotgun : FiringWeapon
@@ -10,22 +11,26 @@ public class Shotgun : FiringWeapon
 
     private GameObject[] bulletparts;
 
+    public Transform effectTransform;
+
     public override void SetData(FiringWeaponData data)
     {
         base.SetData(data);
         PrepareShotgunFire();
     }
 
-    public override void FireCheck()
+    public override bool FireCheck()
     {
         if (Input.GetMouseButtonDown(0))
         {
             if (!HasAmmo())
             {
-                return;
+                return false;
             }
             if (weaponCanFire)
             {
+                ShowEffect();
+
                 List<ShotGunHit> shotGunHits = new List<ShotGunHit>();
                 for (int i = 0; i < bulletPartCount; i++)
                 {
@@ -63,10 +68,11 @@ public class Shotgun : FiringWeapon
                 Fire();
                 weaponCanFire = false;
                 Invoke("WeaponCanFire", minTimeBetweenFire);
+                return true;
             }
         }
+        return false;
     }
-
 
     private void PrepareShotgunFire()
     {
@@ -90,6 +96,12 @@ public class Shotgun : FiringWeapon
             actualAngle += angle;
             bulletparts[i] = bulletPartGO;
         }
+    }
+
+    public override void ShowEffect()
+    {
+        GameObject effect = Instantiate(fireEffect.gameObject, effectTransform.position, Quaternion.identity);
+        Destroy(effect, 2);
     }
 
     private class ShotGunHit

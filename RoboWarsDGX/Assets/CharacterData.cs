@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterData : MonoBehaviourPun
@@ -13,6 +14,9 @@ public class CharacterData : MonoBehaviourPun
 
     Hashtable dmgHistory = new Hashtable();
 
+    [Header ("Blood settings")]
+    public Transform[] collideredBodyParts;
+    public GameObject wound;
 
     private void Start()
     {
@@ -141,5 +145,32 @@ public class CharacterData : MonoBehaviourPun
         SelectData.deathHistory = dmgHistory;
         GameModeManager.Instance.Died();
         PhotonNetwork.Destroy(view);
+    }
+
+    public void SpawnWound(Vector3 hit, Vector3 normal, Transform colliderTransform)
+    {
+        int partNumber = -1;
+        for(int i=0; i<collideredBodyParts.Length; i++)
+        {
+            if(colliderTransform == collideredBodyParts[i])
+            {
+                partNumber = i;
+            }
+        }
+        if(partNumber == -1)
+        {
+            Debug.Log("Not founeded");
+            return;
+        }
+        photonView.RPC("SpawnWoundRPC", RpcTarget.All, hit.x, hit.y, hit.z, normal.x, normal.y, normal.z, partNumber);
+    }
+
+    [PunRPC]
+    private void SpawnWoundRPC(float hitX, float hitY, float hitZ, float normalX, float normalY, float normalZ, int partNumber)
+    {
+        Vector3 hit = new Vector3(hitX, hitY, hitZ);
+        Vector3 normal = new Vector3(normalX, normalY, normalZ);
+        GameObject spawnedWound = Instantiate(wound, hit, Quaternion.LookRotation(normal));
+        spawnedWound.transform.SetParent(collideredBodyParts[partNumber]);
     }
 }

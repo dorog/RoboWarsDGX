@@ -22,6 +22,9 @@ public abstract class FiringWeapon : MonoBehaviourPun
     public RuntimeAnimatorController animatorController;
     public GameObject aim;
 
+    
+    public ParticleSystem fireEffect;
+
     protected void WeaponCanFire()
     {
         weaponCanFire = true;
@@ -47,7 +50,9 @@ public abstract class FiringWeapon : MonoBehaviourPun
         extraAmmoText.text = "" + extraAmmo;
     }
 
-    public abstract void FireCheck();
+    public abstract bool FireCheck();
+
+    public abstract void ShowEffect();
 
     public void ReloadCheck()
     {
@@ -80,11 +85,14 @@ public abstract class FiringWeapon : MonoBehaviourPun
         if (Physics.Raycast(position, forward, out hit, distance, layerMask))
         {
             BoneColliderHit boneColliderHit = hit.collider.gameObject.GetComponent<BoneColliderHit>();
-            // hit.point: Spawn blood
+
             if (boneColliderHit == null)
             {
                 return null;
             }
+
+            boneColliderHit.SpawnBlood(hit.point, hit.normal);
+
             return boneColliderHit;
         }
         return null;

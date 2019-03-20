@@ -6,7 +6,6 @@ public class BoneColliderHit : MonoBehaviour
     public TeamColorSetter teamColorSetter;
     public Bones boneType;
 
-
     public void GotShot(float dmg, string playerid)
     {
         characterData.GotShot(dmg, playerid, boneType);
@@ -18,5 +17,10 @@ public class BoneColliderHit : MonoBehaviour
         {
             characterData.GotShot(dmg, playerid, boneType);
         }
+    }
+
+    public void SpawnBlood(Vector3 hit, Vector3 normal)
+    {
+        characterData.SpawnWound(hit, normal, transform);
     }
 }

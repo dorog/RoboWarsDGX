@@ -118,7 +118,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunHoldTransform: {fileID: 1299}
-  GunShotTransform: {fileID: 1297}
 --- !u!114 &2379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,11 +132,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorController: {fileID: 0}
   aim: {fileID: 8017693030835898967}
+  fireEffect: {fileID: 2266205718499266762, guid: 951c62902eb5dcf4ebdc83c3263c8956,
+    type: 3}
   bulletPartCount: 7
   shotGunRadius: 1
   radiusDistance: 4
   bulletPart: {fileID: 679326341385468676, guid: 88dd3cd03f296464ea9e98b354bbd3fd,
     type: 3}
+  effectTransform: {fileID: 1297}
 --- !u!1 &480
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6621, y: 0.0546, z: 0}
+  m_LocalPosition: {x: -1.75, y: 0.062, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1289}

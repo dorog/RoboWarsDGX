@@ -9,6 +9,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public Text extraAmmoText;
 
     private FiringWeapon ownWeapon;
+    public FiringWeapon thirdPersonWeapon;
+
     private float originalCameraFOV;
 
     [Header("Refactor under this")]
@@ -18,6 +20,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public LayerMask layerMask;
 
     public CharacterStats characterStat;
+
+    public Transform thirdPersonEffectPosition;
 
     [Header("First person")]
     public Camera firstPersonCam;
@@ -58,9 +62,18 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
-            ownWeapon.FireCheck();
+            if (ownWeapon.FireCheck())
+            {
+                photonView.RPC("ShowThirdPersonWeaponEffect", RpcTarget.Others);
+            }
             ownWeapon.ReloadCheck();
         }
+    }
+
+    [PunRPC]
+    private void ShowThirdPersonWeaponEffect()
+    {
+        thirdPersonWeapon.ShowEffect();
     }
 
     private void LateUpdate()
