@@ -133,6 +133,10 @@ MonoBehaviour:
   animatorController: {fileID: 9100000, guid: 87fdd6a768fb89c428bcb37847ee1ceb, type: 2}
   aim: {fileID: 8791792477600963292}
   fireEffect: {fileID: 2374804172106620831}
+  fireUpDistance: 0.2
+  timeForUp: 0.1
+  timeForDown: 0.1
+  timeBetweenIncreaseAndDistance: 0.1
 --- !u!1 &475
 GameObject:
   m_ObjectHideFlags: 0

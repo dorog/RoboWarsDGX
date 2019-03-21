@@ -45,9 +45,20 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
     private float cloneX = 0f;
 
+    private float increasedUpAll = 0;
+    private float increasedUp = 0;
+    private float increasingTime = 0;
+    private float originalIncreasingTime = 0;
+    private float increasingSpeed = 0;
+    private float increaseAmount = 0;
+    private float fireUpDecreaseSpeed;
+    private float timeBetweenIncreaseAndDistance;
+    private float originalTimeBetweenIncreaseAndDistance;
+    private float maxIncrease;
+    private int maxIncreaseMultiply = 5;
+
     void Start()
     {
-
         thirdPersonSpine = thirdPerson.GetBoneTransform(HumanBodyBones.Spine);
         thirdPersonSpine1 = thirdPerson.GetBoneTransform(HumanBodyBones.Chest);
         thirdPersonSpine2 = thirdPerson.GetBoneTransform(HumanBodyBones.UpperChest);
@@ -65,6 +76,12 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             if (ownWeapon.FireCheck())
             {
                 photonView.RPC("ShowThirdPersonWeaponEffect", RpcTarget.Others);
+                firstPerson.SetTrigger("Fire");
+
+                increasedUp += increaseAmount;
+
+                increasingTime += originalIncreasingTime;
+                timeBetweenIncreaseAndDistance = originalTimeBetweenIncreaseAndDistance;
             }
             ownWeapon.ReloadCheck();
         }
@@ -83,28 +100,14 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             float rotationY = Input.GetAxis("Mouse Y");
             float rotationX = Input.GetAxis("Mouse X");
 
-
             rotationY *= firstPersonCam.fieldOfView / originalCameraFOV;
             rotationX *= firstPersonCam.fieldOfView / originalCameraFOV;
 
-            if (thirdPersonAimX - rotationY * multiply > maxRotation)
-            {
-                firstPersonAimX = maxRotation * firstPersonLookMultiply;
-                thirdPersonAimX = maxRotation;
-            }
-            else if (thirdPersonAimX - rotationY * multiply < minRotation)
-            {
-                firstPersonAimX = minRotation * firstPersonLookMultiply;
-                thirdPersonAimX = minRotation;
-            }
-            else
-            {
-                firstPersonAimX -= rotationY * multiply * firstPersonLookMultiply;
-                thirdPersonAimX -= rotationY * multiply;
-            }
+            rotationY = AddFiringEffects(rotationY);
+
+            BorderCheck(rotationY);
 
             aimY += rotationX;
-
 
             firstPersonCam.transform.rotation = Quaternion.Euler(firstPersonAimX, aimY, 0);
 
@@ -160,6 +163,102 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             ownWeapon.SetData(data);
 
             firstPerson.runtimeAnimatorController = ownWeapon.animatorController;
+
+            originalIncreasingTime = ownWeapon.timeForUp;
+            increaseAmount = ownWeapon.fireUpDistance;
+
+            originalTimeBetweenIncreaseAndDistance = ownWeapon.timeBetweenIncreaseAndDistance;
+
+
+            increasingSpeed = ownWeapon.fireUpDistance / ownWeapon.timeForUp;
+            fireUpDecreaseSpeed = ownWeapon.fireUpDistance / ownWeapon.timeForDown;
+
+            maxIncrease = ownWeapon.fireUpDistance * maxIncreaseMultiply;
         }
+    }
+
+    private void BorderCheck(float rotationY)
+    {
+
+        if (thirdPersonAimX - rotationY * multiply > maxRotation)
+        {
+            firstPersonAimX = maxRotation * firstPersonLookMultiply;
+            thirdPersonAimX = maxRotation;
+        }
+        else if (thirdPersonAimX - rotationY * multiply < minRotation)
+        {
+            firstPersonAimX = minRotation * firstPersonLookMultiply;
+            thirdPersonAimX = minRotation;
+        }
+        else
+        {
+            firstPersonAimX -= rotationY * multiply * firstPersonLookMultiply;
+            thirdPersonAimX -= rotationY * multiply;
+        }
+    }
+
+    private float AddFiringEffects(float rotationY)
+    {
+        if (increasedUp != 0)
+        {
+            float amount = increasingSpeed * Time.deltaTime;
+
+            if (increasedUp - amount <= 0)
+            {
+                increasedUp = 0;
+                if(increasedUpAll + increasedUp >= maxIncrease)
+                {
+                    increasedUpAll = maxIncrease;
+                    return rotationY + (maxIncrease - increasedUpAll);
+                }
+                else
+                {
+                    increasedUpAll += increasedUp;
+                    return rotationY + increasedUp;
+                }
+            }
+            else
+            {
+                increasedUp -= amount;
+                if (increasedUpAll + amount >= maxIncrease)
+                {
+                    increasedUpAll = maxIncrease;
+                    return rotationY + (maxIncrease - increasedUpAll);
+                }
+                else
+                {
+                    increasedUpAll += amount;
+                    return rotationY + amount;
+                }
+            }
+        }
+        else if (timeBetweenIncreaseAndDistance != 0)
+        {
+            float amount = timeBetweenIncreaseAndDistance - Time.deltaTime;
+            if (amount <= 0)
+            {
+                timeBetweenIncreaseAndDistance = 0;
+            }
+            else
+            {
+                timeBetweenIncreaseAndDistance = amount;
+            }
+        }
+        else if (increasedUpAll != 0)
+        {
+            float amount = fireUpDecreaseSpeed * Time.deltaTime;
+            if (increasedUpAll - amount <= 0)
+            {
+                increasedUpAll = 0;
+                return rotationY - increasedUpAll;
+            }
+            else
+            {
+                increasedUpAll -= amount;
+                return rotationY - amount;
+            }
+        }
+        return rotationY;
+    
     }
 }

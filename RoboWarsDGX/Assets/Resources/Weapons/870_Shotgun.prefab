@@ -130,10 +130,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cbcd97440bdb9a45abf5fe607bb2636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorController: {fileID: 0}
+  animatorController: {fileID: 9100000, guid: 74fe9030876a6994dbc623126ce751dc, type: 2}
   aim: {fileID: 8017693030835898967}
   fireEffect: {fileID: 2266205718499266762, guid: 951c62902eb5dcf4ebdc83c3263c8956,
     type: 3}
+  fireUpDistance: 2
+  timeForUp: 0.25
+  timeForDown: 0.25
+  timeBetweenIncreaseAndDistance: 0.1
   bulletPartCount: 7
   shotGunRadius: 1
   radiusDistance: 4

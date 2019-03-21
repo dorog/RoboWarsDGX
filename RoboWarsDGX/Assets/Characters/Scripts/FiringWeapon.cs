@@ -22,8 +22,12 @@ public abstract class FiringWeapon : MonoBehaviourPun
     public RuntimeAnimatorController animatorController;
     public GameObject aim;
 
-    
+    [Header ("Firing settings")]
     public ParticleSystem fireEffect;
+    public float fireUpDistance = 0.1f;
+    public float timeForUp = 0.25f;
+    public float timeForDown = 0.25f;
+    public float timeBetweenIncreaseAndDistance = 0.1f;
 
     protected void WeaponCanFire()
     {

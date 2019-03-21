@@ -1,9 +1,9 @@
-﻿using Photon.Pun;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Shotgun : FiringWeapon
 {
+    [Header ("Shotgun settings")]
     public int bulletPartCount = 7;
     public float shotGunRadius;
     public float radiusDistance;

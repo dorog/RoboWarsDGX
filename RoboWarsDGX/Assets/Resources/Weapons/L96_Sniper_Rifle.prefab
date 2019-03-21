@@ -133,6 +133,10 @@ MonoBehaviour:
   animatorController: {fileID: 9100000, guid: b265a46b573c5e44c85f963cac12bc5c, type: 2}
   aim: {fileID: 531}
   fireEffect: {fileID: 8063817049253542910}
+  fireUpDistance: 1
+  timeForUp: 0.25
+  timeForDown: 0.25
+  timeBetweenIncreaseAndDistance: 0.1
   scoopeFOV: 15
   zoomImage: {fileID: 532}
 --- !u!1 &396
