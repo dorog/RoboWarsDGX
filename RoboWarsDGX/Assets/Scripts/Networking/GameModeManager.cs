@@ -68,7 +68,7 @@ public class GameModeManager: MonoBehaviourPun
 
     public void SpawnPlayer() {
         SpawnedPlayerData spawnedPlayerData = gameModeSpawner.SpawnPlayer(spawPointChooser.DistanceBasedSpawnPoint());
-        photonView.RPC("SetHierarchy", RpcTarget.AllBuffered, spawnedPlayerData.characterID, spawnedPlayerData.weaponID, spawnedPlayerData.characterName, spawnedPlayerData.weaponName);
+        photonView.RPC("SetHierarchy", RpcTarget.AllBuffered, spawnedPlayerData.characterID, spawnedPlayerData.weaponID, spawnedPlayerData.characterName, spawnedPlayerData.weaponName, (int)SelectData.selectedWeapon.type);
     }
 
     private WeaponInitData GetWeaponInitData(string characterName)
@@ -83,7 +83,7 @@ public class GameModeManager: MonoBehaviourPun
     }
 
     [PunRPC]
-    private void SetHierarchy(int characterID, int weaponID, string characterName, string weaponName)
+    private void SetHierarchy(int characterID, int weaponID, string characterName, string weaponName, int weaponType)
     {
         PhotonView characterView = PhotonView.Find(characterID);
         if (characterView == null)
@@ -111,6 +111,9 @@ public class GameModeManager: MonoBehaviourPun
 
         CharacterFiring characterFiring = character.GetComponent<CharacterFiring>();
         characterFiring.thirdPersonWeapon = weapon.GetComponent<FiringWeapon>();
+
+        
+        characterFiring.SetSoundSettings((WeaponType)weaponType);
 
         ikWeapon.GunHold = weapon.transform.GetChild(0);
     }

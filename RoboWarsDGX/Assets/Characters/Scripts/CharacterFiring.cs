@@ -23,14 +23,14 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
     public Transform thirdPersonEffectPosition;
 
-    [Header("Third person animation settings")]
-    private string weaponFireCommand = "SniperFire";
+    [Header("TPS anim settings")]
     public string sniperFire = "SniperFire";
     public string smgFire = "SmgFire";
     public string shotgunFire = "ShotgunFire";
-
     public string shotgunIdle = "Shotgun";
     public string smgOrSniper = "SmgOrSniper";
+
+    private string weaponFireCommand = "SniperFire";
 
     [Header("First person")]
     public Camera firstPersonCam;
@@ -51,6 +51,10 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     public float maxRotation = 10f;
     public float minRotation = -10f;
     public float firstPersonLookMultiply = 3f;
+
+
+    [Header("Sound")]
+    public SoundMaker soundMaker;
 
     private float cloneX = 0f;
 
@@ -84,7 +88,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
         {
             if (ownWeapon.FireCheck())
             {
-                photonView.RPC("ShowThirdPersonWeaponEffect", RpcTarget.Others);
+                photonView.RPC("Fire", RpcTarget.Others);
+                soundMaker.ShotSound();
                 firstPerson.SetTrigger("Fire");
                 thirdPerson.SetBool(weaponFireCommand, true);
                 Invoke("FireFinished", 0.1f);
@@ -104,9 +109,10 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    private void ShowThirdPersonWeaponEffect()
+    private void Fire()
     {
         thirdPersonWeapon.ShowEffect();
+        soundMaker.ShotSound();
     }
 
     private void LateUpdate()
@@ -195,7 +201,13 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
             weaponFireCommand = GetFireCommand(type);
             SetIdle(type);
+            soundMaker.SetShotSound(type);
         }
+    }
+
+    public void SetSoundSettings(WeaponType type)
+    {
+        soundMaker.SetShotSound(type);
     }
 
     private void SetIdle(WeaponType type)
