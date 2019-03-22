@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: AmyTPS
   m_EditorClassIdentifier: 
   ak47_position: {x: -0.0423, y: 0.1414, z: 0.0274}
-  ak47_rotation: {x: 169.116, y: 5.248993, z: 93.03899}
+  ak47_rotation: {x: 172.261, y: 5.013992, z: 101.301}
   ak47_gunhold_position: {x: -0.1974, y: -0.0279, z: -0.0272}
-  Shotgun_870_position: {x: -0.0316, y: 0.1314, z: 0.0267}
-  Shotgun_870_rotation: {x: 12.962, y: -172.117, z: -83.366}
-  Shotgun_870_gunhold_position: {x: -0.3, y: -0.008, z: -0.0182}
+  Shotgun_870_position: {x: -0.0206, y: 0.1314, z: 0.0196}
+  Shotgun_870_rotation: {x: 25.964, y: -182.861, z: -112.689}
+  Shotgun_870_gunhold_position: {x: -0.3, y: -0.0285, z: -0.0085}
   L96_Sniper_Rifle_position: {x: -0.0357, y: 0.1406, z: 0.0205}
   L96_Sniper_Rifle_rotation: {x: 167.779, y: -12.83499, z: 102.864}
   L96_Sniper_Rifle_gunhold_position: {x: -0.289, y: -0.0214, z: -0.0087}

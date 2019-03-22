@@ -23,6 +23,15 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
     public Transform thirdPersonEffectPosition;
 
+    [Header("Third person animation settings")]
+    private string weaponFireCommand = "SniperFire";
+    public string sniperFire = "SniperFire";
+    public string smgFire = "SmgFire";
+    public string shotgunFire = "ShotgunFire";
+
+    public string shotgunIdle = "Shotgun";
+    public string smgOrSniper = "SmgOrSniper";
+
     [Header("First person")]
     public Camera firstPersonCam;
     public Transform rightHand;
@@ -55,7 +64,7 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     private float timeBetweenIncreaseAndDistance;
     private float originalTimeBetweenIncreaseAndDistance;
     private float maxIncrease;
-    private int maxIncreaseMultiply = 5;
+    private readonly int maxIncreaseMultiply = 5;
 
     void Start()
     {
@@ -77,6 +86,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             {
                 photonView.RPC("ShowThirdPersonWeaponEffect", RpcTarget.Others);
                 firstPerson.SetTrigger("Fire");
+                thirdPerson.SetBool(weaponFireCommand, true);
+                Invoke("FireFinished", 0.1f);
 
                 increasedUp += increaseAmount;
 
@@ -85,6 +96,11 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             }
             ownWeapon.ReloadCheck();
         }
+    }
+
+    private void FireFinished()
+    {
+        thirdPerson.SetBool(weaponFireCommand, false);
     }
 
     [PunRPC]
@@ -139,19 +155,21 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
-            FiringWeaponData data = new FiringWeaponData();
-            data.dmg = characterStat.GetDmg(type);
-            data.distance = characterStat.GetWeaponDistance();
-            data.minTimeBetweenFire = characterStat.GetRapidTime();
-            data.ammo = characterStat.GetAmmo();
-            data.maxAmmoAtOnce = data.ammo;
-            data.extraAmmo = characterStat.GetExtraAmmo();
-            data.ammoText = ammoText;
-            data.extraAmmoText = extraAmmoText;
-            data.firePosition = firePosition;
-            data.layerMask = layerMask;
-            data.displayName = AccountInfo.Instance.Info.PlayerProfile.DisplayName;
-            data.teamGame = tfGame;
+            FiringWeaponData data = new FiringWeaponData
+            {
+                dmg = characterStat.GetDmg(type),
+                distance = characterStat.GetWeaponDistance(),
+                minTimeBetweenFire = characterStat.GetRapidTime(),
+                ammo = characterStat.GetAmmo(),
+                maxAmmoAtOnce = characterStat.GetAmmo(),
+                extraAmmo = characterStat.GetExtraAmmo(),
+                ammoText = ammoText,
+                extraAmmoText = extraAmmoText,
+                firePosition = firePosition,
+                layerMask = layerMask,
+                displayName = AccountInfo.Instance.Info.PlayerProfile.DisplayName,
+                teamGame = tfGame
+            };
 
             GameObject weaponPrefab = Resources.Load<GameObject>("Weapons/" + weaponName);
             GameObject weapon = Instantiate(weaponPrefab, rightHand);
@@ -174,6 +192,37 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
             fireUpDecreaseSpeed = ownWeapon.fireUpDistance / ownWeapon.timeForDown;
 
             maxIncrease = ownWeapon.fireUpDistance * maxIncreaseMultiply;
+
+            weaponFireCommand = GetFireCommand(type);
+            SetIdle(type);
+        }
+    }
+
+    private void SetIdle(WeaponType type)
+    {
+        switch (type)
+        {
+            case WeaponType.Shotgun:
+                thirdPerson.SetBool(shotgunIdle, true);
+                break;
+            default:
+                thirdPerson.SetBool(smgOrSniper, true);
+                break;
+        }
+    }
+
+    private string GetFireCommand(WeaponType type)
+    {
+        switch (type)
+        {
+            case WeaponType.Shotgun:
+                return shotgunFire;
+            case WeaponType.Sniper:
+                return sniperFire;
+            case WeaponType.SMG:
+                return smgFire;
+            default:
+                return sniperFire;
         }
     }
 
