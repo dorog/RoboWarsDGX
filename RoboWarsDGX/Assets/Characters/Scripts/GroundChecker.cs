@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class GroundChecker : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class GroundChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(other.name);
         count++;
         if (count == 1)
         {
@@ -22,7 +22,6 @@ public class GroundChecker : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        //Debug.Log(other.name);
         count--;
         if (count == 0)
         {

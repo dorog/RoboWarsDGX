@@ -61,5 +61,8 @@ MonoBehaviour:
   - SpawnBloodRPC
   - Called
   - SpawnWoundRPC
+  - StartWalking
+  - StoppedWalking
+  - Jump
   DisableAutoOpenWizard: 1
   ShowSettings: 1

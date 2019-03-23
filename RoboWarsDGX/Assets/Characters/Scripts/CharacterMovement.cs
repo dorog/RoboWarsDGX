@@ -10,9 +10,14 @@ public class CharacterMovement : MonoBehaviourPun
 
     public Rigidbody body;
 
+    public SoundMaker soundMaker;
+
     private float speed = 10.0f;
     private float jumpPower = 8.0f;
     private bool grounded = false;
+    private bool jumpSound = false;
+
+    private MovementState state = MovementState.Idling;
 
     private void Start()
     {
@@ -40,9 +45,6 @@ public class CharacterMovement : MonoBehaviourPun
                 velocityChange.y = 0;
                 body.AddForce(velocityChange, ForceMode.VelocityChange);
 
-                /*firstPersonAnimator.SetFloat("Vertical", forwardMovement);
-                firstPersonAnimator.SetFloat("Horizontal", sideMovement);*/
-
                 thirdPersonAnimator.SetFloat("Vertical", forwardMovement);
                 thirdPersonAnimator.SetFloat("Horizontal", sideMovement);
 
@@ -51,10 +53,53 @@ public class CharacterMovement : MonoBehaviourPun
                     body.velocity = new Vector3(velocity.x, jumpPower, velocity.z);
                     //firstPersonAnimator.SetBool("jump", true);
                     thirdPersonAnimator.SetBool("jump", true);
+
+                    jumpSound = true;
                 }
+
+                SoundCheck(forwardMovement, sideMovement);
             }
         }
 
+    }
+
+    private void SoundCheck(float forwardMovement, float sideMovement)
+    {
+        if(jumpSound)
+        {
+            jumpSound = false;
+            photonView.RPC("Jump", RpcTarget.All);
+        }
+
+        if(forwardMovement == 0 && sideMovement == 0 && state == MovementState.Walking)
+        {
+            photonView.RPC("StoppedWalking", RpcTarget.All);
+        }
+        else if ((forwardMovement != 0 || sideMovement != 0) && state == MovementState.Idling)
+        {
+            photonView.RPC("StartWalking", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void StartWalking()
+    {
+        state = MovementState.Walking;
+        soundMaker.StartedWalking();
+    }
+
+    [PunRPC]
+    private void StoppedWalking()
+    {
+        state = MovementState.Idling;
+        soundMaker.Stopped();
+    }
+
+    [PunRPC]
+    private void Jump()
+    {
+        state = MovementState.Flying;
+        soundMaker.Jumped();
     }
 
     public void OnGround()
@@ -62,11 +107,20 @@ public class CharacterMovement : MonoBehaviourPun
         grounded = true;
         //firstPersonAnimator.SetBool("jump", false);
         thirdPersonAnimator.SetBool("jump", false);
+
+        //RPC?
+        state = MovementState.Idling;
+        soundMaker.Landed();
     }
 
     public void InAir()
     {
         grounded = false;
         //TODO: leesik valahonnan ?
+    }
+
+    private enum MovementState
+    {
+        Idling, Walking, Flying
     }
 }

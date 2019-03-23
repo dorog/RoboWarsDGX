@@ -201,7 +201,6 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
 
             weaponFireCommand = GetFireCommand(type);
             SetIdle(type);
-            soundMaker.SetShotSound(type);
         }
     }
 

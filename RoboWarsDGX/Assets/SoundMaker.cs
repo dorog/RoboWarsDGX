@@ -7,7 +7,26 @@ public class SoundMaker : MonoBehaviour
     public Sound sniperShotSound;
     public Sound smgShotSound;
 
+    /*[Header("Movement sounds")]
+    public Sound footstep;*/
+
     private AudioSource shotSource;
+
+    [Header("Movement sounds")]
+    public AudioSource footstepSource;
+    public AudioSource jumpSource;
+    public AudioSource landSource;
+
+    private bool soundOn = false;
+
+    /*private void Start()
+    {
+        footstepSource = gameObject.AddComponent<AudioSource>();
+        shotSource.clip = footstep.clip;
+        shotSource.volume = footstep.volume;
+        shotSource.pitch = footstep.pitch;
+        shotSource.spatialBlend = 1f;
+    }*/
 
     public void SetShotSound(WeaponType type)
     {
@@ -40,5 +59,32 @@ public class SoundMaker : MonoBehaviour
     public void ShotSound()
     {
         shotSource.Play();
+    }
+
+    public void StartedWalking()
+    {
+        footstepSource.Play();
+        soundOn = true;
+    }
+
+    public void Stopped()
+    {
+        footstepSource.Stop();
+        soundOn = false;
+    }
+
+    public void Landed()
+    {
+        landSource.Play();
+    }
+
+    public void Jumped()
+    {
+        if (soundOn)
+        {
+            Stopped();
+        }
+
+        jumpSource.Play();
     }
 }
