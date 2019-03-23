@@ -28,26 +28,26 @@ public class CharacterData : MonoBehaviourPun
         }
     }
 
-    public void GotShot(float dmg, string playerid, Bones bone)
+    public void GotShot(float dmg, string playerid, Bones bone, WeaponType type)
     {
         if(bone == Bones.Head)
         {
-            photonView.RPC("HeadShotRPC", RpcTarget.All, playerid);
+            photonView.RPC("HeadShotRPC", RpcTarget.All, playerid, (int)type);
         }
         else
         {
-            photonView.RPC("SimpleShotRPC", RpcTarget.All, dmg, playerid, (int)bone);
+            photonView.RPC("SimpleShotRPC", RpcTarget.All, dmg, playerid, (int)bone, (int)type);
         }
     }
 
-    public void GotShotByMoreBones(float dmg, string playerid, List<Bones> bones)
+    public void GotShotByMoreBones(float dmg, string playerid, List<Bones> bones, WeaponType type)
     {
         int[] forRpc = new int[bones.Count];
         for (int i=0; i<bones.Count; i++)
         {
             if(bones[i] == Bones.Head)
             {
-                photonView.RPC("HeadShotRPC", RpcTarget.All, playerid);
+                photonView.RPC("HeadShotRPC", RpcTarget.All, playerid, (int)type);
                 return;
             }
             else
@@ -56,11 +56,11 @@ public class CharacterData : MonoBehaviourPun
             }
         }
 
-        photonView.RPC("ShotgunShotRPC", RpcTarget.All, dmg, playerid, forRpc);
+        photonView.RPC("ShotgunShotRPC", RpcTarget.All, dmg, playerid, forRpc, (int)type);
     }
 
     [PunRPC]
-    private void ShotgunShotRPC(float dmg, string playerid, int[] bones)
+    private void ShotgunShotRPC(float dmg, string playerid, int[] bones, int weaponType)
     {
         if (photonView.IsMine)
         {
@@ -72,7 +72,7 @@ public class CharacterData : MonoBehaviourPun
             if (health - realDmg <= 0)
             {
                 AddDmg(health, playerid);
-                Die(playerid);
+                Die(playerid, (WeaponType)weaponType);
             }
             else
             {
@@ -84,7 +84,7 @@ public class CharacterData : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void SimpleShotRPC(float dmg, string playerid, int bone)
+    private void SimpleShotRPC(float dmg, string playerid, int bone, int weaponType)
     {
         if (photonView.IsMine)
         {
@@ -92,7 +92,7 @@ public class CharacterData : MonoBehaviourPun
             if (health - realDmg <= 0)
             {
                 AddDmg(health, playerid);
-                Die(playerid);
+                Die(playerid, (WeaponType)weaponType);
             }
             else
             {
@@ -104,12 +104,12 @@ public class CharacterData : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void HeadShotRPC(string playerid)
+    private void HeadShotRPC(string playerid, int weaponType)
     {
         if (photonView.IsMine)
         {
             AddDmg(health, playerid);
-            Die(playerid);
+            Die(playerid, (WeaponType)weaponType);
         }
     }
 
@@ -126,7 +126,7 @@ public class CharacterData : MonoBehaviourPun
         }
     }
 
-    private void Die(string killer)
+    private void Die(string killer, WeaponType type)
     {
         PhotonView view = GetComponent<PhotonView>();
 
@@ -141,7 +141,7 @@ public class CharacterData : MonoBehaviourPun
             }
         }
 
-        ScoreBoard.Instance.Killed(AccountInfo.Instance.Info.PlayerProfile.DisplayName, killer, assists);
+        ScoreBoard.Instance.Killed(AccountInfo.Instance.Info.PlayerProfile.DisplayName, killer, assists, type);
         SelectData.deathHistory = dmgHistory;
         GameModeManager.Instance.Died();
         PhotonNetwork.Destroy(view);

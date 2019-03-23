@@ -32,11 +32,11 @@ public class Sniper : FiringWeapon
                 {
                     if (!teamGame)
                     {
-                        boneColliderHit.GotShot(dmg, displayName);
+                        boneColliderHit.GotShot(dmg, displayName, WeaponType.Sniper);
                     }
                     else
                     {
-                        boneColliderHit.GotShot(dmg, displayName, SelectData.teamColor);
+                        boneColliderHit.GotShot(dmg, displayName, SelectData.teamColor, WeaponType.Sniper);
                     }
                 }
                 Fire();

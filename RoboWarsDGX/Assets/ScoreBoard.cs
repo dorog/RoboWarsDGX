@@ -15,6 +15,10 @@ public class ScoreBoard : MonoBehaviourPun
 
     public GameScore gameScore;
 
+    [Header ("Side history")]
+    public SideHistory sideHistory;
+    //public 
+
     [Header("Single ScoreBoard")]
     public GameObject singleUI;
     public Transform singleScoresUI;
@@ -143,14 +147,15 @@ public class ScoreBoard : MonoBehaviourPun
         Refresh();
     }
 
-    public void Killed(string target, string killer, string[] assists)
+    public void Killed(string target, string killer, string[] assists, WeaponType type)
     {
-        photonView.RPC("KilledRPC", RpcTarget.All, target, killer, assists);
+        photonView.RPC("KilledRPC", RpcTarget.All, target, killer, assists, (int)type);
     }
 
     [PunRPC]
-    private void KilledRPC(string target, string killer, string[] assists)
+    private void KilledRPC(string target, string killer, string[] assists, int type)
     {
+        int correctData = 0;
         Score targetScore = SearchById(target);
         if (targetScore == null)
         {
@@ -159,6 +164,7 @@ public class ScoreBoard : MonoBehaviourPun
         else
         {
             targetScore.deaths++;
+            correctData++;
         }
 
         Score killerScore = SearchById(killer);
@@ -169,6 +175,7 @@ public class ScoreBoard : MonoBehaviourPun
         else
         {
             killerScore.kills++;
+            correctData++;
         }
 
         foreach (string actualAssist in assists)
@@ -182,6 +189,11 @@ public class ScoreBoard : MonoBehaviourPun
             {
                 assist.assists++;
             }
+        }
+
+        if(correctData == 2)
+        {
+            sideHistory.ShowKillOnSide(target, killer, assists, (WeaponType)type);
         }
 
         Refresh();

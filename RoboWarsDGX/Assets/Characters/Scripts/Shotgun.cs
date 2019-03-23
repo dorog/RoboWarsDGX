@@ -62,7 +62,7 @@ public class Shotgun : FiringWeapon
                 }
                 foreach (var player in shotGunHits)
                 {
-                    player.characterData.GotShotByMoreBones(dmg, displayName, player.bones);
+                    player.characterData.GotShotByMoreBones(dmg, displayName, player.bones, WeaponType.Shotgun);
                 }
 
                 Fire();

@@ -6,16 +6,16 @@ public class BoneColliderHit : MonoBehaviour
     public TeamColorSetter teamColorSetter;
     public Bones boneType;
 
-    public void GotShot(float dmg, string playerid)
+    public void GotShot(float dmg, string playerid, WeaponType weaponType)
     {
-        characterData.GotShot(dmg, playerid, boneType);
+        characterData.GotShot(dmg, playerid, boneType, weaponType);
     }
 
-    public void GotShot(float dmg, string playerid, TeamColor color)
+    public void GotShot(float dmg, string playerid, TeamColor color, WeaponType weaponType)
     {
         if (teamColorSetter.TeamColor != color)
         {
-            characterData.GotShot(dmg, playerid, boneType);
+            characterData.GotShot(dmg, playerid, boneType, weaponType);
         }
     }
 
