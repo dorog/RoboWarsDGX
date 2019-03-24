@@ -57,6 +57,12 @@ public class AccountInfo : MonoBehaviour
     private Catalog catalog = new Catalog();
     private Store store = new Store();
 
+    //Delete it
+    public void PrintIt(string sad)
+    {
+        Debug.Log(sad);
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -194,24 +200,17 @@ public class AccountInfo : MonoBehaviour
     }
 
     #region Account set up
+
     private void SetUpAccount()
     {
-        Dictionary<string, string> data = new Dictionary<string, string>();
-
-        ProfileStats profileStats = new ProfileStats();
-        data.Add(ProfileStats.killsName, profileStats.Kills.ToString());
-        data.Add(ProfileStats.headShotsName, profileStats.HeadShots.ToString());
-        data.Add(ProfileStats.deathsName, profileStats.Deaths.ToString());
-
-        UpdateUserDataRequest request = new UpdateUserDataRequest()
+        PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest()
         {
-            Data = data
-        };
-
-        PlayFabClientAPI.UpdateUserData(request, SetUpAccountSuccess, SetUpAccountFail);
+            FunctionName = "ResetPlayerStats",
+            GeneratePlayStreamEvent = true,
+        }, SetUpAccountSuccess, SetUpAccountFail);
     }
 
-    private void SetUpAccountSuccess(UpdateUserDataResult result)
+    private void SetUpAccountSuccess(ExecuteCloudScriptResult result)
     {
         Instance.signUpUI.SignUpSuccess();
     }
@@ -222,6 +221,31 @@ public class AccountInfo : MonoBehaviour
         Debug.Log("UpdateDataFail: " + error);
     }
     #endregion
+
+    #endregion
+
+    #region Update stats
+
+    private static void UpdatePlayerStats(string killsCount, string deathsCount, string assistsCount, string headshotsCount)
+    {
+        PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest()
+        {
+            FunctionName = "UpdatePlayerStats",
+            FunctionParameter = new { kills = killsCount, deaths = deathsCount, assists = assistsCount, headshots = headshotsCount }, // The parameter provided to your function
+            GeneratePlayStreamEvent = true, // Optional - Shows this event in PlayStream
+        }, SuccessUpdatePlayerStats, OnErrorShared);
+    }
+    // OnCloudHelloWorld defined in the next code block
+
+    private static void SuccessUpdatePlayerStats(ExecuteCloudScriptResult result)
+    {
+        Debug.Log("Success update!");
+    }
+
+    private static void OnErrorShared(PlayFabError error)
+    {
+        Debug.Log(error.GenerateErrorReport());
+    }
 
     #endregion
 

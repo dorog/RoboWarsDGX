@@ -38,20 +38,30 @@ public class PlayerProfile
             UserDataRecord record = new UserDataRecord();
             profileStats = new ProfileStats();
 
-            if (info.UserData != null)
+            SetProfilStats(info);
+        }
+    }
+
+    private void SetProfilStats(GetPlayerCombinedInfoResultPayload info)
+    {
+        for (int i = 0; i < info.PlayerStatistics.Count; i++)
+        {
+            switch (info.PlayerStatistics[i].StatisticName)
             {
-                if (info.UserData.TryGetValue(ProfileStats.killsName, out record))
-                {
-                    profileStats.Kills = int.Parse(record.Value);
-                }
-                if (info.UserData.TryGetValue(ProfileStats.headShotsName, out record))
-                {
-                    profileStats.HeadShots = int.Parse(record.Value);
-                }
-                if (info.UserData.TryGetValue(ProfileStats.deathsName, out record))
-                {
-                    profileStats.Deaths = int.Parse(record.Value);
-                }
+                case "Headshots":
+                    profileStats.HeadShots = info.PlayerStatistics[i].Value;
+                    break;
+                case "Kills":
+                    profileStats.Kills = info.PlayerStatistics[i].Value;
+                    break;
+                case "Deaths":
+                    profileStats.Deaths = info.PlayerStatistics[i].Value;
+                    break;
+                case "Assists":
+                    profileStats.Assists = info.PlayerStatistics[i].Value;
+                    break;
+                default:
+                    break;
             }
         }
     }

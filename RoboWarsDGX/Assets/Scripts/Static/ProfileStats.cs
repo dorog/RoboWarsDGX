@@ -6,6 +6,7 @@ public class ProfileStats
     public int Kills { get; set; }
     public int HeadShots { get; set; }
     public int Deaths { get; set; }
+    public int Assists { get; set; }
     // dmg dealt
     // time in game
 
@@ -18,5 +19,6 @@ public class ProfileStats
         Kills = 0;
         HeadShots = 0;
         Deaths = 0;
+        Assists = 0;
     }
 }
