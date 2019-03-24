@@ -22,6 +22,10 @@ public class SideData : MonoBehaviour
     public Color targetColor;
     public Color nothingColor;
 
+    [Header("Team Colors")]
+    public Color redTeam;
+    public Color blueTeam;
+
     void Update()
     {
         livingTime -= Time.deltaTime;
@@ -31,12 +35,20 @@ public class SideData : MonoBehaviour
         }
     }
 
-    public void SetData(string killer, WeaponType type, string target, SideHistoryType sideHistoryType)
+    public void SetDataSingle(string killer, WeaponType type, string target, SideHistoryType sideHistoryType)
     {
         this.killer.text = killer;
         this.target.text = target;
         weaponImage.sprite = GetWeaponSprite(type);
         border.color = GetBorderColor(sideHistoryType);
+    }
+
+    public void SetDataTeam(string killer, WeaponType type, string target, SideHistoryType sideHistoryType, TeamColor killerColor, TeamColor targetColor)
+    {
+        Debug.Log(killerColor + " "+ targetColor);
+        SetDataSingle(killer, type, target, sideHistoryType);
+        this.killer.color = GetTextColor(killerColor);
+        this.target.color = GetTextColor(targetColor);
     }
 
     private Sprite GetWeaponSprite(WeaponType type)
@@ -66,6 +78,18 @@ public class SideData : MonoBehaviour
                 return targetColor;
             default:
                 return nothingColor;
+        }
+    }
+
+    private Color GetTextColor(TeamColor color)
+    {
+        if(color == TeamColor.Blue)
+        {
+            return blueTeam;
+        }
+        else
+        {
+            return redTeam;
         }
     }
 }

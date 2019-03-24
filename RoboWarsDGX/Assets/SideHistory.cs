@@ -16,15 +16,32 @@ public class SideHistory : MonoBehaviour
         GameObject sideDataGO = Instantiate(sideData.gameObject, transform);
         SideData sideDataScript = sideDataGO.GetComponent<SideData>();
 
-        SideHistoryType myState = SideHistoryType.nothing;
+        sideDataScript.SetDataSingle(killer, type, target, GetSideType(killer, target, assists));
+    }
+
+    public void ShowKillOnSide(string target, string killer, string[] assists, WeaponType type, TeamColor killerColor, TeamColor targetColor)
+    {
+        if (transform.childCount == maxRow)
+        {
+            Destroy(transform.GetChild(0).gameObject);
+        }
+
+        GameObject sideDataGO = Instantiate(sideData.gameObject, transform);
+        SideData sideDataScript = sideDataGO.GetComponent<SideData>();
+
+        sideDataScript.SetDataTeam(killer, type, target, GetSideType(killer, target, assists), killerColor, targetColor);
+    }
+
+    private SideHistoryType GetSideType(string killer, string target, string[] assists)
+    {
         string myName = AccountInfo.Instance.Info.PlayerProfile.DisplayName;
         if (target == myName)
         {
-            myState = SideHistoryType.target;
+            return SideHistoryType.target;
         }
         else if (killer == myName)
         {
-            myState = SideHistoryType.killer;
+            return SideHistoryType.killer;
         }
         else
         {
@@ -33,12 +50,11 @@ public class SideHistory : MonoBehaviour
                 if (assists[i] == myName)
                 {
 
-                    myState = SideHistoryType.assist;
-                    break;
+                    return  SideHistoryType.assist;
                 }
             }
         }
 
-         sideDataScript.SetData(killer, type, target, myState);
-        }
+        return SideHistoryType.nothing;
     }
+}

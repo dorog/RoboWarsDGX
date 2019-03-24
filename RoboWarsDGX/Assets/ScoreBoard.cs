@@ -17,7 +17,6 @@ public class ScoreBoard : MonoBehaviourPun
 
     [Header ("Side history")]
     public SideHistory sideHistory;
-    //public 
 
     [Header("Single ScoreBoard")]
     public GameObject singleUI;
@@ -193,7 +192,17 @@ public class ScoreBoard : MonoBehaviourPun
 
         if(correctData == 2)
         {
-            sideHistory.ShowKillOnSide(target, killer, assists, (WeaponType)type);
+            switch (gameMode)
+            {
+                case GameMode.DeathMatch:
+                    sideHistory.ShowKillOnSide(target, killer, assists, (WeaponType)type);
+                    break;
+                case GameMode.TeamDeathMatch:
+                    sideHistory.ShowKillOnSide(target, killer, assists, (WeaponType)type, killerScore.color, targetScore.color);
+                    break;
+                default:
+                    break;
+            }
         }
 
         Refresh();
