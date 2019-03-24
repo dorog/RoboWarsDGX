@@ -6,7 +6,7 @@ public class SideHistory : MonoBehaviour
     public uint maxRow = 5;
     public SideData sideData;
 
-    public void ShowKillOnSide(string target, string killer, string[] assists, WeaponType type)
+    public void ShowKillOnSide(string target, string killer, string[] assists, WeaponType type, bool headshot)
     {
         if (transform.childCount == maxRow)
         {
@@ -16,10 +16,10 @@ public class SideHistory : MonoBehaviour
         GameObject sideDataGO = Instantiate(sideData.gameObject, transform);
         SideData sideDataScript = sideDataGO.GetComponent<SideData>();
 
-        sideDataScript.SetDataSingle(killer, type, target, GetSideType(killer, target, assists));
+        sideDataScript.SetDataSingle(killer, type, target, GetSideType(killer, target, assists), headshot);
     }
 
-    public void ShowKillOnSide(string target, string killer, string[] assists, WeaponType type, TeamColor killerColor, TeamColor targetColor)
+    public void ShowKillOnSide(string target, string killer, string[] assists, WeaponType type, TeamColor killerColor, TeamColor targetColor, bool headshot)
     {
         if (transform.childCount == maxRow)
         {
@@ -29,7 +29,7 @@ public class SideHistory : MonoBehaviour
         GameObject sideDataGO = Instantiate(sideData.gameObject, transform);
         SideData sideDataScript = sideDataGO.GetComponent<SideData>();
 
-        sideDataScript.SetDataTeam(killer, type, target, GetSideType(killer, target, assists), killerColor, targetColor);
+        sideDataScript.SetDataTeam(killer, type, target, GetSideType(killer, target, assists), killerColor, targetColor, headshot);
     }
 
     private SideHistoryType GetSideType(string killer, string target, string[] assists)

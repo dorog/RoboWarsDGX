@@ -8,6 +8,8 @@ public class SideData : MonoBehaviour
     [Header("UI")]
     public Text killer;
     public Image weaponImage;
+    public GameObject headshotGO;
+    public Image headshotWeapon;
     public Text target;
     public Image border;
 
@@ -35,18 +37,29 @@ public class SideData : MonoBehaviour
         }
     }
 
-    public void SetDataSingle(string killer, WeaponType type, string target, SideHistoryType sideHistoryType)
+    public void SetDataSingle(string killer, WeaponType type, string target, SideHistoryType sideHistoryType, bool headshot)
     {
         this.killer.text = killer;
         this.target.text = target;
-        weaponImage.sprite = GetWeaponSprite(type);
         border.color = GetBorderColor(sideHistoryType);
+
+        if (headshot)
+        {
+            weaponImage.gameObject.SetActive(false);
+            headshotGO.SetActive(true);
+            headshotWeapon.sprite = GetWeaponSprite(type);
+        }
+        else
+        {
+            weaponImage.gameObject.SetActive(true);
+            headshotGO.SetActive(false);
+            weaponImage.sprite = GetWeaponSprite(type);
+        }
     }
 
-    public void SetDataTeam(string killer, WeaponType type, string target, SideHistoryType sideHistoryType, TeamColor killerColor, TeamColor targetColor)
+    public void SetDataTeam(string killer, WeaponType type, string target, SideHistoryType sideHistoryType, TeamColor killerColor, TeamColor targetColor, bool headshot)
     {
-        Debug.Log(killerColor + " "+ targetColor);
-        SetDataSingle(killer, type, target, sideHistoryType);
+        SetDataSingle(killer, type, target, sideHistoryType, headshot);
         this.killer.color = GetTextColor(killerColor);
         this.target.color = GetTextColor(targetColor);
     }

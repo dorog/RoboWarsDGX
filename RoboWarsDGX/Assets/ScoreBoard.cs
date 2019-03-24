@@ -146,13 +146,13 @@ public class ScoreBoard : MonoBehaviourPun
         Refresh();
     }
 
-    public void Killed(string target, string killer, string[] assists, WeaponType type)
+    public void Killed(string target, string killer, string[] assists, WeaponType type, bool headshot = false)
     {
-        photonView.RPC("KilledRPC", RpcTarget.All, target, killer, assists, (int)type);
+        photonView.RPC("KilledRPC", RpcTarget.All, target, killer, assists, (int)type, headshot);
     }
 
     [PunRPC]
-    private void KilledRPC(string target, string killer, string[] assists, int type)
+    private void KilledRPC(string target, string killer, string[] assists, int type, bool headshot)
     {
         int correctData = 0;
         Score targetScore = SearchById(target);
@@ -195,10 +195,10 @@ public class ScoreBoard : MonoBehaviourPun
             switch (gameMode)
             {
                 case GameMode.DeathMatch:
-                    sideHistory.ShowKillOnSide(target, killer, assists, (WeaponType)type);
+                    sideHistory.ShowKillOnSide(target, killer, assists, (WeaponType)type, headshot);
                     break;
                 case GameMode.TeamDeathMatch:
-                    sideHistory.ShowKillOnSide(target, killer, assists, (WeaponType)type, killerScore.color, targetScore.color);
+                    sideHistory.ShowKillOnSide(target, killer, assists, (WeaponType)type, killerScore.color, targetScore.color, headshot);
                     break;
                 default:
                     break;

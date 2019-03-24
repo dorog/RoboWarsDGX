@@ -23416,11 +23416,11 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 2
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
+  m_ChildControlWidth: 0
   m_ChildControlHeight: 0
 --- !u!114 &546417872
 MonoBehaviour:
@@ -23435,8 +23435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRow: 5
-  sideData: {fileID: 6229345959886399838, guid: e29e6d7cbbc897748aa57170d1c1cb17,
-    type: 3}
+  sideData: {fileID: 568309491245198838, guid: e29e6d7cbbc897748aa57170d1c1cb17, type: 3}
 --- !u!1 &549944257
 GameObject:
   m_ObjectHideFlags: 0

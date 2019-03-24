@@ -109,7 +109,7 @@ public class CharacterData : MonoBehaviourPun
         if (photonView.IsMine)
         {
             AddDmg(health, playerid);
-            Die(playerid, (WeaponType)weaponType);
+            Die(playerid, (WeaponType)weaponType, true);
         }
     }
 
@@ -126,7 +126,7 @@ public class CharacterData : MonoBehaviourPun
         }
     }
 
-    private void Die(string killer, WeaponType type)
+    private void Die(string killer, WeaponType type, bool headshot = false)
     {
         PhotonView view = GetComponent<PhotonView>();
 
@@ -141,7 +141,7 @@ public class CharacterData : MonoBehaviourPun
             }
         }
 
-        ScoreBoard.Instance.Killed(AccountInfo.Instance.Info.PlayerProfile.DisplayName, killer, assists, type);
+        ScoreBoard.Instance.Killed(AccountInfo.Instance.Info.PlayerProfile.DisplayName, killer, assists, type, headshot);
         SelectData.deathHistory = dmgHistory;
         GameModeManager.Instance.Died();
         PhotonNetwork.Destroy(view);
