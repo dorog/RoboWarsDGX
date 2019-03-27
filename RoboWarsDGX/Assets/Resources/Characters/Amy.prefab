@@ -230,7 +230,7 @@ MonoBehaviour:
   firePosition: {fileID: 1403}
   layerMask:
     serializedVersion: 2
-    m_Bits: 11571
+    m_Bits: 60723
   characterStat: {fileID: 2375}
   thirdPersonEffectPosition: {fileID: 0}
   sniperFire: SniperFire

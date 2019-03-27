@@ -21,6 +21,26 @@ public class GameModeManager: MonoBehaviourPun
     private delegate Vector3 SpawnPointGetter();
     private event SpawnPointGetter GetSpawnPoint;
 
+    [Header("Metal settings")]
+    public PhysicMaterial metalMat;
+    public GameObject metalHit;
+
+    [Header("Wood settings")]
+    public PhysicMaterial woodMat;
+    public GameObject woodHit;
+
+    [Header("Stone settings")]
+    public PhysicMaterial stoneMat;
+    public GameObject stoneHit;
+
+    [Header("Sand settings")]
+    public PhysicMaterial sandMat;
+    public GameObject sandHit;
+
+    [Header("Filled container settings")]
+    public PhysicMaterial filledContainerMat;
+    public GameObject filledContainerHit;
+
     private void Awake()
     {
         if(Instance == null)
@@ -121,5 +141,80 @@ public class GameModeManager: MonoBehaviourPun
     public void Died()
     {
         lobby.Died();
+    }
+
+    public void SpawnMapDamage(PhysicMaterial mat, Vector3 position, Vector3 normal)
+    {
+        Debug.Log("Called spawn dmg");
+        if(mat == null)
+        {
+            Debug.Log("No mat!");
+            return;
+        }
+
+        MaterialType matType = GetMatType(mat);
+
+        if (matType != MaterialType.Null)
+        {
+            photonView.RPC("SpawnMapDamageRPC", RpcTarget.All, (int)matType, position.x, position.y, position.z, normal.x, normal.y, normal.z);
+        }
+    }
+
+    [PunRPC]
+    private void SpawnMapDamageRPC(int mat, float positionX, float positionY, float positionZ, float normalX, float normalY, float normalZ)
+    {
+        Vector3 position = new Vector3(positionX, positionY, positionZ);
+        Vector3 normal = new Vector3(normalX, normalY, normalZ);
+
+        MaterialType matType = (MaterialType)mat;
+
+        switch (matType)
+        {
+            case MaterialType.metal:
+                Instantiate(metalHit, position, Quaternion.LookRotation(normal), transform);
+                break;
+            case MaterialType.wood:
+                Instantiate(woodHit, position, Quaternion.LookRotation(normal), transform);
+                break;
+            case MaterialType.stone:
+                Instantiate(stoneHit, position, Quaternion.LookRotation(normal), transform);
+                break;
+            case MaterialType.sand:
+                Instantiate(sandHit, position, Quaternion.LookRotation(normal), transform);
+                break;
+            case MaterialType.waterContainer:
+                Instantiate(filledContainerHit, position, Quaternion.LookRotation(normal), transform);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private MaterialType GetMatType(PhysicMaterial mat)
+    {
+        if (metalMat.Equals(mat))
+        {
+            return MaterialType.metal;
+        }
+        else if (woodMat.Equals(mat))
+        {
+            return MaterialType.wood;
+        }
+        else if (stoneMat.Equals(mat))
+        {
+            return MaterialType.stone;
+        }
+        else if (sandMat.Equals(mat))
+        {
+            return MaterialType.sand;
+        }
+        else if (filledContainerMat.Equals(mat))
+        {
+            return MaterialType.waterContainer;
+        }
+        else
+        {
+            return MaterialType.Null;
+        }
     }
 }

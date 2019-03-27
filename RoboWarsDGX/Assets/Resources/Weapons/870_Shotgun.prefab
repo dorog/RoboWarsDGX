@@ -140,7 +140,7 @@ MonoBehaviour:
   timeBetweenIncreaseAndDistance: 0.1
   bulletPartCount: 7
   shotGunRadius: 1
-  radiusDistance: 4
+  radiusDistance: 10
   bulletPart: {fileID: 679326341385468676, guid: 88dd3cd03f296464ea9e98b354bbd3fd,
     type: 3}
   effectTransform: {fileID: 1289}

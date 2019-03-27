@@ -90,14 +90,15 @@ public abstract class FiringWeapon : MonoBehaviourPun
         {
             BoneColliderHit boneColliderHit = hit.collider.gameObject.GetComponent<BoneColliderHit>();
 
-            if (boneColliderHit == null)
+            if (boneColliderHit != null)
             {
-                return null;
+
+                boneColliderHit.SpawnBlood(hit.point, hit.normal);
+
+                return boneColliderHit;
             }
 
-            boneColliderHit.SpawnBlood(hit.point, hit.normal);
-
-            return boneColliderHit;
+            GameModeManager.Instance.SpawnMapDamage(hit.collider.sharedMaterial, hit.point, hit.normal);
         }
         return null;
     }
