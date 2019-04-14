@@ -12,6 +12,7 @@ public class Weapon
     public float distance;
     public int ammo;
     public int extraAmmo;
+    public float reloadTime;
     public WeaponType type;
     public GameObject prefab;
     public GameObject previewPrefab;
@@ -37,9 +38,10 @@ public class Weapon
         weapon.distance = float.Parse(splited[7]);
         weapon.ammo = int.Parse(splited[9]);
         weapon.extraAmmo = int.Parse(splited[11]);
-        weapon.prefab = Resources.Load<GameObject>("Weapons/" + splited[13]);
-        weapon.previewPrefab = Resources.Load<GameObject>("WeaponsPreview/" + splited[13]);
-        weapon.type = StringToWeaponType(splited[15]);
+        weapon.reloadTime = float.Parse(splited[13])/10f;
+        weapon.prefab = Resources.Load<GameObject>("Weapons/" + splited[15]);
+        weapon.previewPrefab = Resources.Load<GameObject>("WeaponsPreview/" + splited[15]);
+        weapon.type = StringToWeaponType(splited[17]);
     }
 
     private static WeaponType StringToWeaponType(string weaponType)

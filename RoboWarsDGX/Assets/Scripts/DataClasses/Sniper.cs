@@ -21,7 +21,7 @@ public class Sniper : FiringWeapon
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (!HasAmmo())
+            if (!CanFire())
             {
                 return false;
             }

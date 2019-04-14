@@ -14,7 +14,7 @@ public class Shotgun : FiringWeapon
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (!HasAmmo())
+            if (!CanFire())
             {
                 return false;
             }

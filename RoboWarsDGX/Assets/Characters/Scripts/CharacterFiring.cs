@@ -174,7 +174,8 @@ public class CharacterFiring : MonoBehaviourPun, IPunObservable
                 firePosition = firePosition,
                 layerMask = layerMask,
                 displayName = AccountInfo.Instance.Info.PlayerProfile.DisplayName,
-                teamGame = tfGame
+                teamGame = tfGame,
+                reloadTime = characterStat.GetReloadTime()
             };
 
             GameObject weaponPrefab = Resources.Load<GameObject>("Weapons/" + weaponName);

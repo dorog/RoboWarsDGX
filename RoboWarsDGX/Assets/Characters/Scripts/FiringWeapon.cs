@@ -12,6 +12,8 @@ public abstract class FiringWeapon : MonoBehaviourPun
     private int extraAmmo = 0;
     private Text ammoText;
     private Text extraAmmoText;
+    private float reloadTime;
+    private bool inReload = false;
 
     protected bool teamGame;
     protected float minTimeBetweenFire;
@@ -48,6 +50,7 @@ public abstract class FiringWeapon : MonoBehaviourPun
         distance = data.distance;
         firePosition = data.firePosition;
         teamGame = data.teamGame;
+        reloadTime = data.reloadTime;
 
         aim.SetActive(true);
         ammoText.text = "" + ammo;
@@ -62,24 +65,7 @@ public abstract class FiringWeapon : MonoBehaviourPun
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            if (extraAmmo == 0)
-            {
-                return;
-            }
-            if (extraAmmo >= (maxAmmoAtOnce - ammo))
-            {
-                extraAmmo -= (maxAmmoAtOnce - ammo);
-                ammo = maxAmmoAtOnce;
-                ammoText.text = "" + ammo;
-                extraAmmoText.text = "" + extraAmmo;
-            }
-            else
-            {
-                ammo += extraAmmo;
-                extraAmmo = 0;
-                ammoText.text = "" + ammo;
-                extraAmmoText.text = "" + extraAmmo;
-            }
+            Reload();
         }
     }
 
@@ -107,10 +93,42 @@ public abstract class FiringWeapon : MonoBehaviourPun
     {
         ammo--;
         ammoText.text = "" + ammo;
+        if(ammo == 0 && extraAmmo !=0 )
+        {
+            Reload();
+        }
     }
 
-    protected bool HasAmmo()
+    protected bool CanFire()
     {
-        return ammo == 0 ? false : true;
+        return ammo == 0 || inReload? false : true;
+    }
+
+    protected void Reload()
+    {
+        if (!inReload && extraAmmo != 0)
+        {
+            Invoke("ChangeAmmo", reloadTime);
+            inReload = true;
+        }
+    }
+
+    private void ChangeAmmo()
+    {
+        inReload = false;
+        if (extraAmmo >= (maxAmmoAtOnce - ammo))
+        {
+            extraAmmo -= (maxAmmoAtOnce - ammo);
+            ammo = maxAmmoAtOnce;
+            ammoText.text = "" + ammo;
+            extraAmmoText.text = "" + extraAmmo;
+        }
+        else
+        {
+            ammo += extraAmmo;
+            extraAmmo = 0;
+            ammoText.text = "" + ammo;
+            extraAmmoText.text = "" + extraAmmo;
+        }
     }
 }

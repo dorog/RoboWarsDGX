@@ -9,7 +9,7 @@ public class Smg : FiringWeapon
 
         if (Input.GetMouseButton(0))
         {
-            if (!HasAmmo())
+            if (!CanFire())
             {
                 return false;
             }

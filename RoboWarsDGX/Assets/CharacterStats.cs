@@ -109,6 +109,11 @@ public class CharacterStats : MonoBehaviourPun
         return weaponStat.extraAmmo;
     }
 
+    public float GetReloadTime()
+    {
+        return weaponStat.reloadTime;
+    }
+
     public float GetBoneIntensity(Bones bone)
     {
         if (photonView.IsMine)
