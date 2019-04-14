@@ -57,12 +57,6 @@ public class AccountInfo : MonoBehaviour
     private Catalog catalog = new Catalog();
     private Store store = new Store();
 
-    //Delete it
-    public void PrintIt(string sad)
-    {
-        Debug.Log(sad);
-    }
-
     private void Awake()
     {
         if (instance == null)

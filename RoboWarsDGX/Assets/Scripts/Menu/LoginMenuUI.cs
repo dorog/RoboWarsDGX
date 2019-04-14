@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class LoginMenuUI : MonoBehaviour
 {
+    private const string usernameKey = "username";
+    private const string passwordKey = "password";
+
     public PlayfabAuth auth;
 
     [SerializeField]
@@ -17,8 +20,6 @@ public class LoginMenuUI : MonoBehaviour
     private GameObject loginMenu;
     [SerializeField]
     private Image loginButtonImage;
-    [SerializeField]
-    private Button loginButton;
 
     [Header("Sign up menu")]
     [SerializeField]
@@ -37,7 +38,6 @@ public class LoginMenuUI : MonoBehaviour
     public Image LoginButtonImage { get => loginButtonImage; set => loginButtonImage = value; }
     public GameObject SignUpMenu { get => signUpMenu; set => signUpMenu = value; }
     public Image SignUpButtonImage { get => signUpButtonImage; set => signUpButtonImage = value; }
-    public Button LoginButton { get => loginButton; set => loginButton = value; }
     public Button SignUpButton { get => signUpButton; set => signUpButton = value; }
 
     void Start()
@@ -54,12 +54,12 @@ public class LoginMenuUI : MonoBehaviour
 
     public void ShowLogIn()
     {
+        LoadRememberMe();
+
         selectedMenu = MenuType.Login;
        
         LoginMenu.SetActive(true);
-        loginButton.interactable = false;
         signUpButton.interactable = true;
-        LoginButtonImage.color = ActiveButtonColor;
         SignUpMenu.SetActive(false);
         SignUpButtonImage.color = InActiveButtonColor;
 
@@ -71,7 +71,6 @@ public class LoginMenuUI : MonoBehaviour
         selectedMenu = MenuType.SignUp;
 
         SignUpMenu.SetActive(true);
-        loginButton.interactable = true;
         signUpButton.interactable = false;
         SignUpButtonImage.color = ActiveButtonColor;
         LoginMenu.SetActive(false);
@@ -100,6 +99,31 @@ public class LoginMenuUI : MonoBehaviour
                 auth.NextSignUpField();
             }
         }
+    }
+
+    #endregion
+
+    #region Remember me
+
+    private void LoadRememberMe()
+    {
+        if (PlayerPrefs.HasKey(usernameKey) && PlayerPrefs.HasKey(passwordKey))
+        {
+            auth.LoginInputFieldSetter(PlayerPrefs.GetString(usernameKey), PlayerPrefs.GetString(passwordKey));
+        }
+    }
+
+    public void SavePlayerPrefs(string username, string password)
+    {
+        PlayerPrefs.SetString(usernameKey, username);
+        PlayerPrefs.SetString(passwordKey, password);
+        PlayerPrefs.Save();
+    }
+
+    public void DeletePlayerPrefs()
+    {
+        PlayerPrefs.DeleteKey(usernameKey);
+        PlayerPrefs.DeleteKey(passwordKey);
     }
 
     #endregion

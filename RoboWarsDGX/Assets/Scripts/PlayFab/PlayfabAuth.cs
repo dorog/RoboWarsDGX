@@ -6,11 +6,17 @@ public class PlayfabAuth : MonoBehaviour
     private Selectable selectedLoginInputField = null;
     private Selectable selectedSignUpInputField = null;
 
+    private bool hasPreviousLogInData = false;
+
+    public LoginMenuUI loginMenuUI;
+
     [Header("Log In Settings")]
     [SerializeField]
     private InputField LoginUsername;
     [SerializeField]
     private InputField LoginPassword;
+    [SerializeField]
+    private Toggle loginRememberMe;
     [SerializeField]
     private Button loginButton;
 
@@ -61,6 +67,14 @@ public class PlayfabAuth : MonoBehaviour
 
     public void Login()
     {
+        if (loginRememberMe.isOn)
+        {
+            loginMenuUI.SavePlayerPrefs(LoginUsername.text, LoginPassword.text);
+        }
+        else
+        {
+            loginMenuUI.DeletePlayerPrefs();
+        }
         AccountInfo.Login(LoginUsername1.text, LoginPassword1.text);
     }
 
@@ -417,8 +431,10 @@ public class PlayfabAuth : MonoBehaviour
 
     public void FirstLoginField()
     {
+        Debug.Log("first");
         if (selectedLoginInputField == null)
         {
+            Debug.Log("firstif");
             selectedLoginInputField = LoginUsername;
             LoginUsername.Select();
         }
@@ -450,4 +466,25 @@ public class PlayfabAuth : MonoBehaviour
     }
 
     #endregion
+
+    public void LoginInputFieldSetter(string username, string password)
+    {
+        LoginUsername.text = username;
+        LoginPassword.text = password;
+
+        selectedLoginInputField = LoginButton;
+        hasPreviousLogInData = true;
+    }
+
+    private void Update()
+    {
+        if (hasPreviousLogInData)
+        {
+            hasPreviousLogInData = false;
+            loginButton.interactable = true;
+
+            LoginButton.Select();
+            loginRememberMe.isOn = true;
+        }
+    }
 }
