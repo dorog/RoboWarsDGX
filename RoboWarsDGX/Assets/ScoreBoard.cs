@@ -79,7 +79,7 @@ public class ScoreBoard : MonoBehaviourPun
         }
         else
         {
-            scores.Add(new Score(AccountInfo.Instance.Info.PlayerProfile.DisplayName));
+            scores.Add(new Score(AccountInfo.Instance.Info.PlayerProfile.DisplayName, SelectData.teamColor));
             Refresh();
         }
     }

@@ -30,24 +30,29 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         if (!PhotonNetwork.IsConnected)
         {
+            Debug.Log("Settings");
             PhotonNetwork.ConnectUsingSettings();
+
         }
     }
 
     public override void OnConnectedToMaster()
     {
+        Debug.Log("OnConnectedToMaster");
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.JoinLobby();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        Debug.Log("OnRoomListUpdate");
         rooms = roomList;
         joinRoomUI.Refresh();
     }
 
     public void CreateRoom(string roomName, byte maxPlayer, string map, string gameMode, int spawnMode)
     {
+        Debug.Log("CreateRoom");
         //this.map = map;
         roomMap = map;
         roomGameMode = gameMode;
@@ -63,11 +68,13 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
+        Debug.Log("OnCreateRoomFailed");
         //Same name
     }
 
     public override void OnCreatedRoom()
     {
+        Debug.Log("OnCreatedRoom");
         /*Room currentRoom = PhotonNetwork.CurrentRoom;
         
         ExitGames.Client.Photon.Hashtable hastable = new ExitGames.Client.Photon.Hashtable() { { SharedData.MapKey, roomMap } };
@@ -76,14 +83,17 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public override void OnJoinedRoom()
     {
+        Debug.Log("OnJoinedRoom");
         base.OnJoinedRoom();
         SceneManager.LoadScene("Desert");
     }
 
     public void RefreshRooms()
     {
+        Debug.Log("RefreshRooms");
         if (!PhotonNetwork.InLobby)
         {
+            Debug.Log("InLobby");
             PhotonNetwork.JoinLobby();
         }
     }

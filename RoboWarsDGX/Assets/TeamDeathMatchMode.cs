@@ -22,7 +22,7 @@ public class TeamDeathMatchMode : IGameMode
             characterID = characterID,
             weaponID = weaponID,
             characterName = SelectData.selectedCharacter.id,
-            weaponName = SelectData.selectedWeapon.id
+            weaponName = SelectData.selectedWeapon.id,
         };
 
         return spawnedPlayerData;
