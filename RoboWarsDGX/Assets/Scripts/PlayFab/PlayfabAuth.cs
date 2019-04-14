@@ -431,10 +431,8 @@ public class PlayfabAuth : MonoBehaviour
 
     public void FirstLoginField()
     {
-        Debug.Log("first");
         if (selectedLoginInputField == null)
         {
-            Debug.Log("firstif");
             selectedLoginInputField = LoginUsername;
             LoginUsername.Select();
         }

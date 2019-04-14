@@ -62,6 +62,7 @@ public class LoginMenuUI : MonoBehaviour
         signUpButton.interactable = true;
         SignUpMenu.SetActive(false);
         SignUpButtonImage.color = InActiveButtonColor;
+        LoginButtonImage.color = ActiveButtonColor;
 
         auth.FirstLoginField();
     }

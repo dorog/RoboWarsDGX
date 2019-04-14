@@ -145,7 +145,6 @@ public class GameModeManager: MonoBehaviourPun
 
     public void SpawnMapDamage(PhysicMaterial mat, Vector3 position, Vector3 normal)
     {
-        Debug.Log("Called spawn dmg");
         if(mat == null)
         {
             Debug.Log("No mat!");

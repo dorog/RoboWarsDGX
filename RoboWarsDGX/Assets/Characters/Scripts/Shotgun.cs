@@ -7,17 +7,8 @@ public class Shotgun : FiringWeapon
     public int bulletPartCount = 7;
     public float shotGunRadius;
     public float radiusDistance;
-    public GameObject bulletPart;
-
-    private GameObject[] bulletparts;
 
     public Transform effectTransform;
-
-    public override void SetData(FiringWeaponData data)
-    {
-        base.SetData(data);
-        PrepareShotgunFire();
-    }
 
     public override bool FireCheck()
     {
@@ -34,7 +25,10 @@ public class Shotgun : FiringWeapon
                 List<ShotGunHit> shotGunHits = new List<ShotGunHit>();
                 for (int i = 0; i < bulletPartCount; i++)
                 {
-                    Vector3 forward = (bulletparts[i].transform.position - firePosition.position).normalized;
+                    Vector2 range = Random.insideUnitCircle * shotGunRadius;
+                    Vector3 bulletPosition = firePosition.position + range.x * firePosition.right + range.y * firePosition.up + firePosition.forward * radiusDistance;
+
+                    Vector3 forward = (bulletPosition - firePosition.position).normalized;
                     BoneColliderHit boneColliderHit = InstantFire(firePosition.position, forward, distance);
                     if (boneColliderHit != null)
                     {
@@ -72,30 +66,6 @@ public class Shotgun : FiringWeapon
             }
         }
         return false;
-    }
-
-    private void PrepareShotgunFire()
-    {
-        bulletparts = new GameObject[bulletPartCount];
-
-        GameObject circleCenterBullet = Instantiate(bulletPart, firePosition);
-
-        Vector3 centerPosition = Vector3.forward * radiusDistance;
-        circleCenterBullet.transform.localPosition = Vector3.forward * radiusDistance;
-
-        Vector3 firstAngle = Vector3.up * shotGunRadius;
-        float angle = 360 / (bulletPartCount - 1);
-        float actualAngle = 0;
-        bulletparts[0] = circleCenterBullet;
-
-        for (int i = 1; i < bulletPartCount; i++)
-        {
-            Vector3 position = Quaternion.Euler(new Vector3(0, 0, actualAngle)) * firstAngle;
-            GameObject bulletPartGO = Instantiate(bulletPart, firePosition);
-            bulletPartGO.transform.localPosition = centerPosition + position;
-            actualAngle += angle;
-            bulletparts[i] = bulletPartGO;
-        }
     }
 
     public override void ShowEffect()
