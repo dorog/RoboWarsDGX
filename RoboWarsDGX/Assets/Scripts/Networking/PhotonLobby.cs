@@ -50,7 +50,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         joinRoomUI.Refresh();
     }
 
-    public void CreateRoom(string roomName, byte maxPlayer, string map, string gameMode, int spawnMode)
+    public void CreateRoom(string roomName, byte maxPlayer, string map, string gameMode, int spawnMode, float time)
     {
         Debug.Log("CreateRoom");
         //this.map = map;
@@ -59,8 +59,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
         PhotonNetwork.AutomaticallySyncScene = true;
 
-        ExitGames.Client.Photon.Hashtable hastable = new ExitGames.Client.Photon.Hashtable() { { SharedData.MapKey, roomMap }, { SharedData.GameModeKey, roomGameMode }, { SharedData.SpawnModeKey, spawnMode} };
-        string[] customProperties = new string[] { SharedData.MapKey, SharedData.GameModeKey, SharedData.SpawnModeKey};
+        ExitGames.Client.Photon.Hashtable hastable = new ExitGames.Client.Photon.Hashtable() { { SharedData.MapKey, roomMap }, { SharedData.GameModeKey, roomGameMode }, { SharedData.SpawnModeKey, spawnMode}, { SharedData.TimeKey, time } };
+        string[] customProperties = new string[] { SharedData.MapKey, SharedData.GameModeKey, SharedData.SpawnModeKey, SharedData.TimeKey };
 
         RoomOptions ro = new RoomOptions { MaxPlayers = maxPlayer, IsOpen = true, IsVisible = true, CustomRoomPropertiesForLobby = customProperties, CustomRoomProperties = hastable };
         PhotonNetwork.CreateRoom(roomName, ro, TypedLobby.Default);

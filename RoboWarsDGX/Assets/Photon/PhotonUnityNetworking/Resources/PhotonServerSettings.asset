@@ -16,7 +16,7 @@ MonoBehaviour:
     AppIdRealtime: ff07ad99-0f07-41bd-bb58-9036f41fe1b1
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 
+    AppVersion: 1.0
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -68,5 +68,7 @@ MonoBehaviour:
   - ShotgunShotSingleRPC
   - SimpleShotSingleRPC
   - SpawnMapDamageRPC
+  - GetRemainTime
+  - RefreshTime
   DisableAutoOpenWizard: 1
   ShowSettings: 1

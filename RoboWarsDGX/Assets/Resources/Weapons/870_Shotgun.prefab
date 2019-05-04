@@ -141,8 +141,6 @@ MonoBehaviour:
   bulletPartCount: 7
   shotGunRadius: 1
   radiusDistance: 10
-  bulletPart: {fileID: 679326341385468676, guid: 88dd3cd03f296464ea9e98b354bbd3fd,
-    type: 3}
   effectTransform: {fileID: 1289}
 --- !u!1 &480
 GameObject:
