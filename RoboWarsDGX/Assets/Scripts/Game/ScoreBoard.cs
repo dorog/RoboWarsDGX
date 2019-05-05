@@ -62,7 +62,10 @@ public class ScoreBoard : MonoBehaviourPun
             default:
                 break;
         }
+    }
 
+    public void SelectedColor()
+    {
         if (!PhotonNetwork.IsMasterClient)
         {
             switch (gameMode)
